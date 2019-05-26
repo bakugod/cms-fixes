@@ -1,0 +1,12 @@
+export const GET_MENUS: string = '/api/menu';
+export const GET_MODULES: string = '/api/get-modules';
+export const UPDATE_MENUS: string = '/api/menu-crud';
+export const SORT_UPDATE_MENUS: string = '/api/menu-order-update';
+export const GET_APP_ICONS: string = '/api/app-icons';
+export const GET_CONTAINER: string = '/api/container';
+export const UPDATE_CONTAINER: string = '/api/content-crud';
+export const GET_PEOPLE: string = '/api/peoples-app';
+export const GET_EVENTS: string = '/api/events-list';
+export const EDIT_ENUM: string = '/api/edit-enum';
+export const CREATE_UPLOAD_SESSION: string = '/api/create-upload-session';
+export const UPLOAD_IMAGE: string = '/api/upload';

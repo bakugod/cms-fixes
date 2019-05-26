@@ -1,0 +1,13 @@
+.content {
+  &__program {
+    &-table-switch-position {
+      position: relative;
+      top: 19px;
+      left: 24px;
+
+      &-without-location {
+        top: 9px;
+      }
+    }
+  }
+}

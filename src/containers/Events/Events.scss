@@ -1,0 +1,18 @@
+.events {
+  &__parent {
+  }
+
+  &__child {
+    width: 300px;
+    display: inline-block;
+    box-sizing: border-box;
+    margin-left: 20px;
+    margin-top: 6px;
+  }
+
+  &__badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+  }
+}
