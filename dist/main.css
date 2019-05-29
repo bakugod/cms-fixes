@@ -1,0 +1,14 @@
+.info__img{-webkit-transform:scale(0.5, 0.5);transform:scale(0.5, 0.5)}.info__text-center{text-align:center}.info__text-header{font-size:21pt;padding:20px}.info__text-link{display:block;text-decoration:underline;cursor:pointer}
+
+
+.menu__img{-webkit-transform:scale(0.8, 0.8);transform:scale(0.8, 0.8);position:relative;top:6px}
+
+.content__program-table-switch-position{position:relative;top:19px;left:24px}.content__program-table-switch-position-without-location{top:9px}
+
+.uploader__img{width:100%;position:relative;top:-16px;border-radius:5px}.uploader__img:hover{opacity:0.6;background:#000000}.uploader__img-close{position:absolute;top:80px;left:80px;color:#000000;z-index:9999;-webkit-transform:scale(2, 2);transform:scale(2, 2)}
+
+.events__child{width:300px;display:inline-block;-webkit-box-sizing:border-box;box-sizing:border-box;margin-left:20px;margin-top:6px}.events__badge{position:absolute;top:-10px;right:-10px}
+
+
+body{margin:0}a{color:black;text-decoration:none}.ant-select-dropdown{z-index:9999}.ant-notification{z-index:9999}.DayPickerInput-OverlayWrapper{position:relative;left:-45px}.ant-cascader-menus{left:0 !important}.ant-cascader-menus,.ant-cascader-menus ul{width:100% !important}.ant-cascader-menus li{line-height:30px !important}.ant-form-item{margin:0}.ant-input,.ant-time-picker-input{height:30px !important}.ant-form-item-label{top:12px;position:relative}.ant-row .ant-form-item{height:64px}.rdw-editor-wrapper{height:166px !important}.rdw-editor-main{height:110px !important;border:1px solid rgba(128,128,128,0.26);padding:5px;background:#fafcfe}.ant-modal-body{padding:0 !important}.ant-card-head{height:40px;min-height:40px}.ant-card-extra,.ant-card-head-title{position:relative}.ant-card-extra{top:-16px !important}.ant-card-head-title{top:-10px}.ant-modal-close{top:-8px}input[placeholder="Адрес"]{border-radius:4px 0px 0px 4px}
+
