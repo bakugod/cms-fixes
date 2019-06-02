@@ -51,7 +51,7 @@ class EditForm extends React.Component<IProps, IState> {
   }
 
   public componentDidMount() {
-    const {people, isAdd} = this.props;
+    const { people, isAdd } = this.props;
     if (!isAdd) {
       this.setState({
         editorState: EditorState.createWithContent(ContentState.createFromText(get(people, 'description', ''))),
@@ -67,17 +67,21 @@ class EditForm extends React.Component<IProps, IState> {
       });
     }
 
-    if (get(this.props.people, 'img', null) !== prevState.people.img) {
-      this.setState({
-        imageUrl: get(this.props.people, 'img', null),
-        file: get(this.props.people, 'img', null),
-      });
-    }
+    //bug - can't downoload image or can't write info in card if uncoment this code\\
+
+    // if (get(this.props.people, 'img', null) !== prevState.people.img) {
+    //   this.setState({
+    //     imageUrl: get(this.props.people, 'img', null),
+    //     file: get(this.props.people, 'img', null),
+    //   });
+    // }
   }
 
   public render(): JSX.Element {
     const {people, form, isAdd} = this.props;
     const {getFieldDecorator} = form;
+
+    console.log(people)
 
     return (
       <WrapperCard

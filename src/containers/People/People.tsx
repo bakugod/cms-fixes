@@ -54,7 +54,7 @@ class People extends React.Component<IProps, IState> {
           </Row>
         </div>
       ),
-      width: 600,
+      width: 900,
     },
     {
       Header: 'Группа',

@@ -85,6 +85,7 @@ class MenuEditList extends React.Component<IProps, IState> {
 
   public render(): JSX.Element {
     const {icons, menu} = this.props;
+
     const {isShowColorModal, isShowIconsModal, isShowAddMenu, pickerColor, currentIdInModal} = this.state;
   
     const isModal: boolean = isShowColorModal || isShowIconsModal || isShowAddMenu;
@@ -263,7 +264,7 @@ class MenuEditList extends React.Component<IProps, IState> {
   };
 
   private onUpdate = (id: number, key: string, valueKey: string = 'value', updater?: (value) => string | number) => {
-    return event => this.props.updateMenu(
+    return (event: any) => this.props.updateMenu(
       id,
       key,
       updater

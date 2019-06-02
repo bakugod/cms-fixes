@@ -32,7 +32,7 @@ class ModuleNews extends React.Component<IProps, IState> {
     {
       Header: 'Дата',
       accessor: 'time',
-      width: 140,
+      width: 150,
     },
     {
       Header: 'Заголовок',
@@ -69,6 +69,7 @@ class ModuleNews extends React.Component<IProps, IState> {
     {
       Header: 'Видимость',
       accessor: 'visible',
+      width: 100,
     },
   ];
 

@@ -57,7 +57,7 @@ class Events extends React.Component<IProps> {
                   const cardData: JSX.Element = (
                     <Card
                       className={ b('events', 'child') }
-                      cover={ <div style={ {height: 100, background: '#4aabe0'} } /> }
+                      cover={ <div style={ {height: 158, background: '#4aabe0'} } /> }
                       actions={ [
                         <React.Fragment key={ 1 } />,
                         <Dropdown key={ 2 } overlay={ this.getDropDownMenu(event) } placement={ 'topCenter' } trigger={ ['click', 'hover'] }>
@@ -85,9 +85,12 @@ class Events extends React.Component<IProps> {
                           ? cardData
                           : (
                             <Card
-                              className={ b('events', 'child') }
-                              style={ {height: 242, border: '1px dashed grey', textAlign: 'center', cursor: 'pointer'} }
-                              cover={ <div style={ {height: 132, background: '#ffffff'} } /> }
+                              className={ b('events', 'child-doted') }
+                              style={ { 
+                                border: '1px solid transparent',
+                                textAlign: 'center',
+                                cursor: 'pointer'} }
+                              cover={ <div style={ {height: 191, background: '#ffffff'} } /> }
                               onClick={ this.onAddNotification }
                             >
                               <Icon
@@ -97,7 +100,7 @@ class Events extends React.Component<IProps> {
                                   marginRight: 'auto',
                                   position: 'relative',
                                   transform: 'translateY(-50%) scale(3, 3)',
-                                  top: -36,
+                                  top: -72,
                                 } }
                               />
                             </Card>

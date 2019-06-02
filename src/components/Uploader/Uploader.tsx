@@ -41,7 +41,7 @@ interface IProps {
 
 export default class Uploader extends React.Component<IProps> {
   public render(): React.ReactNode {
-    const {beforeUploadFile, onRemove, files, imageUrl} = this.props;
+    const { beforeUploadFile, onRemove, files, imageUrl } = this.props;
 
     return (
       <UploaderWrapper>

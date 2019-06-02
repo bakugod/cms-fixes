@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { Form, Button } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { get } from 'lodash';
-import { IModule } from 'react-cms';
+import { IAppIcon, IModule } from 'react-cms';
 
 import { IReducers } from '../../../redux';
-import { getModules } from '../../../redux/common/common.selector';
+import { getIcons, getModules } from '../../../redux/common/common.selector';
 import { MenuEditListApi } from '../api/menuEditList';
 
 import Input from '../../../components/Input/Input';
@@ -16,14 +16,17 @@ import CheckBox from '../../../components/CheckBox/CheckBox';
 
 interface IProps extends FormComponentProps {
   modules?: IModule[];
+  icons?: IAppIcon[];
+  getIcons?: () => void;
   addMenu?: (pack: object) => void;
-  onSend?: (values?) => void;
+  onSend?: (values?: any) => void;
 }
 
 class AddMenuForm extends React.Component<IProps> {
   public render(): JSX.Element {
-    const {form, modules} = this.props;
-    const {getFieldDecorator} = form;
+    const {form, modules, icons} = this.props;
+    const { getFieldDecorator } = form;
+
     
     return (
       <Form onSubmit={ this.onHandleSubmit }>
@@ -39,10 +42,10 @@ class AddMenuForm extends React.Component<IProps> {
           { getFieldDecorator('pic', {
             rules: [{ required: true, message: 'Введите значение' }],
           })(
-            <Input placeholder={ 'URL картинки' } />,
+            <AutoComplete placeholder={ 'URL картинки' }  data={ icons.map(icon => icon.url) }/>
           ) }
         </Form.Item>
-  
+        
         <Form.Item>
           { getFieldDecorator('module', {
             rules: [{ required: true, message: 'Введите значение' }],
@@ -50,23 +53,27 @@ class AddMenuForm extends React.Component<IProps> {
             <AutoComplete placeholder={ 'Модуль' } data={ modules.map(item => item.name) } />,
           ) }
         </Form.Item>
-  
-        <Form.Item>
-          { getFieldDecorator('customColor', {
-            rules: [{ required: false, message: 'Введите значение' }],
-          })(
-            <CheckBox text={ 'Особый цвет' } />,
-          ) }
-        </Form.Item>
-  
-        <Form.Item>
-          { getFieldDecorator('color', {
-            rules: [{ required: false, message: 'Введите значение' }],
-            initialValue: 'ffffff',
-          })(
-            <Input placeholder={ 'Цвет' } />,
-          ) }
-        </Form.Item>
+        <div style={{ display: "flex" }}>
+          <Form.Item>
+            { getFieldDecorator('customColor', {
+              rules: [{ required: false, message: 'Введите значение' }],
+            })(
+              <CheckBox text={ 'Особый цвет' } />,
+            ) }
+          </Form.Item>
+
+          <Form.Item>
+            { getFieldDecorator('color', {
+              rules: [{ required: false, message: 'Введите значение' }],
+              initialValue: 'ffffff',
+            })(
+              <Input 
+                style = {{ width: "auto" }}
+                placeholder={ 'Цвет' } />
+            ) }
+          </Form.Item>
+        </div>
+        
         
         <Button htmlType={ 'submit' } type={ 'primary' } style={ {position: 'relative', left: '87%', top: 10} }>
           Добавить
@@ -99,6 +106,7 @@ class AddMenuForm extends React.Component<IProps> {
 const mapStateToProps = (state: IReducers) => {
   return {
     modules: getModules(state),
+    icons: getIcons(state),
   };
 };
 
