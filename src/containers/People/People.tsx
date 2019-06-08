@@ -84,8 +84,8 @@ class People extends React.Component<IProps, IState> {
   }
 
   public render(): JSX.Element {
-    const {people} = this.props;
-    const {isAdd, modalVisible, currentPeople} = this.state;
+    const { people } = this.props;
+    const { isAdd, modalVisible, currentPeople } = this.state;
 
     return (
       <Card

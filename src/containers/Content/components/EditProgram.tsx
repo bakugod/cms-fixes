@@ -151,7 +151,10 @@ class EditProgram extends React.Component<IProps, IState> {
                     })(
                       <AutoComplete
                         placeholder={ 'Адрес' } 
-                        data={ locations.map(item => item.name) } />,
+                        data={ 
+                          locations
+                            .map(item => item.name)
+                            .filter((item: any, index: any, self: { indexOf: (arg0: any) => void; }) => self.indexOf(item) === index) } />,
                     ) }
                   </Form.Item>
                 </Col>

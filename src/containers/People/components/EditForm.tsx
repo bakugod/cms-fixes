@@ -81,8 +81,6 @@ class EditForm extends React.Component<IProps, IState> {
     const {people, form, isAdd} = this.props;
     const {getFieldDecorator} = form;
 
-    console.log(people)
-
     return (
       <WrapperCard
         title={ !isAdd ? get(people, 'name', '') : 'Добавление спонсора' }
