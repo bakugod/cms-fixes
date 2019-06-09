@@ -136,8 +136,8 @@ class ModuleProgram extends React.Component<IProps, IState> {
                     placeholder={ 'Дата' }
                     data={
                       data
-                        .map(item => timeFromUnixToFormat(item.start).slice(0, 10))
-                        .filter((item, index, self) => self.indexOf(item) === index)
+                        .map((item: { start: number; }) => timeFromUnixToFormat(item.start).slice(0, 10))
+                        .filter((item: any, index: any, self: { indexOf: (arg0: any) => void; }) => self.indexOf(item) === index)
                     }
                     onPick={ this.onFiltered('date') }
                   />,
@@ -150,7 +150,10 @@ class ModuleProgram extends React.Component<IProps, IState> {
                 })(
                   <AutoComplete
                     placeholder={ 'Локация' }
-                    data={ locations.map(item => item.name) }
+                    data={ 
+                      locations
+                        .map(item => item.name)
+                        .filter((item: any, index: any, self: { indexOf: (arg0: any) => void; }) => self.indexOf(item) === index) }
                     onPick={ this.onFiltered('locations') }
                   />,
                 ) }

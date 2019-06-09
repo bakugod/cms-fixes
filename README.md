@@ -1,5 +1,9 @@
 # React CMS 
 
+
+  [![Codacy Badge](https://api.codacy.com/project/badge/Grade/429b39289716496580fe9cf6dbb6124e)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=bakugod/cms-fixes&amp;utm_campaign=Badge_Grade)
+
+
 ## Запуск
 
 `npm i && npm run run` or `yarn add && yarn run run`
@@ -17,5 +21,5 @@ npm run build:prod
 ### Фиксы не по ТЗ
 `open: process.env.WEBPACK_SERVER_BROWSER || 'Chrome'` в старой версии было 
 `open: process.env.WEBPACK_SERVER_BROWSER || 'Yandex'`
-Из-за файла **Info.tsx** не работал HMR, исправил.
+
 

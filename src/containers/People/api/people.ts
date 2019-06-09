@@ -47,7 +47,6 @@ export class PeopleAPI {
           event: user.appdata.eventID.toString(),
           id: id ? id.toString() : null,
         });
-  
         const response: Response = await Transport.response(
           EDIT_ENUM,
           enumType,
@@ -74,19 +73,25 @@ export class PeopleAPI {
   public static uploadImage = (data: UploadFile[], uploadType: UploadType, cb?: (url: string[]) => void): ThunkAction<Promise<void>, IReducers, Action> => {
     return async (dispatch: Dispatch<IReducers>, getStates: () => IReducers): Promise<void> => {
       try {
-        const headers: Headers = new Headers({authorization: `Bearer ${getStates().auth.token}`});
+        //'Access-Control-Allow-Origin': '*' delete in production version
+        const token: string = getStates().auth.token;
+
+        const headers: Headers = new Headers({
+          authorization: `Bearer ${token}`,
+        });
+
         const responseSession: Response = await Transport.post(`${CREATE_UPLOAD_SESSION}?target=${uploadType}`, headers);
 
         if (responseSession.ok) {
           const json: { code: number; url: string; } = await responseSession.json();
-          const id: string = get(json.url.split('?'), '1', '');
+          const url: string = json.url;
 
           const formData: FormData = new FormData();
           // @ts-ignore
           data.forEach(item => formData.append('files[]', item));
 
           const responseUpload: Response = await Transport.post(
-            `${UPLOAD_IMAGE}?${id}`,
+            url,
             headers,
             formData,
           );
