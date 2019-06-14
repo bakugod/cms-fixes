@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { Card, Modal, Button, Row, Col, Input, Icon } from 'antd';
+import { Card, Modal, Button, Switch, Row, Col, Input, Icon } from 'antd';
 import ReactTable, { Column, RowInfo } from 'react-table';
 import { IPeople } from 'react-cms';
 import { get } from 'lodash';
@@ -31,35 +31,52 @@ class People extends React.Component<IProps, IState> {
     {
       Header: 'Название',
       accessor: 'name',
-      Cell: (cellInfo: RowInfo) => (
-        <div style={ {height: 80} }>
-          <Row gutter={ 24 }>
-            <Col span={ 2 }>
-              <React.Fragment>
-                {
-                  get(cellInfo, 'original.img').includes('http')
-                    ? <img
-                      src={ get(cellInfo, 'original.img') }
-                      style={ {maxWidth: 50, maxHeight: 50} }
-                    />
-                    : <FakeImg />
-                }
-              </React.Fragment>
-            </Col>
+      Cell: (cellInfo: RowInfo) => {
+        const image: string = get(cellInfo, 'original.img') || "fake";
+        const subtitle: string = get(cellInfo, 'original.data.subtitle');
 
-            <Col span={ 19 } offset={ 1 }>
-              <p>{ cellInfo.original.name }</p>
-              <span>{ cellInfo.original.mobile }</span>
-            </Col>
-          </Row>
-        </div>
-      ),
-      width: 900,
+        return (
+          <div>
+            <Row gutter={24}>
+              <Col span={8} className="image-placeholder" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                <React.Fragment>
+                  {
+                    image.includes('http')
+                      ? <img
+                        src={image}
+                        style={{ maxWidth: 70, maxHeight: 70 }}
+                      />
+                      : <FakeImg />
+                  }
+                </React.Fragment>
+              </Col>
+              <Col span={12} style={{ margin: '0 0 0 -8px', padding: 0 }}>
+                <p style={{ margin: 0, fontWeight: "bold" }}>{cellInfo.original.name}</p>
+                <p>{cellInfo.original.mobile}</p>
+              </Col>
+            </Row>
+          </div>
+        );
+      },
+      style: {
+        width: "fit-content",
+      },
     },
     {
       Header: 'Группа',
       accessor: 'category',
       width: 150,
+    },
+    {
+      Header: 'Видимость',
+      accessor: 'visible',
+      Cell: (cellInfo: RowInfo) => (
+        <Switch
+          checked={Boolean(get(cellInfo, 'original.visible'))}
+          className='content__module-table-switch-position'
+        />
+      ),
+      width: 100,
     },
     {
       Header: 'Обновлено',
@@ -79,7 +96,7 @@ class People extends React.Component<IProps, IState> {
   }
 
   public componentDidMount() {
-    const {getPeople} = this.props;
+    const { getPeople } = this.props;
     getPeople();
   }
 
@@ -89,42 +106,43 @@ class People extends React.Component<IProps, IState> {
 
     return (
       <Card
-        style={ {marginLeft: 185, height: '100vh'} }
-        title={ (
+        style={{ marginLeft: 185, height: '100vh' }}
+        title={(
           <Row>
-            <Col span={ 6 }>
-              <Button icon={ 'plus' } onClick={ this.onOpenAddModal } type={ 'primary' }>Добавить спонсора</Button>
-              <Button icon={ 'setting' } style={ {left: 10} } disabled />
+            <Col span={6}>
+              <Button icon={'plus'} onClick={this.onOpenAddModal} type={'primary'}>Добавить спонсора</Button>
+              <Button icon={'setting'} style={{ left: 10 }} disabled />
             </Col>
 
-            <Col span={ 5 } offset={ 13 }>
-              <Input addonBefore={ <Icon type={ 'search' } /> } placeholder={ 'Поиск' } disabled />
+            <Col span={5} offset={13}>
+              <Input addonBefore={<Icon type={'search'} />} placeholder={'Поиск'} disabled />
             </Col>
           </Row>
-        ) }
+        )}
       >
         <ReactTable
-          data={ people.map(item => ({
+          data={people.map(item => ({
             ...item,
             category: 'Нет категории',
             updated: moment.unix(item.updated_at).format(DATE_FORMAT),
-          })) }
-          columns={ People.columns }
-          noDataText={ 'Нет информации' }
-          loadingText={ 'Загрузка...' }
-          className={ '-striped -highlight' }
-          getTrProps={ this.onRowClick }
-          showPagination
-          resizable={ false }
-          style={ {color: '#000000'} }
+          }))}
+          columns={People.columns}
+          pageSize={people.length}
+          noDataText={'Нет информации'}
+          loadingText={'Загрузка...'}
+          className={'-striped -highlight'}
+          getTrProps={this.onRowClick}
+          showPagination={false}
+          resizable={false}
+          style={{ color: "#000000", maxHeight: "85vh" }}
         />
 
-        <Modal visible={ modalVisible } footer={ null } onCancel={ this.onCloseModal } width={ 782 }>
+        <Modal visible={modalVisible} footer={null} onCancel={this.onCloseModal} width={782}>
           <EditForm
-            people={ currentPeople }
-            closeModal={ this.onCloseModal }
-            isAdd={ isAdd }
-            type={ isAdd ? 'POST' : 'PUT' }
+            people={currentPeople}
+            closeModal={this.onCloseModal}
+            isAdd={isAdd}
+            type={isAdd ? 'POST' : 'PUT'}
           />
         </Modal>
       </Card>
@@ -132,13 +150,13 @@ class People extends React.Component<IProps, IState> {
   }
 
   private onRowClick = (state: any, rowInfo: RowInfo, column: any) => ({
-    onClick: () => this.setState({currentPeople: rowInfo.original, modalVisible: true, isAdd: false}),
+    onClick: () => this.setState({ currentPeople: rowInfo.original, modalVisible: true, isAdd: false }),
     style: { cursor: 'pointer' },
   });
 
-  private onCloseModal = () => this.setState({modalVisible: false});
+  private onCloseModal = () => this.setState({ modalVisible: false });
 
-  private onOpenAddModal = () => this.setState({isAdd: true, modalVisible: true});
+  private onOpenAddModal = () => this.setState({ isAdd: true, modalVisible: true });
 }
 
 const mapStateToProps = (state: IReducers) => {

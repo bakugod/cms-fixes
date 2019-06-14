@@ -61,6 +61,9 @@ class EditForm extends React.Component<IProps, IState> {
 
   public componentDidUpdate(prevState: Readonly<IProps>) {
     const {people, isAdd} = this.props;
+    console.log(people)
+    //если в людях null надо положить туда тестовый вариант
+
     if (!isAdd && get(people, 'description', '') !== get(prevState.people, 'description', '')) {
       this.setState({
         editorState: EditorState.createWithContent(ContentState.createFromText(get(people, 'description', ''))),

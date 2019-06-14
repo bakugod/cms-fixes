@@ -12,6 +12,7 @@ import ModulePage from './ModulePage';
 import ModulePeopleList from './ModulePeopleList';
 import ModuleCompanies from './ModuleCompanies';
 import ModuleProgram from './ModuleProgram';
+import ModulePoll from './ModulePoll';
 
 interface IProps {
   container?: IContainer;
@@ -24,6 +25,7 @@ class ContentList extends React.Component<IProps> {
 
   private getContent = (): JSX.Element => {
     const {container} = this.props;
+    console.log(container)
 
     switch (container.module) {
       case 5:
@@ -38,6 +40,8 @@ class ContentList extends React.Component<IProps> {
         return <ModulePeopleList />;
       case 14:
         return <ModuleCompanies />;
+        case 30:
+          return <ModulePoll />;
       case null:
       default:
         return (

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { Card, Button, Modal } from 'antd';
+import { Col, Switch, Card, Button, Modal } from 'antd';
 import { IContainer, INews } from 'react-cms';
 import { get } from 'lodash';
 import { Column, RowInfo } from 'react-table';
@@ -15,6 +15,7 @@ import { getContainer } from '../../../redux/common/common.selector';
 
 import FakeImg from '../../../components/FakeImg/FakeImg';
 import EditNews from './EditNews';
+import b from '../../../service/Utils/b';
 
 interface IProps {
   container?: IContainer;
@@ -30,23 +31,6 @@ interface IState {
 class ModuleNews extends React.Component<IProps, IState> {
   private static columns: Column[] = [
     {
-      Header: 'Дата',
-      accessor: 'time',
-      width: 150,
-    },
-    {
-      Header: 'Заголовок',
-      accessor: 'title',
-    },
-    {
-      Header: 'Анонс',
-      accessor: 'announceShort',
-    },
-    {
-      Header: 'Содержание',
-      accessor: 'bodyShort',
-    },
-    {
       Header: 'Картинка',
       accessor: 'img',
       Cell: (cellInfo: RowInfo) => {
@@ -57,18 +41,54 @@ class ModuleNews extends React.Component<IProps, IState> {
             {
               image.includes('http')
                 ? <img
-                  src={ image }
-                  style={ {maxWidth: 100, maxHeight: 100} }
+                  src={image}
+                  style={{ maxWidth: 70, maxHeight: 70 }}
                 />
                 : <FakeImg />
             }
           </React.Fragment>
         );
       },
+      width: 100,
+    },
+    {
+      Header: 'Заголовок',
+      accessor: 'title',
+      Cell: (cellInfo: RowInfo) => {
+        return (
+          <div>
+            <Col span={12} style={{ margin: 0, padding: 0 }}>
+              <p style={{ fontWeight: "bold" }}>{cellInfo.original.title}</p>
+              <p style={{ margin: 0 }}>{cellInfo.original.announceShort}</p>
+            </Col>
+          </div>
+        );
+      },
+    },
+    {
+      Header: 'Содержание',
+      accessor: 'bodyShort',
     },
     {
       Header: 'Видимость',
       accessor: 'visible',
+      Cell: (cellInfo: RowInfo) => (
+        <Switch
+          checked={Boolean(get(cellInfo, 'original.visible', 1))}
+          className={b('content', 'program-table-switch-position')}
+        />
+      ),
+      width: 100,
+    },
+    {
+      Header: 'Обновлено',
+      accessor: 'time',
+      Cell: (cellInfo: RowInfo) => (
+        <div style={{ display: "flex", flexDirection: "column", textAlign: "right" }}>
+          <span>{cellInfo.original.time.slice(0, 10)}</span>
+          <span>{cellInfo.original.time.slice(10, 16)}</span>
+        </div>
+      ),
       width: 100,
     },
   ];
@@ -85,47 +105,48 @@ class ModuleNews extends React.Component<IProps, IState> {
   }
 
   public render(): JSX.Element {
-    const {container: {data, isLoading}} = this.props;
-    const {isAdd, modalVisible, currentEntity} = this.state;
+    const { container: { data, isLoading } } = this.props;
+    const { isAdd, modalVisible, currentEntity } = this.state;
 
     return (
       <Card
-        title={ <Button icon={ 'plus' } onClick={ this.onOpenAddModal }>Добавить новость</Button> }
+        title={<Button icon={'plus'} onClick={this.onOpenAddModal}>Добавить новость</Button>}
       >
         <ReactTable
-          data={ data.map((item: INews) => ({
+          data={data.map((item: INews) => ({
             ...item,
             time: moment.unix(item.time).format(DATE_FORMAT),
             announceShort: item.announce.slice(0, 200),
             bodyShort: item.body.slice(0, 200),
             visible: Boolean(item.visible) ? 'Да' : 'Нет',
-          })) }
-          columns={ ModuleNews.columns }
-          noDataText={ 'Нет информации' }
-          loadingText={ 'Загрузка...' }
-          loading={ isLoading }
-          className={ '-striped -highlight' }
-          getTrProps={ this.onRowClick }
-          showPagination
-          resizable={ false }
-          style={ {color: '#000000'} }
+          }))}
+          columns={ModuleNews.columns}
+          pageSize={data.length}
+          noDataText={'Нет информации'}
+          loadingText={'Загрузка...'}
+          loading={isLoading}
+          className={'-striped -highlight'}
+          getTrProps={this.onRowClick}
+          showPagination={false}
+          resizable={false}
+          style={{ color: "#000000", maxHeight: "85vh" }}
         />
 
-        <Modal visible={ modalVisible } footer={ null } onCancel={ this.onCloseModal } width={ 782 }>
+        <Modal visible={modalVisible} footer={null} onCancel={this.onCloseModal} width={782}>
           <EditNews
-            index={ 0 }
-            data={ currentEntity }
-            closeModal={ this.onCloseModal }
-            isAdd={ isAdd }
+            index={0}
+            data={currentEntity}
+            closeModal={this.onCloseModal}
+            isAdd={isAdd}
           />
         </Modal>
       </Card>
     );
   }
 
-  private onCloseModal = () => this.setState({modalVisible: false});
+  private onCloseModal = () => this.setState({ modalVisible: false });
 
-  private onOpenAddModal = () => this.setState({isAdd: true, modalVisible: true});
+  private onOpenAddModal = () => this.setState({ isAdd: true, modalVisible: true });
 
   private onRowClick = (state: any, rowInfo: RowInfo, column: any) => ({
     onClick: () => this.setState({

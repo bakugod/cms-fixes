@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { Card, Modal, Button, Icon, Row, Col, Input } from 'antd';
+import { Card, Modal, Button, Switch, Icon, Row, Col, Input } from 'antd';
 import ReactTable, { Column, RowInfo } from 'react-table';
 import { EnumTarget, ILocation } from 'react-cms';
 import * as moment from 'moment';
@@ -39,13 +39,15 @@ class Locations extends React.Component<IProps, IState> {
               <Icon type={ 'environment' } />
             </Col>
             <Col span={ 19 } offset={ 1 }>
-              <p>{ cellInfo.original.name }</p>
-              <span>{ cellInfo.original.address }</span>
+              <p style={{ margin: 0, fontWeight: "bold" }}>{ cellInfo.original.name }</p>
+              <p style={{ margin: 0 }}>{ cellInfo.original.address }</p>
             </Col>
           </Row>
         </div>
       ),
-      width: 600,
+      style: {
+        width: "fit-content",
+      },
     },
     {
       Header: 'Категория',
@@ -53,9 +55,30 @@ class Locations extends React.Component<IProps, IState> {
       width: 150,
     },
     {
+      Header: 'Видимость',
+      accessor: 'visible',
+      Cell: (cellInfo: RowInfo) => (
+        <Switch
+          checked={Boolean(cellInfo.original.visible)}
+          className='content__module-table-switch-position'
+        />
+      ),
+      width: 100,
+    },
+    {
       Header: 'Обновлено',
       accessor: 'updated',
-      width: 150,
+      Cell: (cellInfo: RowInfo) => {
+        const updated = moment.unix(cellInfo.original.updated_at).format(DATE_FORMAT);
+
+        return (
+          <Col style={{ textAlign: "right", }}>
+            <p style={{ margin: 0 }}>{updated.slice(0, 10)}</p>
+            <p>{updated.slice(10, 16)}</p>
+          </Col>
+        );
+      },
+      width: 100,
     },
   ];
 
@@ -103,13 +126,14 @@ class Locations extends React.Component<IProps, IState> {
             }),
           ) }
           columns={ Locations.columns }
+          pageSize={ locations.length }
           noDataText={ 'Нет информации' }
           loadingText={ 'Загрузка...' }
           className={ '-striped -highlight' }
           getTrProps={ this.onRowClick }
-          showPagination
+          showPagination={ false }
           resizable={ false }
-          style={ {color: '#000000'} }
+          style={ {color: "#000000", maxHeight: "85vh"} }
         />
 
         <Modal visible={ modalVisible } footer={ null } onCancel={ this.onCloseModal } width={ 782 }>

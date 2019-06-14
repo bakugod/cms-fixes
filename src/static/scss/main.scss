@@ -65,7 +65,7 @@
 }
 
 .ant-card-head {
-  height: 40px;
+  height: 45px;
   min-height: 40px;
 }
 
@@ -87,4 +87,26 @@
 
 input[placeholder="Адрес"]{
   border-radius: 4px 0px 0px 4px;
+}
+
+div[role=columnheader]{
+  text-align: left;
+  padding-left: 8px !important;
+}
+
+.ReactTable .rt-thead {
+  overflow-y: scroll;
+}
+
+.ReactTable .rt-thead::-webkit-scrollbar{
+  visibility: hidden;
+}
+
+
+.ant-col-18{
+  overflow-y: hidden !important;
+}
+
+.ant-layout-content{
+  overflow-x: unset !important;
 }

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { Card, Modal, Button, Row, Col, Icon, Input } from 'antd';
+import { Card, Modal, Button, Switch, Row, Col, Icon, Input } from 'antd';
 import ReactTable, { Column, RowInfo } from 'react-table';
 import { EnumTarget, ICompany } from 'react-cms';
 import { get } from 'lodash';
@@ -37,32 +37,44 @@ class Company extends React.Component<IProps, IState> {
       Cell: (cellInfo: RowInfo) => (
         <div style={ {height: 80} }>
           <Row gutter={ 24 }>
-            <Col span={ 2 }>
+            <Col span={ 8 } className="image-placeholder" style={{ paddingLeft: 0, paddingRight: 0 }}>
               <React.Fragment>
                 {
                   get(cellInfo, 'original.img').includes('http')
                     ? <img
                       src={ get(cellInfo, 'original.img') }
-                      style={ {maxWidth: 50, maxHeight: 50} }
+                      style={ {maxWidth: 70, maxHeight: 70} }
                     />
                     : <FakeImg />
                 }
               </React.Fragment>
             </Col>
-
-            <Col span={ 19 } offset={ 1 }>
-              <p>{ cellInfo.original.name }</p>
-              <span>{ cellInfo.original.announce }</span>
+            <Col span={ 12 } style={{ margin: '0 0 0 -8px', padding: 0 }}>
+              <p style={{ margin: 0, fontWeight: "bold" }}>{ cellInfo.original.name }</p>
+              <p style={{ margin: 0 }}>{ cellInfo.original.announce }</p>
             </Col>
           </Row>
         </div>
       ),
-      width: 600,
+      style: {
+        width: "fit-content",
+      },
     },
     {
       Header: 'Группа',
       accessor: 'category',
       width: 150,
+    },
+    {
+      Header: 'Видимость',
+      accessor: 'visible',
+      Cell: (cellInfo: RowInfo) => (
+        <Switch
+          checked={Boolean(get(cellInfo, 'original.visible'))}
+          className='content__module-table-switch-position'
+        />
+      ),
+      width: 100,
     },
     {
       Header: 'Обновлено',
@@ -113,11 +125,12 @@ class Company extends React.Component<IProps, IState> {
             updated: moment.unix(item.updated_at).format(DATE_FORMAT),
           })) }
           columns={ Company.columns }
+          pageSize={ company.length }
           noDataText={ 'Нет информации' }
           loadingText={ 'Загрузка...' }
           className={ '-striped -highlight' }
           getTrProps={ this.onRowClick }
-          showPagination
+          showPagination={ false }
           resizable={ false }
           style={ {color: '#000000'} }
         />

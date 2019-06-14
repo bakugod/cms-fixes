@@ -93,9 +93,12 @@ class ModuleProgram extends React.Component<IProps, IState> {
       Header: 'Обновлено',
       accessor: 'updated',
       Cell: (cellInfo: RowInfo) => (
-        <span style={ {top: cellInfo.original.location_name ? 17 : 8, position: 'relative'} }>{ cellInfo.original.updated }</span>
+        <div style={{ display: "flex", flexDirection: "column", textAlign: "right" }}>
+          <span>{ cellInfo.original.updated.slice(0, 10) }</span>
+          <span>{ cellInfo.original.updated.slice(10, 16) }</span>
+        </div>
       ),
-      width: 150,
+      width: 100,
     },
   ];
 
@@ -169,21 +172,22 @@ class ModuleProgram extends React.Component<IProps, IState> {
         <ReactTable
           data={ this.filter(data.map((item: IProgramModule) => ({
             ...item,
-            visibleString: Boolean(item.visible) ? 'Да' : 'Нет',
+            visibleString: Boolean(item.visible) ? "Да" : "Нет",
             descriptionShort: item.description.slice(0, 200),
             startTime: timeFromUnixToFormat(moment.unix(item.start).add({hour: user.appdata.eventTimeShift}).unix()),
             endTime: timeFromUnixToFormat(moment.unix(item.finish).add({hour: user.appdata.eventTimeShift}).unix()),
             updated: moment.unix(item.updated_at).format(DATE_FORMAT),
           }))) }
           columns={ this.columns }
+          pageSize={data.length}
           noDataText={ 'Нет информации' }
           loadingText={ 'Загрузка...' }
           loading={ isLoading }
           className={ '-striped -highlight' }
           getTrProps={ this.onRowClick }
-          showPagination
+          showPagination={false}
           resizable={ false }
-          style={ {color: '#000000'} }
+          style={ {color: "#000000", maxHeight: "85vh"} }
         />
 
         <Modal visible={ modalVisible } footer={ null } onCancel={ this.onCloseModal } width={ 782 }>

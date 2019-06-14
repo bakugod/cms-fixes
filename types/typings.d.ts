@@ -94,7 +94,7 @@ declare module 'react-cms' {
     people_group_name: string;
     people_id: number;
     visible: number;
-    data: { id: number; img: string; name: string; };
+    data: { id: number; img: string; name: string; updated_at: number; people_id: number; };
   }
   
   export interface ICompanyList {
@@ -186,8 +186,17 @@ declare module 'react-cms' {
     announce: string;
     updated_at: number;
   }
+
+  export interface IPollList {
+    deleted: number;
+    enabled: number;
+    id: number;
+    name: string;
+    updated_at: number;
+    visible: boolean;
+  }
   
-  export type EnumTarget = 'company' | 'people' | 'company_groups' | 'people_groups' | 'icons' | 'locations';
+  export type EnumTarget = 'company' | 'people' | 'company_groups' | 'people_groups' | 'icons' | 'locations' | 'poll';
   export type EnumType = 'PUT' | 'POST' | 'DELETE';
   export type UploadType = 'people' | 'company' | 'ico' | 'misc';
 }
