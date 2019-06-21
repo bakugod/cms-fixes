@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Card } from 'antd';
@@ -25,8 +24,8 @@ class ContentList extends React.Component<IProps> {
   }
 
   private getContent = (): JSX.Element => {
-    const {container} = this.props;
-    console.log(container)
+    const { container } = this.props;
+    console.log(this.props)
 
     switch (container.module) {
       case 5:
@@ -41,13 +40,13 @@ class ContentList extends React.Component<IProps> {
         return <ModulePeopleList />;
       case 14:
         return <ModuleCompanies />;
-        case 30:
-          return <ModulePoll />;
+      case 30:
+        return <ModulePoll />;
       case null:
       default:
         return (
-          <div style={ {width: '100%', height: '100%', textAlign: 'center'} }>
-            <span style={ {fontSize: '14pt', fontWeight: 'bold'} }>Данный модуль не требует редактирования</span>
+          <div style={{ width: '100%', height: '100%', textAlign: 'center' }}>
+            <span style={{ fontSize: '14pt', fontWeight: 'bold' }}>Данный модуль не требует редактирования</span>
           </div>
         );
     }
@@ -61,63 +60,3 @@ const mapStateToProps = (state: IReducers) => {
 };
 
 export default connect(mapStateToProps)(ContentList);
-=======
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { Card } from 'antd';
-import { IContainer } from 'react-cms';
-
-import { IReducers } from '../../../redux';
-import { getContainer } from '../../../redux/common/common.selector';
-
-import ModuleURL from './ModuleURL';
-import ModuleNews from './ModuleNews';
-import ModulePage from './ModulePage';
-import ModulePeopleList from './ModulePeopleList';
-import ModuleCompanies from './ModuleCompanies';
-import ModuleProgram from './ModuleProgram';
-
-interface IProps {
-  container?: IContainer;
-}
-
-class ContentList extends React.Component<IProps> {
-  public render(): JSX.Element {
-    return this.getContent();
-  }
-
-  private getContent = (): JSX.Element => {
-    const {container} = this.props;
-
-    switch (container.module) {
-      case 5:
-        return <ModuleURL />;
-      case 6:
-        return <ModulePage />;
-      case 7:
-        return <ModuleNews />;
-      case 8:
-        return <ModuleProgram />;
-      case 13:
-        return <ModulePeopleList />;
-      case 14:
-        return <ModuleCompanies />;
-      case null:
-      default:
-        return (
-          <div style={ {width: '100%', height: '100%', textAlign: 'center'} }>
-            <span style={ {fontSize: '14pt', fontWeight: 'bold'} }>Данный модуль не требует редактирования</span>
-          </div>
-        );
-    }
-  };
-}
-
-const mapStateToProps = (state: IReducers) => {
-  return {
-    container: getContainer(state),
-  };
-};
-
-export default connect(mapStateToProps)(ContentList);
->>>>>>> dd4d229ff6bc5cb69d776dd82d0eacb5b96e3d2b

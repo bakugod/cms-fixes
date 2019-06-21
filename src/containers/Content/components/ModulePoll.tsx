@@ -1,21 +1,21 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { Switch, Card, Button, Modal, Col, Row } from 'antd';
-import { IContainer, IPeopleList } from 'react-cms';
+import { connect } from 'react-redux';
+import { Col, Switch, Card, Button, Modal } from 'antd';
+import { IContainer, INews } from 'react-cms';
 import { get } from 'lodash';
 import { Column, RowInfo } from 'react-table';
 import ReactTable from 'react-table';
 import * as moment from 'moment';
 
+import { DATE_FORMAT } from '../../../service/Consts/Consts';
 import { IReducers } from '../../../redux';
 import { ContentAPI } from '../api/content';
-import { DATE_FORMAT } from '../../../service/Consts/Consts';
-import b from '../../../service/Utils/b';
 import { getContainer } from '../../../redux/common/common.selector';
 
 import FakeImg from '../../../components/FakeImg/FakeImg';
-import EditPeople from './EditPeople';
+import EditNews from './EditNews';
+import b from '../../../service/Utils/b';
 
 interface IProps {
   container?: IContainer;
@@ -24,41 +24,51 @@ interface IProps {
 interface IState {
   modalVisible: boolean;
   isAdd: boolean;
-  currentEntity: IPeopleList | null;
+  currentEntity: INews | null;
   currentIndex: number;
 }
 
-class ModulePeopleList extends React.Component<IProps, IState> {
+class ModuleNews extends React.Component<IProps, IState> {
   private static columns: Column[] = [
+    {
+      Header: 'Название',
+      accessor: 'title',
+      Cell: (cellInfo: RowInfo) => {
+        return (
+          <div>
+            <Col span={12} style={{ margin: 0, padding: 0 }}>
+              <p style={{ fontWeight: "bold" }}>{cellInfo.original.name}</p>
+            </Col>
+          </div>
+        );
+      },
+    },
+    {
+      Header: 'Статус',
+      accessor: 'bodyShort',
+    },
     {
       Header: 'Видимость',
       accessor: 'visible',
       Cell: (cellInfo: RowInfo) => (
         <Switch
           checked={Boolean(get(cellInfo, 'original.visible', 1))}
-          className={b('content', 'module-table-switch-position', { 'without-location': !cellInfo.original.location_name })}
+          className={b('content', 'program-table-switch-position')}
         />
       ),
       width: 100,
     },
     {
-      Header: 'Обновлено',
-      accessor: 'updated',
-      Cell: (cellInfo: RowInfo) => {
-        const data: any = get(cellInfo, 'original.updated_at');
-        const updated = moment.unix(data).format(DATE_FORMAT);
-
-        return (
-          <Col style={{ textAlign: "right", }}>
-            <p style={{ margin: 0 }}>{updated.slice(0, 10)}</p>
-            <p>{updated.slice(10, 16)}</p>
-          </Col>
-        );
-      },
+      Header: 'Обновлен',
+      accessor: 'time',
+      Cell: (cellInfo: RowInfo) => (
+        <div style={{ display: "flex", flexDirection: "column", textAlign: "right" }}>
+          <p style={{ margin: 0 }}>{cellInfo.original.time.slice(0, 10)}</p>
+          <p>{cellInfo.original.time.slice(10, 16)}</p>
+        </div>
+      ),
       width: 100,
     },
-
-
   ];
 
   constructor(props: IProps) {
@@ -74,20 +84,21 @@ class ModulePeopleList extends React.Component<IProps, IState> {
 
   public render(): JSX.Element {
     const { container: { data, isLoading } } = this.props;
-    const { modalVisible, isAdd, currentEntity } = this.state;
-    console.log(data)
+    console.log(this.props)
+    const { isAdd, modalVisible, currentEntity } = this.state;
 
     return (
       <Card
-        title={<Button icon={'plus'} onClick={this.onOpenAddModal}>Добавить</Button>}
+        title={<Button icon={'plus'} onClick={this.onOpenAddModal} type={'primary'}>Добавить опрос</Button>}
       >
         <ReactTable
-          data={data.map((item: IPeopleList) => ({
+          data={data.map((item: any) => ({
             ...item,
-            visible: Boolean(item.visible) ? 1 : 0,
-            updated: item.data.updated_at,
+            name: item.name,
+            time: moment.unix(item.updated_at).format(DATE_FORMAT),
+            visible: Boolean(item.visible) ? 'Да' : 'Нет',
           }))}
-          columns={ModulePeopleList.columns}
+          columns={ModuleNews.columns}
           pageSize={data.length}
           noDataText={'Нет информации'}
           loadingText={'Загрузка...'}
@@ -96,16 +107,16 @@ class ModulePeopleList extends React.Component<IProps, IState> {
           getTrProps={this.onRowClick}
           showPagination={false}
           resizable={false}
-          style={{ color: '#000000', }}
+          style={{ color: "#000000", maxHeight: "85vh" }}
         />
 
         <Modal visible={modalVisible} footer={null} onCancel={this.onCloseModal} width={782}>
-          <EditPeople
-            people={currentEntity}
+          {/* <EditNews
+            index={0}
+            data={currentEntity}
             closeModal={this.onCloseModal}
             isAdd={isAdd}
-            type={isAdd ? 'POST' : 'PUT'}
-          />
+          /> */}
         </Modal>
       </Card>
     );
@@ -138,4 +149,4 @@ const mapDispatchToProps = (dispatch: Dispatch<IReducers>) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModulePeopleList);
+export default connect(mapStateToProps, mapDispatchToProps)(ModuleNews);

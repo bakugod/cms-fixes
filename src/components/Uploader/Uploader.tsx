@@ -13,6 +13,14 @@ const UploaderWrapper = styled.div`
     width: 180px;
     height: 180px;
   }
+
+  .ant-upload-drag-container > i{
+    opacity: 0;
+  }
+
+  .ant-upload-drag-container:hover > i{
+    opacity: 1;
+  }
 `;
 
 const Dashed = styled.div`
@@ -60,11 +68,11 @@ export default class Uploader extends React.Component<IProps> {
   }
 
   private getImgPreview = (): React.ReactNode => {
-    const {imageUrl} = this.props;
+    const { imageUrl } = this.props;
 
     return (
       <React.Fragment>
-        <Icon type={ 'close' } className={ 'uploader__img-close' } onClick={ this.onRemovePhoto } />
+        <Icon type={ 'delete' } className={ 'uploader__img-close' } onClick={ this.onRemovePhoto } />
         <img alt={ 'preview' } className={ b('uploader', 'img') } src={ imageUrl } />
       </React.Fragment>
     );

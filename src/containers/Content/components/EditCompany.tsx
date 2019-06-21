@@ -55,7 +55,7 @@ class EditCompany extends React.Component<IProps, IState> {
   }
 
   public componentDidMount() {
-    const {getMenuData, isAdd, entity} = this.props;
+    const { getMenuData, isAdd, entity } = this.props;
 
     if (!isAdd) {
       this.setState({
@@ -68,79 +68,69 @@ class EditCompany extends React.Component<IProps, IState> {
   }
 
   public componentDidUpdate(prevState: IProps) {
-    const {entity, isAdd} = this.props;
-    if (!isAdd && entity.description !== prevState.entity.description) {
-      this.setState({
-        editorState: EditorState.createWithContent(ContentState.createFromText(get(entity, 'description', ''))),
-      });
+    const { entity, isAdd } = this.props;
+
+    if (prevState.entity !== null) {
+      if (!isAdd && entity.description !== prevState.entity.description) {
+
+        this.setState({
+          editorState: EditorState.createWithContent(ContentState.createFromText(get(entity, 'description', ''))),
+        });
+      }
     }
   }
 
   public render(): JSX.Element {
-    const {entity, form, isAdd, companies, companiesGroups} = this.props;
-    const {getFieldDecorator} = form;
+    const { entity, form, isAdd, companies, companiesGroups } = this.props;
+    const { getFieldDecorator } = form;
 
     return (
       <Card
-        title={ !isAdd ? get(entity, 'name', '') : null }
-        style={ {top: 16, position: 'relative'} }
-        extra={ isAdd
-          ? undefined
-          : (
-            <Popconfirm
-              title={ 'Вы уверены?' }
-              onConfirm={ this.delete() }
-              okText={ 'Да' }
-              cancelText={ 'Нет' }
-              placement={ 'bottom' }
-            >
-              <Button>Удалить</Button>
-            </Popconfirm>
-          )
-        }
+        title={!isAdd ? get(entity, 'name', '') : "Добавление компании"}
+        style={!isAdd ?{ top: 40, position: 'relative' } : { top: 0, position: 'relative' }}
       >
         <Form>
           <Card
-            title={ 'Основное' }
-            extra={ (
+            title={'Основное'}
+            extra={(
               <Form.Item>
-                { getFieldDecorator('visible', {
+                {getFieldDecorator('visible', {
                   initialValue: !isAdd ? Boolean(entity.visible) : true,
                 })(
-                  <CheckBox text={ 'Видимость' } />,
-                ) }
+                  <CheckBox text={'Видимость'} />,
+                )}
               </Form.Item>
-            ) }
+            )}
           >
-            <Form.Item label={ 'Название' }>
-              { getFieldDecorator('name', {
+            <Form.Item label={'Название'}>
+              {getFieldDecorator('name', {
                 rules: [{ required: isAdd, message: isAdd ? 'Введите значение' : undefined }],
                 initialValue: !isAdd ? get(entity, 'companyName', '') : '',
               })(
-                <AutoComplete placeholder={ 'Название' } data={ companies.map(item => item.name) } />,
-              ) }
+                <AutoComplete placeholder={'Название'} data={companies.map(item => item.name)} />,
+              )}
             </Form.Item>
 
-            <Form.Item label={ 'Группа' }>
-              { getFieldDecorator('group', {
+            <Form.Item label={'Группа'}>
+              {getFieldDecorator('group', {
                 rules: [{ required: isAdd, message: isAdd ? 'Введите значение' : undefined }],
                 initialValue: !isAdd ? get(entity, 'companyGroupName', '') : '',
               })(
-                <AutoComplete placeholder={ 'Группа' } data={ companiesGroups.map(item => item.name) } />,
-              ) }
+                <AutoComplete placeholder={'Группа'} data={companiesGroups.map(item => item.name)} />,
+              )}
             </Form.Item>
           </Card>
 
           <br />
 
-          <Card title={ 'Описание' }>
+          <Card title={'Описание'}>
             <Editor
-              toolbarClassName={ 'toolbarClassName' }
-              wrapperClassName={ 'wrapperClassName' }
-              editorClassName={ 'editorClassName' }
-              localization={ {locale: 'ru'} }
-              editorState={ this.state.editorState }
-              onEditorStateChange={ this.onChangeText }
+              toolbarClassName={'toolbarClassName'}
+              wrapperClassName={'wrapperClassName'}
+              editorClassName={'editorClassName'}
+              localization={{ locale: 'ru' }}
+              editorState={this.state.editorState}
+              onEditorStateChange={this.onChangeText}
             />
           </Card>
 
@@ -148,32 +138,32 @@ class EditCompany extends React.Component<IProps, IState> {
 
           {
             !isAdd && <Popconfirm
-              title={ 'Вы уверены?' }
-              onConfirm={ this.delete() }
-              okText={ 'Да' }
-              cancelText={ 'Нет' }
-              placement={ 'bottom' }
+              title={'Вы уверены?'}
+              onConfirm={this.delete()}
+              okText={'Да'}
+              cancelText={'Нет'}
+              placement={'bottom'}
             >
-              <Button type={ 'danger' }>Удалить</Button>
+              <Button type={'danger'}>Удалить</Button>
             </Popconfirm>
           }
 
           <Button
-            type={ 'primary' }
-            onClick={ this.onSubmit }
-            style={ {position: 'relative', left: isAdd ? 630 : 542} }
+            type={'primary'}
+            onClick={this.onSubmit}
+            style={{ position: 'relative', left: isAdd ? 630 : 542 }}
           >
-            { isAdd ? 'Добавить' : 'Сохранить' }
+            {isAdd ? 'Добавить' : 'Сохранить'}
           </Button>
         </Form>
       </Card>
     );
   }
 
-  private onChangeText = (editorState: EditorState) => this.setState({editorState});
+  private onChangeText = (editorState: EditorState) => this.setState({ editorState });
 
   private onSubmit = () => {
-    const {container, isAdd, entity, companies, companiesGroups, closeModal, form, updateContainer} = this.props;
+    const { container, isAdd, entity, companies, companiesGroups, closeModal, form, updateContainer } = this.props;
 
     form.validateFields((errors, values) => {
       if (!errors) {
@@ -202,7 +192,7 @@ class EditCompany extends React.Component<IProps, IState> {
   };
 
   private delete = () => () => {
-    const {container, entity, updateContainer, closeModal} = this.props;
+    const { container, entity, updateContainer, closeModal } = this.props;
 
     updateContainer(
       container.id,

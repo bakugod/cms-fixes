@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Layout, Row, Col, Icon } from 'antd';
 import { IUser } from 'react-cms';
-import { get } from 'lodash';
 import styled from 'styled-components';
 
 import { getUserData } from '../../redux/auth/auth.selector';
@@ -16,6 +15,8 @@ const HeaderWrapper = styled.div`
   }
   
   .ant-layout-header {
+    background: #1890ff;
+    box-shadow: 0 3px 2px rgba(0,0,0,0.22), 0 1px 1px rgba(0,0,0,0.15);
     position: fixed;
     width: 100%;
     z-index: 9999;
@@ -29,6 +30,9 @@ const HeaderWrapper = styled.div`
 const LogoutButton = styled.span`
   color: #ffffff;
   cursor: pointer;
+  display: block;
+  text-align: end;
+  margin-right: 10%;
   &:hover {
     text-decoration: underline;
   }
@@ -54,7 +58,8 @@ class Header extends React.Component<IProps> {
                   <span>{ user.appdata.name }</span></p>
               </Col>
 
-              <Col span={ 5 } offset={ 9 }>
+              <Col span={ 9 }/>
+              <Col span={ 5 }>
                 <span>{ user.user_name || 'Имени нет' }</span>
               </Col>
 

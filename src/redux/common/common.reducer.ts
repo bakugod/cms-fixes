@@ -1,5 +1,5 @@
 import { Action, createAction, handleActions } from 'redux-actions';
-import { IAppIcon, IContainer, IEvent, IMenu, IModule, IPeople } from 'react-cms';
+import { IAppIcon, IContainer, IEvent, IMenu, IModule, IPeople, IPollList } from 'react-cms';
 
 type IAction<T> = { data: T[]; };
 
@@ -23,6 +23,7 @@ type ActionTypes =
   | IContainer;
 
 export interface ICommon {
+  poll: IPollList[];
   modules: IModule[];
   menu: IMenuReducerType;
   icons: IAppIcon[];
@@ -35,6 +36,7 @@ export interface ICommon {
 
 const PREFIX: string = 'common';
 const defaultState: ICommon = {
+  poll: [],
   modules: [],
   menu: { data: [], isOk: true },
   icons: [],

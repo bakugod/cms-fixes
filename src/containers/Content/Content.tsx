@@ -31,6 +31,11 @@ const ContentWrapper = styled.div`
     overflow-y: scroll;
     background: #ffffff;
   }
+
+  .ant-col-18 {
+    margin-left: 8px;
+    width: 74%;
+  }
 `;
 const {Sider} = Layout;
 

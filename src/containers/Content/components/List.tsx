@@ -17,13 +17,28 @@ import { IMenuReducerType } from '../../../redux/common/common.reducer';
 const ContentWrapper = styled.div`
   cursor: pointer;
   ${(props: { isCurrentMenu: boolean; }) => css`
-    background: ${props.isCurrentMenu ? '#ffffff' : '#8585854d'}
+    background: ${props.isCurrentMenu ? '#ffffff' : '#e6f7ff'};
+    border-right: ${props.isCurrentMenu ? '0' : '3px solid #1890ff'};
+    min-height: 65px;
   `}
 
   .ant-col-4 {
+    top: 6px;
+    width: 50px;
     text-align: center;
+    background: aliceblue;
+    border-radius: 40px;
   }
 `;
+
+const Title = styled.p`
+  font-size: 12pt;
+  font-weight: bold;
+  @media(max-width: 1395px){
+    font-size: 10pt;
+    font-weight: bold;
+  }
+`
 
 interface IProps {
   menu?: IMenuReducerType;
@@ -78,18 +93,19 @@ class MenuList extends React.Component<IProps, IState> {
                 item.pic.includes('http')
                   ? <img
                     src={ item.pic }
+                    style={ {top: 0} }
                     className={ b('menu', 'img') }
                   />
-                  : <FakeImg style={ {position: 'relative', top: 6} } />
+                  : <FakeImg style={ {position: 'relative'} } />
               }
             </Col>
-            <Col span={ 20 }>
-              <p style={ {fontSize: '12pt', fontWeight: 'bold'} }>{ item.name }</p>
+            <Col span={ 19 } style={{ minHeight: 65 }} >
+              <Title>{ item.name }</Title>
               <p style={ {lineHeight: '10px'} }>{ get(modules.find(module => +module.id === +item.module), 'name', '') }</p>
             </Col>
           </Row>
 
-          { menu.data.length - 1 !== index && <hr style={ {margin: 0} } /> }
+          { menu.data.length - 1 !== index && <hr style={ {margin: 0, borderTop: 0, borderBottom: "1px solid black"} } /> }
         </div>
       </ContentWrapper>
     );
