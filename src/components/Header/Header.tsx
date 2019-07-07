@@ -46,16 +46,25 @@ interface IProps {
 class Header extends React.Component<IProps> {
   public render(): JSX.Element {
     const {user, logout} = this.props;
+    console.log(user)
 
     return (
       <HeaderWrapper>
         <Layout.Header>
             <Row>
               <Col span={ 6 }>
-                <p>
+              {user.appdata === null
+                ?<p>
+                  <span style={ {fontSize: '16pt', fontWeight: 'bold'} }>Выбор приложения</span>
+                  <br />
+                  <span>Подзаголовок</span>
+               </p>
+                :<p>
                   <span style={ {fontSize: '16pt', fontWeight: 'bold'} }>{ user.appdata.eventName }</span>
                   <br />
-                  <span>{ user.appdata.name }</span></p>
+                  <span>{ user.appdata.name }</span>
+                </p>
+                }
               </Col>
 
               <Col span={ 9 }/>

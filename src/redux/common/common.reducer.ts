@@ -1,5 +1,5 @@
 import { Action, createAction, handleActions } from 'redux-actions';
-import { IAppIcon, IContainer, IEvent, IMenu, IModule, IPeople, IPollList } from 'react-cms';
+import { IAppIcon, IContainer, IEvent, IMenu, IModule, IPeople, IPollList, IAppsList } from 'react-cms';
 
 type IAction<T> = { data: T[]; };
 
@@ -14,6 +14,8 @@ export interface IMenuReducerType {
 }
 
 type ActionTypes =
+  | IAction<IAppsList>
+
   | IAction<IModule>
   | IAction<IAppIcon>
   | IMenuReducerType
@@ -24,6 +26,7 @@ type ActionTypes =
 
 export interface ICommon {
   poll: IPollList[];
+  apps: IAppsList[];
   modules: IModule[];
   menu: IMenuReducerType;
   icons: IAppIcon[];
@@ -37,6 +40,7 @@ export interface ICommon {
 const PREFIX: string = 'common';
 const defaultState: ICommon = {
   poll: [],
+  apps: [],
   modules: [],
   menu: { data: [], isOk: true },
   icons: [],
@@ -60,6 +64,8 @@ export const setPeople = createAction<IAction<IPeople>>(`@@${PREFIX}/SET_PEOPLE`
 export const setEvents = createAction<IAction<IEvent>>(`@@${PREFIX}/SET_EVENTS`);
 export const setMenuData = createAction<IMenuDataAction>(`@@${PREFIX}/SET_MENU_DATA`);
 export const setCurrentEntity = createAction<any>(`@@${PREFIX}/SET_CURRENT_ENTITY`);
+
+export const setApps = createAction<IAction<IAppsList>>(`@@${PREFIX}/SET_APPS`);
 
 export default handleActions<ICommon, ActionTypes>({
   [setModule.toString()]: (state: ICommon, action: Action<IAction<IModule>>): ICommon => ({
@@ -90,6 +96,12 @@ export default handleActions<ICommon, ActionTypes>({
     ...state,
     events: action.payload.data,
   }),
+
+  [setApps.toString()]: (state: ICommon, action: Action<IAction<IAppsList>>): ICommon => ({
+    ...state,
+    apps: action.payload.data,
+  }),
+
   [setMenuData.toString()]: (state: ICommon, action: Action<IMenuDataAction>): ICommon => ({
     ...state,
     menuData: {

@@ -12,7 +12,7 @@ export function configureStore() {
   const logger = createLogger({collapsed: true});
   let middleware = isTesting ? applyMiddleware(thunk, logger) : applyMiddleware(thunk);
 
-  if (process.env.NODE_ENV === TESTING_ENV) {
+  if (process.env.NODE_ENV === 'development') {
     middleware = composeWithDevTools(middleware);
   }
 

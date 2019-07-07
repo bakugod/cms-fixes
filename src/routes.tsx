@@ -10,6 +10,8 @@ import Events from './containers/Events/Events';
 import Icons from './containers/Icons/Icons';
 import Locations from './containers/Locations/Locations';
 import Company from './containers/Company/Company';
+import Login from './containers/Login/Login';
+import SelectApp from './containers/SelectApp/SelectApp';
 
 export const PATHS: { [key: string]: string; } = {
   MAIN: '/',
@@ -22,14 +24,18 @@ export const PATHS: { [key: string]: string; } = {
   COMPANY_SECTION: '/company-section',
   ICONS: '/icons',
   LOCATIONS: '/locations',
+  LOGIN: '/login',
+  SELECT_APP: '/select',
 };
 
-const NotFoundRender = () => <Info type='NotFound' />;
+ const NotFoundRender = () => <Info type='NotFound' />;
 const DevelopmentRender = () => <Info type='Development' />;
 
 export const routes: JSX.Element = (
   <Switch>
+    <Route exact path={ PATHS.SELECT_APP } component={ SelectApp } />
     <Route exact path={ PATHS.MAIN } component={ Main } />
+    <Route exact path={ PATHS.LOGIN } component={ Login } />
     <Route exact path={ PATHS.MENU_EDIT } component={ Menu } />
     <Route exact path={ PATHS.CONTENT } component={ Content } />
     <Route exact path={ PATHS.PEOPLE } component={ People } />
@@ -39,6 +45,6 @@ export const routes: JSX.Element = (
     <Route exact path={ PATHS.LOCATIONS } component={ Locations } />
     <Route exact path={ PATHS.PEOPLE_SECTION } render={ DevelopmentRender } />
     <Route exact path={ PATHS.COMPANY_SECTION } render={ DevelopmentRender } />
-    <Route render={ NotFoundRender } />
+    <Route exact render={ NotFoundRender } />
   </Switch>
 );

@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import { IReducers } from '../index';
-import { EnumTarget, IAppIcon, IContainer, IEvent, IModule, IPeople, IPollList } from 'react-cms';
+import { EnumTarget, IAppIcon, IContainer, IEvent, IModule, IPeople, IPollList, IAppsList } from 'react-cms';
 import { IMenuReducerType } from './common.reducer';
 
 export const getModules = (state: IReducers): IModule[] => state.common.modules;
@@ -16,3 +16,5 @@ export const getMenu = () => createSelector(
   (state: IReducers) => state.common.menu,
   (item: IMenuReducerType) => item,
 );
+
+export const getApps = (state: IReducers): IAppsList[] => state.common.apps;

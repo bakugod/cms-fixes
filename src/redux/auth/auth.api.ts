@@ -5,9 +5,11 @@ import { notification } from 'antd';
 
 import { IReducers } from '../index';
 import Transport from '../../service/Transport/Transport';
-import { logout, setTokenToLS, setUser, toggleLoader } from './auth.reducer';
-import { AUTH, LOGOUT } from './auth.constants';
+import { logout, login, setTokenToLS, setUser, toggleLoader } from './auth.reducer';
+import { AUTH, LOGOUT, LOGIN } from './auth.constants';
 import history from '../../service/Utils/history';
+import { createBrowserHistory } from 'history';
+
 import { PATHS } from '../../routes';
 import LocalStorage from '../../service/LocalStorage/LocalStorage';
 import { TOKEN_KEY } from '../../service/Consts/Consts';
@@ -19,7 +21,7 @@ export class AuthApi {
       try {
         const lsToken: string | undefined = LocalStorage.getData(TOKEN_KEY);
         if (!lsToken && !token) {
-          throw new Error('No token');
+          //throw new Error('No token');
         }
 
         const response: Response = await Transport.get(`${AUTH}?token=${token || lsToken}`);
@@ -54,12 +56,54 @@ export class AuthApi {
       dispatch(toggleLoader(false));
     };
   };
+
+  public static login = (props: any): ThunkAction<Promise<void>, IReducers, Action> => {
+    return async (dispatch: Dispatch<IReducers>, getStates: () => IReducers): Promise<void> => {
+      try {
+
+        console.log(props)  
+        //"+79107907547",
+        //"12345"
+
+        const headers: Headers = new Headers({});
+
+        const body: object = {
+          "login": props.login,
+          "pw": props.password
+        };
+        const response: Response = await Transport.post(LOGIN, headers, body);
+
+        const json: any = await response.json();
+        console.log(json)  
+
+        dispatch(setTokenToLS());
+        if (!!json.token) {
+          LocalStorage.setToken(json.token);
+        }  
+        const lsToken: string | undefined = LocalStorage.getData(TOKEN_KEY);
+
+        dispatch(setUser({...json.user, token: json.token || lsToken}));
+        dispatch(login());
+
+        createBrowserHistory({
+          forceRefresh: true //ls doesn't refresh page
+        }).push(PATHS.SELECT_APP);
+
+
+        notification.success({message: 'Вы успешно вошли', description: '', duration: 0});
+      } catch (e) {
+        console.log(e)
+        notification.error({message: 'Не удалось войти', description: 'Попробуйте еще раз'});
+      }
+    };
+  };
   
   public static logout = (): ThunkAction<Promise<void>, IReducers, Action> => {
     return async (dispatch: Dispatch<IReducers>, getStates: () => IReducers): Promise<void> => {
       try {
         const token: string = getStates().auth.token;
         const headers: Headers = new Headers({authorization: `Bearer ${token}`});
+
         await Transport.post(LOGOUT, headers);
 
         dispatch(logout());

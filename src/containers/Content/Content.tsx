@@ -36,6 +36,25 @@ const ContentWrapper = styled.div`
     margin-left: 8px;
     width: 74%;
   }
+
+  //Create custom scrollbar
+  .ant-col-6::-webkit-scrollbar-track{
+    background-color: #f5f5f5;
+  }
+
+  .ant-col-6::-webkit-scrollbar{
+    width: 7px;
+    background-color: #f5f5f5;
+  }
+
+  .ant-col-6::-webkit-scrollbar-thumb{
+    background: #1890ff;
+  }
+
+  .ant-col-6 {
+    scrollbar-width: thin;
+    scrollbar-color: #1890ff #f5f5f5;
+  }
 `;
 const {Sider} = Layout;
 

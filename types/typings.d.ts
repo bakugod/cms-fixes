@@ -195,6 +195,21 @@ declare module 'react-cms' {
     updated_at: number;
     visible: boolean;
   }
+
+
+
+  export interface IAppsList {
+    id: number;
+    is_owner: number;
+    role: number;
+    name: string;
+    aid: string;
+    eventID: number;
+    env_production: number;
+    event_name: string;
+    pic: any;
+  }
+
   
   export type EnumTarget = 'company' | 'people' | 'company_groups' | 'people_groups' | 'icons' | 'locations' | 'poll';
   export type EnumType = 'PUT' | 'POST' | 'DELETE';

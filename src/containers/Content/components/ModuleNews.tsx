@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { Col, Switch, Card, Button, Modal } from 'antd';
+import { Row, Col, Switch, Card, Button, Modal } from 'antd';
 import { IContainer, INews } from 'react-cms';
 import { get } from 'lodash';
 import { Column, RowInfo } from 'react-table';
@@ -37,32 +37,30 @@ class ModuleNews extends React.Component<IProps, IState> {
         const image: string = get(cellInfo, 'original.img');
 
         return (
-          <React.Fragment>
-            {
-              image.includes('http')
-                ? <img
-                  src={image}
-                  style={{ maxWidth: 70, maxHeight: 70 }}
-                />
-                : <FakeImg />
-            }
-          </React.Fragment>
+          <div>
+            <Row gutter={24}>
+              <Col span={8} className="image-placeholder" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                <React.Fragment>
+                  {
+                    image.includes('http')
+                      ? <img
+                        src={image}
+                        style={{ maxWidth: 70, maxHeight: 70 }}
+                      />
+                      : <FakeImg style={{ left: 0 }} />
+                  }
+                </React.Fragment>
+              </Col>
+              <Col span={12} style={{ margin: '0 0 0 -8px', padding: 0 }}>
+                <p style={{ fontWeight: "bold" }}>{cellInfo.original.title}</p>
+                <p style={{ margin: 0 }}>{cellInfo.original.announceShort}</p>
+              </Col>
+            </Row >
+          </div >
         );
       },
-      width: 100,
-    },
-    {
-      Header: 'Заголовок',
-      accessor: 'title',
-      Cell: (cellInfo: RowInfo) => {
-        return (
-          <div>
-            <Col span={12} style={{ margin: 0, padding: 0 }}>
-              <p style={{ fontWeight: "bold" }}>{cellInfo.original.title}</p>
-              <p style={{ margin: 0 }}>{cellInfo.original.announceShort}</p>
-            </Col>
-          </div>
-        );
+      style: {
+        width: "fit-content",
       },
     },
     {

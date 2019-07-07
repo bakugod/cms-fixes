@@ -31,27 +31,6 @@ interface IState {
   currentIndex: number;
 }
 
-{/* <div>
-<Row gutter={24}>
-  <Col span={8} className="image-placeholder" style={{ paddingLeft: 0, paddingRight: 0 }}>
-    <React.Fragment>
-      {
-        image.includes('http')
-          ? <img
-            src={image}
-            style={{ maxWidth: 70, maxHeight: 70 }}
-          />
-          : <FakeImg />
-      }
-    </React.Fragment>
-  </Col>
-  <Col span={12} style={{ margin: '0 0 0 -8px', padding: 0 }}>
-    <p style={{ margin: 0, fontWeight: "bold" }}>{cellInfo.original.peopleName}</p>
-    <p>{subtitle}</p>
-  </Col>
-</Row>
-</div> */}
-
 
 class ModuleCompanies extends React.Component<IProps, IState> {
   public static defaultProps: Partial<IProps> = {
@@ -147,6 +126,7 @@ class ModuleCompanies extends React.Component<IProps, IState> {
   public render(): JSX.Element {
     const { container: { data, isLoading }, companies, companiesGroups } = this.props;
     const { modalVisible, isAdd, currentEntity } = this.state;
+    console.log(this.props)
 
     return (
       <Card

@@ -48,7 +48,7 @@ class ModulePeopleList extends React.Component<IProps, IState> {
                         src={image}
                         style={{ maxWidth: 70, maxHeight: 70 }}
                       />
-                      : <FakeImg />
+                      : <FakeImg style={{ left: 0 }} />
                   }
                 </React.Fragment>
               </Col>

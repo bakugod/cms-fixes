@@ -4,6 +4,7 @@ import { ChangeEvent } from 'react';
 
 interface IProps {
   name?: string | null;
+  type?: any;
   placeholder?: string;
   textArea?: boolean;
   minAreaHeight?: string | number;
@@ -43,13 +44,14 @@ export default class Input extends React.Component<IProps, IState> {
   }
 
   public render(): JSX.Element {
-    const {placeholder, style, onBlur, textArea, minAreaHeight} = this.props;
+    const {type, placeholder, style, onBlur, textArea, minAreaHeight} = this.props;
     const {value} = this.state;
 
     return (
       !textArea
         ? (
           <AntdInput
+            type={type}
             value={ value }
             placeholder={ placeholder }
             onChange={ this.handleChange }

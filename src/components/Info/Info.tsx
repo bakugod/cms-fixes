@@ -2,6 +2,8 @@ import * as React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
+import Login from '../../containers/Login/Login';
+
 import './Info.scss';
 
 import b from '../../service/Utils/b';
@@ -24,8 +26,8 @@ class Info extends React.Component<IProps> {
     return (
       <Wrapper>
         <div>
-          <h1 className={ b('info', 'text', {header: true, center: true}) }>{ this.getTextByType(type) }</h1>
-          <img className='info__img' src={ require(`./imgs/${type}.svg`) } />
+          <div className={ b('info', 'text', {header: true, center: true}) }>{ this.getTextByType(type) }</div>
+          {/* <img className='info__img' src={ require(`./imgs/${type}.svg`) } /> */}
         </div>
       </Wrapper>
     );
@@ -34,7 +36,7 @@ class Info extends React.Component<IProps> {
   private getTextByType(type: string) {
     switch (type) {
       case 'Forbidden':
-        return 'Нет доступа';
+        return <Login/>;
       case 'Development':
         return 'В разработке';
       case 'NotFound':

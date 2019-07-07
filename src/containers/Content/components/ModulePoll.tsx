@@ -13,8 +13,7 @@ import { IReducers } from '../../../redux';
 import { ContentAPI } from '../api/content';
 import { getContainer } from '../../../redux/common/common.selector';
 
-import FakeImg from '../../../components/FakeImg/FakeImg';
-import EditNews from './EditNews';
+import EditPoll from './EditPoll';
 import b from '../../../service/Utils/b';
 
 interface IProps {
@@ -45,7 +44,23 @@ class ModuleNews extends React.Component<IProps, IState> {
     },
     {
       Header: 'Статус',
-      accessor: 'bodyShort',
+      accessor: 'enabled',
+      Cell: (cellInfo: RowInfo) => {
+        const statuses: Array<string> = ['Не активен', 'Идет опрос', 'Опрос завершен' ];
+
+        return (         
+          <div>
+            <Col span={12} style={{ margin: 0, padding: 0 }}>
+              <p>
+              {
+                statuses[cellInfo.original.enabled]
+              }
+              </p>
+            </Col>
+          </div>
+        );
+      },
+      width: 100,
     },
     {
       Header: 'Видимость',
@@ -95,6 +110,7 @@ class ModuleNews extends React.Component<IProps, IState> {
           data={data.map((item: any) => ({
             ...item,
             name: item.name,
+            enabled: item.enabled,
             time: moment.unix(item.updated_at).format(DATE_FORMAT),
             visible: Boolean(item.visible) ? 'Да' : 'Нет',
           }))}
@@ -111,12 +127,12 @@ class ModuleNews extends React.Component<IProps, IState> {
         />
 
         <Modal visible={modalVisible} footer={null} onCancel={this.onCloseModal} width={782}>
-          {/* <EditNews
+          <EditPoll
             index={0}
             data={currentEntity}
             closeModal={this.onCloseModal}
             isAdd={isAdd}
-          /> */}
+          />
         </Modal>
       </Card>
     );
