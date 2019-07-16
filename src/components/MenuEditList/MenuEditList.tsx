@@ -28,6 +28,12 @@ const AutoCompletePlaceholder = styled.div`
   }
 `;
 
+const MenuWraper = styled.div`
+  .ant-layout-sider-children{
+
+  }
+`
+
 const ItemWrapper = styled.div`
   width: 100%;
   
@@ -106,10 +112,13 @@ class MenuEditList extends React.Component<IProps, IState> {
       <React.Fragment>
         <Card title={ 'Меню' } extra={ <Button icon={ 'plus' } onClick={ this.toggleAddMenu }>Добавить меню</Button> } bodyStyle={ {display: 'none'} } />
         
-        <List
-          dataSource={ menu.data }
-          renderItem={ this.getListContent }
-        />
+        <div style={{ height: 1000, overflowY: 'scroll'}}>
+          <List
+            
+            dataSource={ menu.data }
+            renderItem={ this.getListContent }
+          />
+        </div>
         <Modal
           title={ isModal ? this.getTitleByModalType(isShowColorModal, isShowIconsModal, isShowAddMenu) : '' }
           visible={ isModal }

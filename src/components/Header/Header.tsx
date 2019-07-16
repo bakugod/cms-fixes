@@ -19,7 +19,7 @@ const HeaderWrapper = styled.div`
     box-shadow: 0 3px 2px rgba(0,0,0,0.22), 0 1px 1px rgba(0,0,0,0.15);
     position: fixed;
     width: 100%;
-    z-index: 9999;
+    z-index: 999;
   }
   
   .ant-col-6 {
@@ -53,11 +53,11 @@ class Header extends React.Component<IProps> {
         <Layout.Header>
             <Row>
               <Col span={ 6 }>
-              {user.appdata === null
+              {user !== null
                 ?<p>
                   <span style={ {fontSize: '16pt', fontWeight: 'bold'} }>Выбор приложения</span>
                   <br />
-                  <span>Подзаголовок</span>
+                  <span>Создайте или выберите существующее приложение</span>
                </p>
                 :<p>
                   <span style={ {fontSize: '16pt', fontWeight: 'bold'} }>{ user.appdata.eventName }</span>

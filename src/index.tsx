@@ -5,6 +5,9 @@ import { Router } from 'react-router';
 import { default as RedBox } from 'redbox-react';
 import * as MobileDetect from 'mobile-detect';
 
+import { LocaleProvider } from 'antd';
+import es_ES from 'antd/es/locale-provider/fr_FR';
+
 import history from './service/Utils/history';
 import { configureStore } from './store';
 
@@ -17,15 +20,17 @@ const root: HTMLElement = document.getElementById('root');
 
 try {
   render(
-    <Provider store={ store }>
-      <Router history={ history }>
+    <Provider store={store}>
+      <Router history={history}>
         <div className='app'>
-          <App />
+          <LocaleProvider locale={es_ES}>
+            <App />
+          </LocaleProvider>
         </div>
       </Router>
     </Provider>,
     root,
   );
 } catch (error) {
-  render(<RedBox error={ error } />, root);
+  render(<RedBox error={error} />, root);
 }

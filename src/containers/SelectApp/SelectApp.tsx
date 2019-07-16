@@ -1,44 +1,54 @@
 import * as React from 'react';
 import { compose, Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { Card, Icon, Menu, Dropdown, notification, Badge } from 'antd';
+import { Select, Card, Icon, Input, Form, Button, Modal, DatePicker } from 'antd';
 
+import { FormComponentProps } from 'antd/lib/form';
 import { range } from 'lodash';
 import { IAppsList, IUser } from 'react-cms';
-
 import { withRouter } from 'react-router-dom';
-
-
-import './Apps.scss';
+import { DATE_FORMAT } from '../../service/Consts/Consts';
 
 import { IReducers } from '../../redux';
-import { EventsAPI } from './api/select-app';
+import { AppsAPI } from './api/select-app';
 import { getApps } from '../../redux/common/common.selector';
-import { IEventData } from '../../redux/auth/auth.reducer';
 
 import { getUserData } from '../../redux/auth/auth.selector';
 import b from '../../service/Utils/b';
 
-interface IProps {
+import './Apps.scss';
+
+const { RangePicker } = DatePicker;
+const { Option } = Select;
+
+interface IProps extends FormComponentProps {
   user?: IUser;
   apps?: IAppsList[];
   getApps?: () => void;
 }
 
-class SelectApp extends React.Component<IProps> {
+interface IState {
+  modalVisible: boolean;
+}
+
+class SelectApp extends React.Component<IProps, IState> {
 
   constructor(props: IProps) {
     super(props);
   }
 
+  componentWillMount(){
+    this.setState({
+        modalVisible: false,
+    })
+}
+
   private static rowsNumber: number = 3;
 
-  private onUpdateEvent = (event: IEventData) => () => this.props.getApps();
-  private onAddNotification = () => notification.warning({ message: '!', description: 'Для создания нового приложения обратитесь в SDNA' });
   private onSelectApp = (id: number) => {
     //@ts-ignore
     return Promise.resolve(this.props.selectApps(id))
-  };//notification.warning({ message: '!', description: 'Для выбора приложения обратитесь в SDNA' });
+  };
 
 
   public componentDidMount() {
@@ -48,6 +58,10 @@ class SelectApp extends React.Component<IProps> {
 
   public render(): JSX.Element {
     const { apps, user } = this.props;
+    const { getFieldDecorator } = this.props.form;
+
+    // Creates array [-11, -10, ... ,10, 11]
+    const times = Array.from({ length: 23 }, (_, i) => i - 11);
 
     if (!apps.some(item => item.id === -1)) {
       apps.push({ ...apps[0], id: -1 });
@@ -58,7 +72,8 @@ class SelectApp extends React.Component<IProps> {
 
 
     return (
-      <Card style={{ height: '100vh' }}>
+      <>
+      <Card style={{ height: '100%', overflowY: 'scroll', }}>
         <h1>Мои приложения</h1>
         {
           range(0, rows).map(index => (
@@ -73,21 +88,37 @@ class SelectApp extends React.Component<IProps> {
                   currentIndex += 1;
                   const cardData: JSX.Element = (
                     <Card
+                      style={{
+                        boxShadow: '1px 2px 3px -1px rgba(50, 50, 50, 0.69)',
+                        MozBoxShadow: '1px 2px 3px -1px rgba(50, 50, 50, 0.69)',
+                      }}
                       className={b('apps', 'child')}
                       onClick={() => this.onSelectApp(event.id)}
                     >
                       <Card.Meta
                         title={event.name + event.id}
                       />
-                      <Icon
-                        type={'caret-right'}
-                        style={{
-                          position: 'relative',
-                          transform: 'translateY(-50%) scale(3, 3)',
-                          top: 55,
-                          left: '47%',
-                        }}
-                      />
+                      <div style={{
+                        position: 'relative',
+                        borderRadius: 30,
+                        top: 30,
+                        width: 60,
+                        height: 60,
+                        backgroundColor: '#e6e6e6',
+                        marginLeft: 'auto',
+                        marginRight: 'auto',
+                      }} >
+                        <Icon
+                          type={'caret-right'}
+                          style={{
+                            position: 'relative',
+                            transform: 'translateY(-50%) scale(3, 3)',
+                            top: 27,
+                            left: 25,
+                          }}
+                        />
+                      </div>
+                      <span style={{ position: 'relative', top: 60 }} >{event.event_name || 'Нет названия'}</span>
                     </Card>
                   );
 
@@ -101,22 +132,35 @@ class SelectApp extends React.Component<IProps> {
                               className={b('apps', 'child')}
                               style={{
                                 textAlign: 'center',
+                                boxShadow: ' 1px 2px 3px 0px rgba(50, 50, 50, 0.69)',
+                                MozBoxShadow: '1px 2px 3px -1px rgba(50, 50, 50, 0.69)',
                               }}
-                              onClick={this.onAddNotification}
+                              onClick={this.onOpenModal}
                             >
                               <Card.Meta
-                                title={"Добавить приложение"}
+                                title={"Создать приложение"}
                               />
-                              <Icon
-                                type={'plus'}
-                                style={{
-                                  marginLeft: 'auto',
-                                  marginRight: 'auto',
-                                  position: 'relative',
-                                  transform: 'translateY(-50%) scale(3, 3)',
-                                  top: 68,
-                                }}
-                              />
+                              <div style={{
+                                position: 'relative',
+                                borderRadius: 30,
+                                top: 30,
+                                width: 60,
+                                height: 60,
+                                backgroundColor: '#e6e6e6',
+                                marginLeft: 'auto',
+                                marginRight: 'auto',
+                              }} >
+                                <Icon
+                                  type={'plus'}
+                                  style={{
+
+                                    position: 'relative',
+                                    transform: 'translateY(-50%) scale(3, 3)',
+                                    top: 26,
+                                  }}
+                                />
+                              </div>
+                              <span style={{ position: 'relative', top: 60, opacity: 0 }} >{event.event_name || 'Добавить'}</span>
                             </Card>
                           )
                       }
@@ -128,8 +172,91 @@ class SelectApp extends React.Component<IProps> {
           ))
         }
       </Card>
+                  {
+                    !!this.state.modalVisible
+                    ?<Modal
+                        style={{ top: 395, zIndex: 999 }}
+                        title="Создать приложение"
+                        visible={this.state.modalVisible}
+                        onCancel={this.onCloseModal}
+                        onOk={this.handleSubmit}
+                        footer={[
+                            <Button key="back" onClick={this.onCloseModal}>
+                              Вернуться
+                            </Button>,
+                            <Button key="submit" type="primary" onClick={this.handleSubmit}>
+                              Создать приложение
+                            </Button>
+                          ]}
+                    >
+                        <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <Form onSubmit={this.handleSubmit} className="login-form" style={{ minWidth: 300 }}>
+                            <Form.Item>
+                                {getFieldDecorator('event_name', {
+                                    rules: [{ required: true, message: 'Пожалуйста, введите номер телефона!' }],
+                                })(
+                                    <Input
+                                        style={{ marginTop: 20 }}
+                                        prefix={<Icon type="file-done" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                        placeholder="Название" size="large"
+                                    />,
+                                )}
+                            </Form.Item>
+                            <Form.Item label="Дата проведения события">
+                                    {getFieldDecorator('date', {
+                                        rules: [{ required: true, message: 'Пожалуйста, введите время события!' }],
+                                    })(
+                                        <RangePicker 
+                                            showTime 
+                                            style={{ width: 300 }}
+                                            format={DATE_FORMAT} 
+                                        />,
+                                    )}
+                                </Form.Item>
+                                <Form.Item label="Временная зона">
+                                    {getFieldDecorator('timezone', {
+                                        initialValue: 0,
+                                        rules: [{ required: true, message: 'Пожалуйста, введите временную зону!', }],
+                                    })(
+                                        <Select placeholder="Временная зона" style={{ width: 300 }}>
+                                            {
+                                                times.map(item =>{
+                                                    return (<Option key={item}>{item}</Option>)
+                                                })
+                                            }
+                                        </Select>,
+                                    )}
+                                </Form.Item>
+                        </Form>
+                        </div>
+                    </Modal>
+                    : null
+                }
+                </>
     );
   }
+
+  private onCloseModal = () => this.setState({ modalVisible: false });
+
+  private onOpenModal  = () => this.setState({ modalVisible: true });
+
+  private handleSubmit = e => {
+      e.preventDefault();
+      this.props.form.validateFields((err, values) => {
+          if (!err) {
+              const obj = { 
+                  event_name: values.event_name,
+                  start_time: values.date[0].unix(),
+                  end_time: values.date[1].unix(),
+                  timezone: values.timezone,
+              }
+              this.setState({ modalVisible: false })
+              console.log('Received values of form: ', obj);
+              //@ts-ignore 
+              return this.props.newApp(obj)
+          }
+      });
+  };
 }
 
 const mapStateToProps = (state: IReducers) => {
@@ -141,13 +268,14 @@ const mapStateToProps = (state: IReducers) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<IReducers>) => {
   return {
-    getApps: () => dispatch(EventsAPI.getApps()),
-    selectApps: (app: number) => dispatch(EventsAPI.selectApps(app))
+    getApps: () => dispatch(AppsAPI.getApps()),
+    selectApps: (app: number) => dispatch(AppsAPI.selectApps(app)),
+    newApp: (app: number) => dispatch(AppsAPI.newApp(app)),
   };
 };
 
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(SelectApp);
+)(Form.create()(SelectApp));
 

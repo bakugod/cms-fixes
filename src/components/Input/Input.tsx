@@ -4,7 +4,7 @@ import { ChangeEvent } from 'react';
 
 interface IProps {
   name?: string | null;
-  type?: any;
+  type?: string;
   placeholder?: string;
   textArea?: boolean;
   minAreaHeight?: string | number;
@@ -14,6 +14,7 @@ interface IProps {
   disabled?: boolean;
   clearButton?: boolean;
   onChange?: (event) => void;
+  onKeyPress?: any;
   onBlur?: (event) => void;
   customOnChange?: (value: string) => void;
   updateText?: (previous: string, current: string) => string;
@@ -44,7 +45,7 @@ export default class Input extends React.Component<IProps, IState> {
   }
 
   public render(): JSX.Element {
-    const {type, placeholder, style, onBlur, textArea, minAreaHeight} = this.props;
+    const { onKeyPress ,type, placeholder, style, onBlur, textArea, minAreaHeight} = this.props;
     const {value} = this.state;
 
     return (
@@ -53,6 +54,7 @@ export default class Input extends React.Component<IProps, IState> {
           <AntdInput
             type={type}
             value={ value }
+            onPressEnter={ onKeyPress }
             placeholder={ placeholder }
             onChange={ this.handleChange }
             style={ style }

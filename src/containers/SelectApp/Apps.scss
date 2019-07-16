@@ -9,7 +9,7 @@
       height: 200px;
       display: inline-block;
       box-sizing: border-box;
-      border-radius: 30px;
+      border-radius: 15px;
       cursor: pointer;
 
       margin-left: 15px;
@@ -21,7 +21,7 @@
       height: 200px;
       display: inline-block;
       box-sizing: border-box;
-      border-radius: 30px;
+      border-radius: 15px;
 
       margin-left: 15px;
       margin-right: 15px;
@@ -44,3 +44,8 @@
     }
   }
   
+.apps:root{
+  .ant-layout-sider-dark{
+  display: none;
+  }
+}

@@ -10,7 +10,7 @@ import { get } from 'lodash';
 import './App.scss';
 
 import { parseAll } from '../../service/UrlParser/UrlParser';
-import { routes } from '../../routes';
+import { publicRoutes, privateRoutes } from '../../routes';
 import { IReducers } from '../../redux';
 
 import Menu from '../../components/Menu/Menu';
@@ -39,17 +39,24 @@ class App extends React.Component<IProps> {
     const params: object = parseAll(location.search);
     checkAuth(get(params, 'token', null));
   }
+
+  componentDidUpdate(prevProps) {
+    return this.props.user !== prevProps.user;
+  }
+  
   
   public render(): JSX.Element {
     const {isAuthLoading, user} = this.props;
-    const isShowMenus: boolean = !isAuthLoading && get(user, 'code', null) === 200;
+    const isShowMenus: boolean = !isAuthLoading && !!user;
+    const isShowSider: boolean = this.props.location.pathname !== "/select"
+
     
     return (
       <Layout style={ {minHeight: '100vh'} }>
         { isShowMenus && <Header /> }
 
         <Layout style={ {top: 64, position: 'fixed', height: 'calc(100vh - 64px)', width: '100%'} }>
-          { isShowMenus && <Sider width={ 200 } style={ { background: '#fff', height: 'calc(100vh - 64px)', position: 'fixed' } }><Menu /></Sider> }
+          { isShowSider && isShowMenus && <Sider width={ 200 } style={ { background: '#fff', height: 'calc(100vh - 64px)', position: 'fixed' } }><Menu /></Sider> }
 
           <Content style={ { padding: '0 24px', minHeight: 280 } }>
             { this.getContent() }
@@ -60,11 +67,17 @@ class App extends React.Component<IProps> {
   }
 
   private getContent = (): JSX.Element => {
-    const {isAuthLoading, user} = this.props;
+    const { isAuthLoading, user, location } = this.props;
 
-    if (!isAuthLoading && !get(user, 'user_id', null)) {
-      return <Info type={ 'Forbidden' } />;
-    }
+
+    // if (!isAuthLoading && !get(user, 'user_id', null)) {
+    //   return location.pathname !== '/signup' ? <Info type={ 'Forbidden' } /> : <Info type={ 'SignUp' } /> ;
+    // }
+    // if(!!user){
+    //   if(user.code){
+    //     Reflect.deleteProperty(this.props.user, 'code')
+    //   }
+    // }
 
     if (isAuthLoading) {
       return <Spin size={ 'large' } style={ { position: 'relative', top: 10 } } />;
@@ -72,7 +85,11 @@ class App extends React.Component<IProps> {
 
     return (
       <Switch>
-        { routes }
+        { 
+          !!user && !isAuthLoading
+          ? privateRoutes
+          : publicRoutes
+        }
       </Switch>
     );
   };

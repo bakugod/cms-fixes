@@ -11,6 +11,6 @@ export const EDIT_ENUM: string = '/api/edit-enum';
 export const CREATE_UPLOAD_SESSION: string = '/api/create-upload-session';
 export const UPLOAD_IMAGE: string = '/api/upload';
 
-export const SELECT_APP: string = '/api/select-app';
+export const ADD_APP: string = '/api/new-app';
 export const APPS_LIST: string = '/api/apps-list';
 export const SELECT_APPS: string = '/api/select-app';

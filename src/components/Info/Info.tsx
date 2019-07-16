@@ -3,6 +3,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Login from '../../containers/Login/Login';
+import Registration from '../../containers/Registration/Registration';
 
 import './Info.scss';
 
@@ -16,12 +17,15 @@ const Wrapper = styled.div`
 `;
 
 interface IProps extends RouteComponentProps<any>{
-  type: 'Forbidden' | 'Development' | 'NotFound' | 'Error';
+  type: 'Forbidden' | 'Development' | 'NotFound' | 'Error' | 'SignUp';
 }
+
+//const log = <Login />
 
 class Info extends React.Component<IProps> {
   public render(): JSX.Element {
     const {type} = this.props;
+    console.log(type)
     
     return (
       <Wrapper>
@@ -37,6 +41,8 @@ class Info extends React.Component<IProps> {
     switch (type) {
       case 'Forbidden':
         return <Login/>;
+      case 'SignUp':
+        return <Registration/>;
       case 'Development':
         return 'В разработке';
       case 'NotFound':
