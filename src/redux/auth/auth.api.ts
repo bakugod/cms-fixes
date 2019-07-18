@@ -131,7 +131,7 @@ export class AuthApi {
           "start_date": props.start_date,
           "end_date": props.end_date,
           "timezone": props.timezone,
-          "location": ""
+          "location": props.location,
         };
 
          const response: Response = await Transport.post(SIGNUP, headers, body);

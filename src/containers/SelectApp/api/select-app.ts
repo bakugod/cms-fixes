@@ -39,8 +39,6 @@ export class AppsAPI {
       try {
         const token: string = getStates().auth.token;
 
-        console.log(props)
-
         const headers: Headers = new Headers({
           authorization: `Bearer ${token}`,
         });
@@ -50,16 +48,14 @@ export class AppsAPI {
           start_time: props.start_time,
           end_time: props.end_time,
           timezone: props.timezone,
-          location: 'example'
+          location: props.location
         }
 
         const response: Response = await Transport.post(ADD_APP, headers, body);
         
         const json: { code: number; data: IAppsList[] } = await response.json();
-        console.log(json.code)
         if(json.code === 200){
           dispatch(AppsAPI.getApps())
-          console.log('succes')
         }
 
       } catch (e) {

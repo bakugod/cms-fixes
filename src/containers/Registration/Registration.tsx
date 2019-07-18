@@ -27,7 +27,6 @@ interface IProps extends FormComponentProps {
 }
 
 interface IState {
-    modalVisible: boolean;
     current: number;
 
     login: string;
@@ -35,10 +34,6 @@ interface IState {
     first_name: string;
     last_name: string;
     email: string;
-    event_name: string;
-    start_date: number;
-    end_date: number;
-    timezone: number;
 }
 
 
@@ -50,17 +45,12 @@ class Registration extends React.Component<IProps, IState> {
 
     componentWillMount() {
         this.setState({
-            modalVisible: false,
             current: 0,
             login: '',
             password: '',
             first_name: '',
             last_name: '',
             email: '',
-            event_name: '',
-            start_date: 0,
-            end_date: 0,
-            timezone: 0,
         })
     }
 
@@ -189,6 +179,18 @@ class Registration extends React.Component<IProps, IState> {
                                         </Select>,
                                     )}
                                 </Form.Item>
+                                <Form.Item label="Локация">
+                                    {getFieldDecorator('location', {
+                                        initialValue: 0,
+                                        rules: [{ required: true, message: 'Пожалуйста, введите локацию!', }],
+                                    })(
+                                        <Input
+                                            style={{ width: 300 }}
+                                            prefix={<Icon type="picture" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                            placeholder="Локация" size="large"
+                                        />,
+                                    )}
+                                </Form.Item>
                             </Form>
                         </div>
                     </Sider>,
@@ -270,31 +272,27 @@ class Registration extends React.Component<IProps, IState> {
     // }
 
     private handleSubmit = e => {
-        this.props.form.validateFields(['event_name', 'date', 'timezone' ], (err, values) => {
+        this.props.form.validateFields(['event_name', 'date', 'timezone', 'location' ], (err, values) => {
             if (!err) {
                 this.setState({ 
                     current: this.state.current + 1,
+                });
+                const obj = {
+                    login: this.state.login,
+                    password: this.state.password,
+                    first_name: this.state.first_name,
+                    last_name: this.state.last_name,
+                    email: this.state.email,
                     event_name: values.event_name,
                     start_date: values.date[0].unix(),
                     end_date: values.date[1].unix(),
                     timezone: values.timezone,
-                });
+                    location: values.location,
+                }
+                //@ts-ignore 
+                return this.props.signup(obj)
             }
         });
-        const obj = {
-            login: this.state.login,
-            password: this.state.password,
-            first_name: this.state.first_name,
-            last_name: this.state.last_name,
-            email: this.state.email,
-            event_name: this.state.event_name,
-            start_date: this.state.start_date,
-            end_date: this.state.end_date,
-            timezone: this.state.timezone,
-        }
-        console.log('Received values of form: ', obj);
-        //@ts-ignore 
-        return this.props.signup(obj)
     };
 }
 

@@ -3,10 +3,6 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router';
 import { default as RedBox } from 'redbox-react';
-import * as MobileDetect from 'mobile-detect';
-
-import { LocaleProvider } from 'antd';
-import es_ES from 'antd/es/locale-provider/fr_FR';
 
 import history from './service/Utils/history';
 import { configureStore } from './store';
@@ -23,9 +19,7 @@ try {
     <Provider store={store}>
       <Router history={history}>
         <div className='app'>
-          <LocaleProvider locale={es_ES}>
             <App />
-          </LocaleProvider>
         </div>
       </Router>
     </Provider>,
