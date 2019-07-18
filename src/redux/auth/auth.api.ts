@@ -5,7 +5,7 @@ import { notification } from 'antd';
 
 import { IReducers } from '../index';
 import Transport from '../../service/Transport/Transport';
-import { logout, login, setTokenToLS, setUser, toggleLoader } from './auth.reducer';
+import { logout, login, setStatus, setTokenToLS, setUser, toggleLoader } from './auth.reducer';
 import { AUTH, LOGOUT, LOGIN, SIGNUP } from './auth.constants';
 import history from '../../service/Utils/history';
 import { createBrowserHistory } from 'history';
@@ -64,7 +64,6 @@ export class AuthApi {
     return async (dispatch: Dispatch<IReducers>, getStates: () => IReducers): Promise<void> => {
       try {
 
-        console.log(props)
         //"+79107907547",
         //"12345"
 
@@ -83,7 +82,6 @@ export class AuthApi {
         if (!!json.token) {
           LocalStorage.setToken(json.token);
         }
-        const lsToken: string | undefined = LocalStorage.getData(TOKEN_KEY);
 
         if(json.code !== 503 && json.code !== 5071){
           dispatch(setUser({ ...json, user: json, token: json.token }));
@@ -136,11 +134,13 @@ export class AuthApi {
           "location": ""
         };
 
-         console.log(body)
          const response: Response = await Transport.post(SIGNUP, headers, body);
 
          const json: any = await response.json();
-         console.log(json)
+
+         
+         console.log(json.code)
+         dispatch(setStatus(json));
 
 
         if(json.code !== 200){

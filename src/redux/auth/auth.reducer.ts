@@ -7,7 +7,8 @@ type ActionTypes =
   | IUser
   | IEventData
   | IAppMenu
-  | ISetUserAction;
+  | ISetUserAction
+  | IStatus;
 
 interface ISetUserAction {
   token: string;
@@ -28,12 +29,17 @@ export interface IAuth {
   login: string;
   pw: string;
   client?: string;
+  code: number;
 }
 
 export interface ILogin {
   login: string;
   pw: string;
   client?: string;
+}
+
+export interface IStatus {
+  code: number
 }
 
 const PREFIX: string = 'auth';
@@ -44,6 +50,7 @@ const defaultState: IAuth = {
   path: PATHS.CONTENT,
   login: '',
   pw: '',
+  code: 0,
   client: 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36'
 };
 
@@ -55,7 +62,13 @@ export const setTokenToLS = createAction(`@@${PREFIX}/SET_TOKEN_TO_LS`);
 export const updateEvent = createAction<IEventData>(`@@${PREFIX}/UPDATE_EVENT`);
 export const setMenu = createAction<IAppMenu>(`@@${PREFIX}/SET_MENU`);
 
+export const setStatus = createAction<IStatus>(`@@${PREFIX}/SET_Status`);
+
 export default handleActions<IAuth, ActionTypes>({
+  [setStatus.toString()]: (state: IAuth, action: Action<IStatus>): IAuth => ({
+    ...state,
+    code: action.payload.code,
+  }),
   [setUser.toString()]: (state: IAuth, action: Action<ISetUserAction>): IAuth => ({
     ...state,
     user: action.payload.user,

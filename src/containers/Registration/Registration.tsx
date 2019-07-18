@@ -12,6 +12,7 @@ import './Reg.scss'
 
 import { IReducers } from '../../redux';
 import { AuthApi } from '../../redux/auth/auth.api';
+import { getCurrentStatus } from '../../redux/auth/auth.selector'
 
 
 const { RangePicker } = DatePicker;
@@ -22,6 +23,7 @@ const { Step } = Steps;
 interface IProps extends FormComponentProps {
     getStates?: () => IReducers;
     signup?: () => void;
+    getCurrentStatus?: number;
 }
 
 interface IState {
@@ -195,9 +197,16 @@ class Registration extends React.Component<IProps, IState> {
                 title: 'Готово!',
                 content: 
                     <div className='reg__end'>
-                        <span style={{ color: '#52c41a'}}>Отлично! </span>
-                        <span >Регистрация завершена.</span>
-                        <p>Нажмите на кнопку, чтобы войти в аккаунт</p>
+                    {this.props.getCurrentStatus === 200
+                    ?
+                        <>
+                            <span style={{ color: '#52c41a'}}>Отлично! </span>
+                            <span >Регистрация завершена.</span>
+                            <p>Нажмите на кнопку, чтобы войти в аккаунт</p>
+                        </>
+                    :
+                        <div>Что-то пошло не так...</div>
+                    }                  
                     </div>
             },
         ];
@@ -217,11 +226,11 @@ class Registration extends React.Component<IProps, IState> {
                         </Button>
                     )}
                     {current === 1 && (
-                        <Button type="primary" onClick={() => this.submit() }>
+                        <Button type="primary" onClick={this.handleSubmit }>
                             Создать
                         </Button>
                     )}
-                    {current === 2 && (
+                    {(current === 2 && this.props.getCurrentStatus === 200) && (
                         <Button type="primary" onClick={this.handleSubmit }>
                             Войти
                         </Button>
@@ -246,7 +255,21 @@ class Registration extends React.Component<IProps, IState> {
         });
     }
 
-    private submit() {
+    // private submit() {
+    //     this.props.form.validateFields(['event_name', 'date', 'timezone' ], (err, values) => {
+    //         if (!err) {
+    //             this.setState({ 
+    //                 current: this.state.current + 1,
+    //                 event_name: values.event_name,
+    //                 start_date: values.date[0].unix(),
+    //                 end_date: values.date[1].unix(),
+    //                 timezone: values.timezone,
+    //             });
+    //         }
+    //     });
+    // }
+
+    private handleSubmit = e => {
         this.props.form.validateFields(['event_name', 'date', 'timezone' ], (err, values) => {
             if (!err) {
                 this.setState({ 
@@ -258,9 +281,6 @@ class Registration extends React.Component<IProps, IState> {
                 });
             }
         });
-    }
-
-    private handleSubmit = e => {
         const obj = {
             login: this.state.login,
             password: this.state.password,
@@ -279,13 +299,19 @@ class Registration extends React.Component<IProps, IState> {
 }
 
 
+const mapStateToProps = (state: IReducers) => {
+    return {
+        getCurrentStatus: getCurrentStatus(state),
+    };
+  };
+
 const mapDispatchToProps = {
-    signup: AuthApi.signup
+    signup: AuthApi.signup,
 }
 
 export default compose(
     withRouter,
-    connect(null, mapDispatchToProps),
+    connect(mapStateToProps, mapDispatchToProps),
 )(Form.create()(Registration));
 
 
