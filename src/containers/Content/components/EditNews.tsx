@@ -67,7 +67,7 @@ class EditNews extends React.Component<IProps, IState> {
 
     return (
       <WrapperCard
-        style={ { paddingTop: 20, border: 0 } }
+        style={ { paddingTop: 10, border: 0 } }
         title={ !isAdd ? get(data, 'name', '') : 'Добавление новости' }
         isAdd={ isAdd }
       >

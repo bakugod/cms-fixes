@@ -14,6 +14,7 @@ declare module 'react-cms' {
   }
 
   export interface IUser {
+    user_screen_name: string;
     code: number;
     user_id: string;
     user_name: string;

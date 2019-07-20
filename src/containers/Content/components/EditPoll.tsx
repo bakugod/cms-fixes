@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Card, Form, Button, DatePicker, Popconfirm } from 'antd';
+import { Card, Select, Form, Button, DatePicker, Popconfirm, Switch } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { IContainer, INews } from 'react-cms';
 import { get } from 'lodash';
@@ -18,6 +18,9 @@ import Input from '../../../components/Input/Input';
 import { Editor } from 'react-draft-wysiwyg';
 import WrapperCard from '../../../components/FormCard/WrapperCard';
 
+const { Option } = Select;
+
+
 interface IProps extends FormComponentProps {
   index: number;
   container?: IContainer;
@@ -25,6 +28,7 @@ interface IProps extends FormComponentProps {
   closeModal: () => void;
   isAdd?: boolean;
   updateContainer?: (id: number, action: string, data: object, cb?: () => void) => void;
+  updatePoll?: any;
 }
 
 interface IState {
@@ -68,14 +72,14 @@ class EditNews extends React.Component<IProps, IState> {
 
     return (
       <WrapperCard
-        style={ { paddingTop: 20, border: 0 } }
+        style={ { paddingTop: 10, border: 0 } }
         title={ !isAdd ? get(data, 'name', '') : 'Добавление новости' }
         isAdd={ isAdd }
       >
         <Form>
           <Card title={ 'Основное' }>
 
-          <Form.Item label={ 'Дата' }>
+          {/* <Form.Item label={ 'Дата' }>
               { getFieldDecorator('time', {
                 rules: [{ required: true, message: 'Введите значение' }],
                 initialValue: !isAdd
@@ -84,23 +88,36 @@ class EditNews extends React.Component<IProps, IState> {
               })(
                 <DatePicker format={ DATE_FORMAT } />,
               ) }
+            </Form.Item> */}
+
+            <Form.Item label={ 'Видимость' }>
+              { getFieldDecorator('visible', {
+                rules: [{ required: true, message: 'Введите значение' }],
+                initialValue: !isAdd ? get(data, 'title', '') : '',
+              })(
+                <Switch></Switch>,
+              ) }
             </Form.Item>
 
             <Form.Item label={ 'Название' }>
-              { getFieldDecorator('title', {
+              { getFieldDecorator('name', {
                 rules: [{ required: true, message: 'Введите значение' }],
-                initialValue: !isAdd ? get(data, 'title', '') : '',
+                initialValue: !isAdd ? get(data, 'name', '') : '',
               })(
                 <Input placeholder={ 'Название' } />,
               ) }
             </Form.Item>
 
             <Form.Item label={ 'Статус' }>
-              { getFieldDecorator('title', {
+              { getFieldDecorator('enabled', {
                 rules: [{ required: true, message: 'Введите значение' }],
-                initialValue: !isAdd ? get(data, 'title', '') : '',
+                initialValue: !isAdd ? get(data, 'enabled', '') : '',
               })(
-                <AutoComplete placeholder={ 'Статус' } />,
+                <Select>
+                  <Option key={ '0' }>Не активен</Option>
+                  <Option key={ '1' }>Идет опрос</Option>
+                  <Option key={ '2' }>Опрос завершен</Option>
+                </Select>,
               ) }
             </Form.Item>
 
@@ -133,15 +150,15 @@ class EditNews extends React.Component<IProps, IState> {
   }
 
   private onSubmit = () => {
-    const {container, updateContainer, closeModal, form, isAdd} = this.props;
+    const {container, updateContainer, updatePoll, closeModal, form, isAdd} = this.props;
+    console.log(this.props)
 
     form.validateFields((errors, values) => {
       if (!errors) {
         values = {
           ...values,
-          time: moment(values.time, DATE_FORMAT).unix(),
-          body: this.state.editorState.getCurrentContent().getPlainText(),
         };
+        console.log(values)
 
         updateContainer(
           container.id,
@@ -169,6 +186,7 @@ const mapStateToProps = (state: IReducers) => {
 const mapDispatchToProps = (dispatch: Dispatch<IReducers>) => {
   return {
     updateContainer: (id: number, action: string, data: object, cb?: () => void) => dispatch(ContentAPI.updateContainer(id, action, data, cb)),
+    updatePoll: (id: number, action: string, data: object, cb?: () => void) => dispatch(ContentAPI.updatePoll(id, action, data, cb))
   };
 };
 

@@ -1,7 +1,6 @@
 .apps {
     &__parent {
-      margin: 0 auto 0 288px;
-      width: fit-content;
+      width: 960px;
     }
   
     &__child {
@@ -15,7 +14,20 @@
       margin-left: 15px;
       margin-right: 15px;
       margin-top: 15px;
+      box-shadow: 1px 2px 3px -1px rgba(50, 50, 50, 0.69);
     }
+
+    &__icon-wraper{
+      position: relative;
+      border-radius: 30px;
+      top: 30px;
+      width: 60px;
+      height: 60px;
+      background-color: #e6e6e6;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
     &__child-doted{
       width: 290px;
       height: 200px;
@@ -43,6 +55,12 @@
       right: -10px;
     }
   }
+  
+.content-wraper{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+}
   
 .apps:root{
   .ant-layout-sider-dark{

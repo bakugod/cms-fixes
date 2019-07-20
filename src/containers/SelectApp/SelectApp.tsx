@@ -75,102 +75,81 @@ class SelectApp extends React.Component<IProps, IState> {
       <>
         <Card style={{ height: '100%', overflowY: 'scroll', }}>
           <h1>Мои приложения</h1>
-          {
-            range(0, rows).map(index => (
-              <div className={b('apps', 'parent')} key={index}>
-                {
-                  range(0, SelectApp.rowsNumber).map(columnIndex => {
-                    if (currentIndex === apps.length) {
-                      return <React.Fragment key={`no_${columnIndex}`} />;
-                    }
+          <div className='content-wraper' >
+            {
+              range(0, rows).map(index => (
+                <div className={b('apps', 'parent')} key={index}>
+                  {
+                    range(0, SelectApp.rowsNumber).map(columnIndex => {
+                      if (currentIndex === apps.length) {
+                        return <React.Fragment key={`no_${columnIndex}`} />;
+                      }
 
-                    const event: any = apps[currentIndex];
-                    currentIndex += 1;
-                    const cardData: JSX.Element = (
-                      <Card
-                        style={{
-                          boxShadow: '1px 2px 3px -1px rgba(50, 50, 50, 0.69)',
-                          MozBoxShadow: '1px 2px 3px -1px rgba(50, 50, 50, 0.69)',
-                        }}
-                        className={b('apps', 'child')}
-                        onClick={() => this.onSelectApp(event.id)}
-                      >
-                        <Card.Meta
-                          title={event.name}
-                        />
-                        <div style={{
-                          position: 'relative',
-                          borderRadius: 30,
-                          top: 30,
-                          width: 60,
-                          height: 60,
-                          backgroundColor: '#e6e6e6',
-                          marginLeft: 'auto',
-                          marginRight: 'auto',
-                        }} >
-                          <Icon
-                            type={'caret-right'}
-                            style={{
-                              position: 'relative',
-                              transform: 'translateY(-50%) scale(3, 3)',
-                              top: 27,
-                              left: 25,
-                            }}
+                      const event: any = apps[currentIndex];
+                      currentIndex += 1;
+                      const cardData: JSX.Element = (
+                        <Card
+                          className={b('apps', 'child')}
+                          onClick={() => this.onSelectApp(event.id)}
+                        >
+                          <Card.Meta
+                            title={event.name}
                           />
-                        </div>
-                        <span style={{ position: 'relative', top: 60 }} >{event.event_name || 'Нет названия'}</span>
-                      </Card>
-                    );
+                          <div className={b('apps','icon-wraper')} >
+                            <Icon
+                              type={'caret-right'}
+                              style={{
+                                position: 'relative',
+                                transform: 'translateY(-50%) scale(3, 3)',
+                                top: 26,
+                                left: 26,
+                              }}
+                            />
+                          </div>
+                          <span style={{ position: 'relative', top: 60 }} >{event.event_name || 'Нет названия'}</span>
+                        </Card>
+                      );
 
-                    return (
-                      <React.Fragment key={`column_${columnIndex}`}>
-                        {
-                          event.id !== -1
-                            ? cardData
-                            : (
-                              <Card
-                                className={b('apps', 'child')}
-                                style={{
-                                  textAlign: 'center',
-                                  boxShadow: ' 1px 2px 3px 0px rgba(50, 50, 50, 0.69)',
-                                  MozBoxShadow: '1px 2px 3px -1px rgba(50, 50, 50, 0.69)',
-                                }}
-                                onClick={this.onOpenModal}
-                              >
-                                <Card.Meta
-                                  title={"Создать приложение"}
-                                />
-                                <div style={{
-                                  position: 'relative',
-                                  borderRadius: 30,
-                                  top: 30,
-                                  width: 60,
-                                  height: 60,
-                                  backgroundColor: '#e6e6e6',
-                                  marginLeft: 'auto',
-                                  marginRight: 'auto',
-                                }} >
-                                  <Icon
-                                    type={'plus'}
-                                    style={{
-
-                                      position: 'relative',
-                                      transform: 'translateY(-50%) scale(3, 3)',
-                                      top: 26,
-                                    }}
+                      return (
+                        <React.Fragment key={`column_${columnIndex}`}>
+                          {
+                            event.id !== -1
+                              ? cardData
+                              : (
+                                <Card
+                                  className={b('apps', 'child')}
+                                  style={{
+                                    textAlign: 'center',
+                                    boxShadow: ' 1px 2px 3px 0px rgba(50, 50, 50, 0.69)',
+                                    MozBoxShadow: '1px 2px 3px -1px rgba(50, 50, 50, 0.69)',
+                                  }}
+                                  onClick={this.onOpenModal}
+                                >
+                                  <Card.Meta
+                                    title={"Создать приложение"}
                                   />
-                                </div>
-                                <span style={{ position: 'relative', top: 60, opacity: 0 }} >{event.event_name || 'Добавить'}</span>
-                              </Card>
-                            )
-                        }
-                      </React.Fragment>
-                    );
-                  })
-                }
-              </div>
+                                  <div className={b('apps','icon-wraper')} >
+                                    <Icon
+                                      type={'plus'}
+                                      style={{
+                                        position: 'relative',
+                                        transform: 'translateY(-50%) scale(3, 3)',
+                                        top: 26,
+                                      }}
+                                    />
+                                  </div>
+                                  <span style={{ position: 'relative', top: 60, opacity: 0 }} >{event.event_name || 'Добавить'}</span>
+                                </Card>
+                              )
+                          }
+                        </React.Fragment>
+                      );
+                    })
+                  }
+            </div>
             ))
           }
+          </div>
         </Card>
         {
           !!this.state.modalVisible

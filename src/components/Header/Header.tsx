@@ -10,6 +10,11 @@ import { IReducers } from '../../redux';
 import { AuthApi } from '../../redux/auth/auth.api';
 
 const HeaderWrapper = styled.div`
+  .ant-row{
+    display: flex;
+    justify-content: space-between;
+  }
+  
   .ant-row span {
     color: #ffffff;
   }
@@ -52,8 +57,8 @@ class Header extends React.Component<IProps> {
       <HeaderWrapper>
         <Layout.Header>
             <Row>
-              <Col span={ 6 }>
-              {user !== null
+              <Col style={{ width:'fit-content' }} span={ 6 }>
+              {!user.appdata
                 ?<p>
                   <span style={ {fontSize: '16pt', fontWeight: 'bold'} }>Выбор приложения</span>
                   <br />
@@ -69,10 +74,10 @@ class Header extends React.Component<IProps> {
 
               <Col span={ 9 }/>
               <Col span={ 5 }>
-                <span>{ user.user_name || 'Имени нет' }</span>
+                <span>{ user.user_name || user.user_screen_name }</span>
               </Col>
 
-              <Col span={ 4 }>
+              <Col span={ 2 }>
                 <LogoutButton onClick={ logout }>Выйти</LogoutButton>
               </Col>
             </Row>
