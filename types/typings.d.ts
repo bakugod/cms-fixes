@@ -40,7 +40,7 @@ declare module 'react-cms' {
     name: string;
     id: string;
   }
-  
+
   export interface IAppIcon {
     id: number;
     url: string;
@@ -97,14 +97,14 @@ declare module 'react-cms' {
     visible: number;
     data: { id: number; img: string; name: string; updated_at: number; people_id: number; };
   }
-  
+
   export interface ICompanyList {
     id: number;
     visible: number;
     company_id: number;
     company_group: number;
   }
-  
+
   export interface ICompany {
     id: number;
     img: string;
@@ -197,8 +197,18 @@ declare module 'react-cms' {
     visible: boolean;
   }
 
+  export interface IFilesList {
+    code: number;
+    data: Array<any>;
+    id: number;
+    url: string;
+    url_small: string;
+    w: number;
+    h: number;
+    size: number;
+    created_at: number;
 
-
+  }
   export interface IAppsList {
     id: number;
     is_owner: number;
@@ -211,8 +221,8 @@ declare module 'react-cms' {
     pic: any;
   }
 
-  
-  export type EnumTarget = 'company' | 'people' | 'company_groups' | 'people_groups' | 'icons' | 'locations' | 'poll';
+
+  export type EnumTarget = 'company' | 'people' | 'company_groups' | 'people_groups' | 'icons' | 'locations' | 'poll' | 'filemanager';
   export type EnumType = 'PUT' | 'POST' | 'DELETE';
   export type UploadType = 'people' | 'company' | 'ico' | 'misc';
 }

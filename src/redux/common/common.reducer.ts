@@ -1,5 +1,5 @@
 import { Action, createAction, handleActions } from 'redux-actions';
-import { IAppIcon, IContainer, IEvent, IMenu, IModule, IPeople, IPollList, IAppsList } from 'react-cms';
+import { IAppIcon, IContainer, IEvent, IMenu, IModule, IPeople, IAppsList, IFilesList } from 'react-cms';
 
 type IAction<T> = { data: T[]; };
 
@@ -14,8 +14,8 @@ export interface IMenuReducerType {
 }
 
 type ActionTypes =
+  | IAction<IFilesList>
   | IAction<IAppsList>
-
   | IAction<IModule>
   | IAction<IAppIcon>
   | IMenuReducerType
@@ -25,7 +25,7 @@ type ActionTypes =
   | IContainer;
 
 export interface ICommon {
-  poll: IPollList[];
+  files: IFilesList[];
   apps: IAppsList[];
   modules: IModule[];
   menu: IMenuReducerType;
@@ -39,7 +39,7 @@ export interface ICommon {
 
 const PREFIX: string = 'common';
 const defaultState: ICommon = {
-  poll: [],
+  files: [],
   apps: [],
   modules: [],
   menu: { data: [], isOk: true },
@@ -55,6 +55,8 @@ const defaultState: ICommon = {
   menuData: {},
   currentEntity: null,
 };
+
+export const setFiles = createAction<IAction<IFilesList>>(`@@${PREFIX}/SET_FILE`);
 
 export const setModule = createAction<IAction<IModule>>(`@@${PREFIX}/SET_MODULE`);
 export const setMenu = createAction<IMenuReducerType>(`@@${PREFIX}/SET_MENU`);
@@ -79,6 +81,10 @@ export default handleActions<ICommon, ActionTypes>({
   [setMenu.toString()]: (state: ICommon, action: Action<IMenuReducerType>): ICommon => ({
     ...state,
     menu: action.payload,
+  }),
+  [setFiles.toString()]: (state: ICommon, action: Action<IFilesList>): ICommon => ({
+    ...state,
+    files: action.payload.data,
   }),
   [setIcons.toString()]: (state: ICommon, action: Action<IAction<IAppIcon>>): ICommon => ({
     ...state,
