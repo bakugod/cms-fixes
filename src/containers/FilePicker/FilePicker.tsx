@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { Card, Row, Col, Popconfirm, Button } from 'antd';
+import { Card, Row, Col, Popconfirm, Button, Select } from 'antd';
 import { range } from 'lodash';
 import { EnumTarget, EnumType, IIcon, IContainer, IFilesList } from 'react-cms';
 
@@ -12,9 +12,12 @@ import { getFiles } from '../../redux/common/common.selector';
 import FakeImg from '../../components/FakeImg/FakeImg';
 import EditForm from './components/EditForm';
 
+const { Option } = Select;
+
 interface IProps {
     files?: IFilesList[];
     container?: IContainer;
+    updateFile?: (event: IFilesList) => void;
     updateEnum?: (id: number, enumType: EnumType, enumTarget: EnumTarget, data: object, cb?: () => void) => void;
     getData?: () => any;
 }
@@ -33,7 +36,7 @@ class Icons extends React.Component<IProps, IState> {
             modalVisible: false,
         };
     }
-
+    
     public componentDidMount() {
         const { getData } = this.props;
         getData().then(res => console.log(res))
@@ -49,7 +52,14 @@ class Icons extends React.Component<IProps, IState> {
         return (
             <Card
                 style={{ marginLeft: 185, height: '100vh' }}
-                title={<Button icon={'plus'} type={'primary'}>Выбрать тип</Button>}
+                title={
+                    <Select defaultValue="company" style={{ width: 120 }} >
+                        <Option key={'company'}>Компании</Option>
+                        <Option key={'people'}>Люди</Option>
+                        <Option key={'ico'}>Значки меню</Option>
+                        <Option key={'misc'}>Прочее</Option>
+                    </Select>  
+                }
             >
                 <EditForm type={'POST'} />
                 {
@@ -106,7 +116,7 @@ const mapStateToProps = (state: IReducers) => {
 const mapDispatchToProps = (dispatch: Dispatch<IReducers>) => {
     return {
         getData: () => dispatch(FilesAPI.getData()),
-        updateEvent: (event: any) => dispatch(FilesAPI.updateEvent(event)),
+        //updateFile: (event: IFilesList) => dispatch(FilesAPI.updateFile(event)),
     };
 };
 
