@@ -1,12 +1,14 @@
 import * as React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { Card, Row, Col, Popconfirm, Button, Select } from 'antd';
+import { Card, Row, Col, Popconfirm, Button, Select, Form } from 'antd';
 import { range } from 'lodash';
 import { EnumTarget, EnumType, IIcon, IContainer, IFilesList } from 'react-cms';
 
 import { IReducers } from '../../redux';
 import { FilesAPI } from './api/files'
+
+import './FilePicker.scss'
 
 import { getFiles } from '../../redux/common/common.selector';
 import FakeImg from '../../components/FakeImg/FakeImg';
@@ -23,7 +25,7 @@ interface IProps {
 }
 
 interface IState {
-    
+
 }
 
 class Icons extends React.Component<IProps, IState> {
@@ -36,7 +38,7 @@ class Icons extends React.Component<IProps, IState> {
             modalVisible: false,
         };
     }
-    
+
     public componentDidMount() {
         const { getData } = this.props;
         getData().then(res => console.log(res))
@@ -45,7 +47,7 @@ class Icons extends React.Component<IProps, IState> {
     public render(): JSX.Element {
         const { files } = this.props;
         console.log(this.props)
-        
+
         const rows: number = Math.ceil(files.length / Icons.rowsNumber);
         let currentIndex: number = 0;
 
@@ -53,16 +55,43 @@ class Icons extends React.Component<IProps, IState> {
             <Card
                 style={{ marginLeft: 185, height: '100vh' }}
                 title={
-                    <Select defaultValue="company" style={{ width: 120 }} >
-                        <Option key={'company'}>Компании</Option>
-                        <Option key={'people'}>Люди</Option>
-                        <Option key={'ico'}>Значки меню</Option>
-                        <Option key={'misc'}>Прочее</Option>
-                    </Select>  
+                    <Form>
+                        <Select defaultValue="company" style={{ width: 120 }} >
+                            <Option key={'company'}>Компании</Option>
+                            <Option key={'people'}>Люди</Option>
+                            <Option key={'ico'}>Значки меню</Option>
+                            <Option key={'misc'}>Прочее</Option>
+                        </Select>
+                    </Form>
                 }
             >
                 <EditForm type={'POST'} />
-                {
+                <section className='files__wraper'>
+                    {files.map(image =>
+                        <article className='files'>
+                            <Popconfirm
+                                title={'Вы точно хотите удалить?'}
+                                //onConfirm={ this.delete(icon.id) }
+                                okText={'Да'}
+                                cancelText={'Нет'}
+                                placement={'bottom'}
+                            >
+                                <div className='files__img__container'>
+                                    <div className='files__img-ring'></div>
+                                    {
+                                        image.url.includes('http')
+                                            ? <img
+                                                src={image.url}
+                                                style={{ maxWidth: 100, maxHeight: 100, cursor: 'pointer' }}
+                                            />
+                                            : <FakeImg />
+                                    }
+                                </div>
+                            </Popconfirm>
+                        </article>
+                    )}
+                </section>
+                {/* {
                     range(0, rows).map(index => (
                         <React.Fragment key={`row_${index}`}>
                             <Row gutter={16}>
@@ -101,7 +130,7 @@ class Icons extends React.Component<IProps, IState> {
                             <br />
                         </React.Fragment>
                     ))
-                }
+                } */}
             </Card>
         );
     }
