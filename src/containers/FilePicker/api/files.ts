@@ -69,8 +69,13 @@ export class FilesAPI {
 					console.log(data)
 					
 					const formData: FormData = new FormData();
-					// @ts-ignore
-					data.forEach(item => formData.append('files[]', item));
+					
+					/**FIXME
+					 * Type @any, because UploadFile cannot be in append method
+					 * data.forEach((item: UploadFile) => formData.append('files[]', item.toString()))
+					 * lead to errors in runtime, if you have problems with downoloading files come here!
+					 */
+					data.forEach((item: any) => formData.append('files[]', item));
 
 					const responseUpload: Response = await Transport.post(
 						url,
@@ -86,18 +91,22 @@ export class FilesAPI {
 						event: user.appdata.eventID.toString()
 					});
 
-					const body: object = {
-						"action": "add",
-						"target": "company",
-						"event_id" : 134,
-						"url" : uploadData.data[0].url
+					for(let i = 0; i < uploadData.data.length;i++){
+						const body: object = {
+							"action": "add",
+							"target": "company",
+							"event_id" : 134,
+							"url" : uploadData.data[i].url
+						}
+		
+		
+						const response: Response = await Transport.post(GET_FILES, headers2, body);
+	
+						const json2: any = await response.json();
+						console.log(json2)
 					}
-	
-	
-					const response: Response = await Transport.post(GET_FILES, headers2, body);
 
-					const json2: any = await response.json();
-					console.log(json2)
+
 
 					if (+uploadData.code === 200) {
 						if (cb) {
