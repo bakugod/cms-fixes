@@ -16,8 +16,8 @@ const root: HTMLElement = document.getElementById('root');
 
 try {
   render(
-    <Provider store={store}>
-      <Router history={history}>
+    <Provider store={ store }>
+      <Router history={ history }>
         <div className='app'>
             <App />
         </div>
@@ -26,5 +26,5 @@ try {
     root,
   );
 } catch (error) {
-  render(<RedBox error={error} />, root);
+  render(<RedBox error={ error } />, root);
 }

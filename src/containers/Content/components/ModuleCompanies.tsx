@@ -31,7 +31,6 @@ interface IState {
   currentIndex: number;
 }
 
-
 class ModuleCompanies extends React.Component<IProps, IState> {
   public static defaultProps: Partial<IProps> = {
     companies: [],
@@ -46,29 +45,29 @@ class ModuleCompanies extends React.Component<IProps, IState> {
 
         return (
           <div>
-            <Row gutter={24}>
-              <Col span={8} className="image-placeholder" style={{ paddingLeft: 0, paddingRight: 0 }}>
+            <Row gutter={ 24 }>
+              <Col span={ 8 } className='image-placeholder' style={ { paddingLeft: 0, paddingRight: 0 } }>
                 <React.Fragment>
                   {
                     image.includes('http')
                       ? <img
-                        src={image}
-                        style={{ maxWidth: 70, maxHeight: 70 }}
+                        src={ image }
+                        style={ { maxWidth: 70, maxHeight: 70 } }
                       />
                       : <FakeImg />
                   }
                 </React.Fragment>
               </Col>
-              <Col span={12} style={{ margin: 0, padding: 0 }}>
-                <p style={{ fontWeight: "bold" }}>{cellInfo.original.companyName}</p>
-                <p style={{ margin: 0 }}>{cellInfo.original.announce}</p>
+              <Col span={ 12 } style={ { margin: 0, padding: 0 } }>
+                <p style={ { fontWeight: 'bold' } }>{ cellInfo.original.companyName }</p>
+                <p style={ { margin: 0 } }>{ cellInfo.original.announce }</p>
               </Col>
             </Row>
           </div>
         );
       },
       style: {
-        width: "fit-content",
+        width: 'fit-content',
       },
     },
     {
@@ -81,8 +80,8 @@ class ModuleCompanies extends React.Component<IProps, IState> {
       accessor: 'visible',
       Cell: (cellInfo: RowInfo) => (
         <Switch
-          checked={Boolean(get(cellInfo, 'original.visible', 1))}
-          className="content__program-table-switch-position"
+          checked={ Boolean(get(cellInfo, 'original.visible', 1)) }
+          className='content__program-table-switch-position'
         />
       ),
       width: 100,
@@ -91,15 +90,15 @@ class ModuleCompanies extends React.Component<IProps, IState> {
       Header: 'Обновлено',
       accessor: 'time',
       Cell: (cellInfo: RowInfo) => {
-        console.log(cellInfo)
-        const time: string = moment.unix(cellInfo.original.updated_at).format(DATE_FORMAT)
+        console.log(cellInfo);
+        const time: string = moment.unix(cellInfo.original.updated_at).format(DATE_FORMAT);
 
         return (
-          <div style={{ display: "flex", flexDirection: "column", textAlign: "right" }}>
-            <span>{time.slice(0, 10)}</span>
-            <span>{time.slice(10, 16)}</span>
+          <div style={ { display: 'flex', flexDirection: 'column', textAlign: 'right' } }>
+            <span>{ time.slice(0, 10) }</span>
+            <span>{ time.slice(10, 16) }</span>
           </div>
-        )
+        );
       },
       width: 100,
     },
@@ -126,14 +125,14 @@ class ModuleCompanies extends React.Component<IProps, IState> {
   public render(): JSX.Element {
     const { container: { data, isLoading }, companies, companiesGroups } = this.props;
     const { modalVisible, isAdd, currentEntity } = this.state;
-    console.log(this.props)
+    console.log(this.props);
 
     return (
       <Card
-        title={<Button icon={'plus'} onClick={this.onOpenAddModal} type={'primary'}>Добавить</Button>}
+        title={ <Button icon={ 'plus' } onClick={ this.onOpenAddModal } type={ 'primary' }>Добавить</Button> }
       >
         <ReactTable
-          data={data.map((item: ICompanyList) => {
+          data={ data.map((item: ICompanyList) => {
             const company: ICompany = companies.find((company: ICompany) => company.id === item.company_id);
             const group: ICompanyGroup = companiesGroups.find((group: ICompanyGroup) => group.id === item.company_group);
 
@@ -149,25 +148,25 @@ class ModuleCompanies extends React.Component<IProps, IState> {
               descriptionFull: get(company, 'description', ''),
               visible: Boolean(item.visible) ? 'Да' : 'Нет',
             });
-          })}
-          columns={ModuleCompanies.columns}
-          pageSize={data.length}
-          noDataText={'Нет информации'}
-          loadingText={'Загрузка...'}
-          loading={isLoading}
-          className={'-striped -highlight'}
-          getTrProps={this.onRowClick}
-          showPagination={false}
-          resizable={false}
-          style={{ color: "#000000", maxHeight: "85vh" }}
+          }) }
+          columns={ ModuleCompanies.columns }
+          pageSize={ data.length }
+          noDataText={ 'Нет информации' }
+          loadingText={ 'Загрузка...' }
+          loading={ isLoading }
+          className={ '-striped -highlight' }
+          getTrProps={ this.onRowClick }
+          showPagination={ false }
+          resizable={ false }
+          style={ { color: '#000000', maxHeight: '85vh' } }
         />
 
-        <Modal visible={modalVisible} footer={null} onCancel={this.onCloseModal} width={782}>
+        <Modal visible={ modalVisible } footer={ null } onCancel={ this.onCloseModal } width={ 782 }>
           <EditCompany
-            entity={currentEntity}
-            closeModal={this.onCloseModal}
-            isAdd={isAdd}
-            type={isAdd ? 'POST' : 'PUT'}
+            entity={ currentEntity }
+            closeModal={ this.onCloseModal }
+            isAdd={ isAdd }
+            type={ isAdd ? 'POST' : 'PUT' }
           />
         </Modal>
       </Card>

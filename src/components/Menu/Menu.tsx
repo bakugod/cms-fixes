@@ -26,21 +26,21 @@ class Menu extends React.Component<IProps> {
 		return (
 			<AntdMenu
 				mode='inline'
-				style={{ height: '100%', borderRight: 0 }}
-				onClick={this.onItemClick}
-				selectedKeys={[appMenu]}
+				style={ { height: '100%', borderRight: 0 } }
+				onClick={ this.onItemClick }
+				selectedKeys={ [appMenu] }
 			>
-				<AntdMenu.Item key={PATHS.CONTENT}>Контент</AntdMenu.Item>
-				<AntdMenu.Item key={PATHS.PEOPLE_SECTION}>Люди</AntdMenu.Item>
-				<AntdMenu.Item key={PATHS.COMPANY_SECTION}>Компании</AntdMenu.Item>
-				<AntdMenu.SubMenu key={'other'} title={<span><span>Приложение</span></span>}>
-					<AntdMenu.Item key={PATHS.EVENTS}>События</AntdMenu.Item>
-					<AntdMenu.Item key={PATHS.PEOPLE}>Люди</AntdMenu.Item>
-					<AntdMenu.Item key={PATHS.COMPANY}>Компании</AntdMenu.Item>
-					<AntdMenu.Item key={PATHS.MENU_EDIT}>Меню</AntdMenu.Item>
-					<AntdMenu.Item key={PATHS.FILEPICKER}>Изображения и файлы</AntdMenu.Item>
-					{/* <AntdMenu.Item key={PATHS.ICONS}>Значки</AntdMenu.Item> */}
-					<AntdMenu.Item key={PATHS.LOCATIONS}>Локации</AntdMenu.Item>
+				<AntdMenu.Item key={ PATHS.CONTENT }>Контент</AntdMenu.Item>
+				<AntdMenu.Item key={ PATHS.PEOPLE_SECTION }>Люди</AntdMenu.Item>
+				<AntdMenu.Item key={ PATHS.COMPANY_SECTION }>Компании</AntdMenu.Item>
+				<AntdMenu.SubMenu key={ 'other' } title={ <span><span>Приложение</span></span> }>
+					<AntdMenu.Item key={ PATHS.EVENTS }>События</AntdMenu.Item>
+					<AntdMenu.Item key={ PATHS.PEOPLE }>Люди</AntdMenu.Item>
+					<AntdMenu.Item key={ PATHS.COMPANY }>Компании</AntdMenu.Item>
+					<AntdMenu.Item key={ PATHS.MENU_EDIT }>Меню</AntdMenu.Item>
+					<AntdMenu.Item key={ PATHS.FILEPICKER }>Изображения и файлы</AntdMenu.Item>
+					{ /* <AntdMenu.Item key={PATHS.ICONS}>Значки</AntdMenu.Item> */ }
+					<AntdMenu.Item key={ PATHS.LOCATIONS }>Локации</AntdMenu.Item>
 				</AntdMenu.SubMenu>
 			</AntdMenu>
 		);

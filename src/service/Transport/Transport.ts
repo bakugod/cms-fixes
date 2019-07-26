@@ -12,7 +12,7 @@ export default class Transport {
   }
   
   public static get(url: string, headers?: Headers, body?: object): Promise<any> {
-    return Transport.response(url, 'GET', headers, body, );
+    return Transport.response(url, 'GET', headers, body );
   }
   
   public static post(url: string, headers?: Headers, body?: object): Promise<any> {

@@ -49,9 +49,6 @@ export class ContentAPI {
         const token: string = getStates().auth.token;
         const user: IUser = getStates().auth.user;
 
-
-
-
         const headers: Headers = new Headers({
           authorization: `Bearer ${token}`,
           event: user.appdata.eventID.toString(),
@@ -61,13 +58,13 @@ export class ContentAPI {
 
         const body: object = {
           ...data, 
-          action          
-        }
-        console.log('body:', body)
+          action,          
+        };
+        console.log('body:', body);
 
         const response: Response = await Transport[data.id ? 'put' : 'post'](UPDATE_CONTAINER, headers, body);
         const json: { code: number; data?: { code?: string; error_text?: string; }; error_text?: string; } = await response.json();
-        console.log(json)
+        console.log(json);
 
         if (json.code !== 200 || !!json.error_text || !!get(json, 'data.error_text', false)) {
           throw new Error('Не удалось');
@@ -100,16 +97,15 @@ export class ContentAPI {
 
         const body: object = {
           ...data, 
-          action          
-        }
+          action,          
+        };
 
-
-        console.log(body)
+        console.log(body);
         
         const response: Response = await Transport.post(UPDATE_CONTAINER, headers, body);
 
         const json: { code: number; data?: { code?: string; error_text?: string; }; error_text?: string; } = await response.json();
-        console.log(json)
+        console.log(json);
 
         if (json.code !== 200) {
           throw new Error('Не удалось');

@@ -17,6 +17,3 @@ export const UPDATE_MENUS: string = '/api/menu-crud';
 export const UPDATE_CONTAINER: string = '/api/content-crud';
 export const SORT_UPDATE_MENUS: string = '/api/menu-order-update';
 export const CREATE_UPLOAD_SESSION: string = '/api/create-upload-session';
-
-
-

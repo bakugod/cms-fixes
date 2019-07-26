@@ -7,7 +7,7 @@ import { EnumTarget, EnumType, UploadType } from 'react-cms';
 import { UploadFile } from 'antd/lib/upload/interface';
 
 import { IReducers } from '../../../redux';
-import { FilesAPI } from '../api/files'
+import { FilesAPI } from '../api/files';
 
 //import { PeopleAPI } from '../../People/api/people';
 import { MenuEditListApi } from '../../../components/MenuEditList/api/menuEditList';
@@ -44,9 +44,9 @@ class EditForm extends React.Component<IProps, IState> {
       <Card>
         <Form>
           <Upload.Dragger
-            beforeUpload={this.beforeUploadFile}
-            onRemove={this.removeFile}
-            fileList={this.state.file.filter(item => !!item)}
+            beforeUpload={ this.beforeUploadFile }
+            onRemove={ this.removeFile }
+            fileList={ this.state.file.filter(item => !!item) }
             multiple
           >
             <p className='ant-upload-drag-icon'>
@@ -57,7 +57,7 @@ class EditForm extends React.Component<IProps, IState> {
           </Upload.Dragger>
 
           <br />
-          <Button style={{ display: 'block', margin: '0 auto' }} type={'primary'} onClick={this.onSubmit}>
+          <Button style={ { display: 'block', margin: '0 auto' } } type={ 'primary' } onClick={ this.onSubmit }>
               Добавить
           </Button>
 
@@ -72,8 +72,8 @@ class EditForm extends React.Component<IProps, IState> {
 
     form.validateFields(errors => {
       if (!errors) {
-        console.log(file[0].size)
-        console.log(file[0].type)
+        console.log(file[0].size);
+        console.log(file[0].type);
         uploadImage(
           file,
           'ico',

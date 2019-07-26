@@ -38,7 +38,7 @@ const Title = styled.p`
     font-size: 10pt;
     font-weight: bold;
   }
-`
+`;
 
 interface IProps {
   menu?: IMenuReducerType;
@@ -99,13 +99,13 @@ class MenuList extends React.Component<IProps, IState> {
                   : <FakeImg style={ {position: 'relative'} } />
               }
             </Col>
-            <Col span={ 19 } style={{ minHeight: 65 }} >
+            <Col span={ 19 } style={ { minHeight: 65 } } >
               <Title>{ item.name }</Title>
               <p style={ {lineHeight: '10px'} }>{ get(modules.find(module => +module.id === +item.module), 'name', '') }</p>
             </Col>
           </Row>
 
-          { menu.data.length - 1 !== index && <hr style={ {margin: 0, borderTop: 0, borderBottom: "1px solid black"} } /> }
+          { menu.data.length - 1 !== index && <hr style={ {margin: 0, borderTop: 0, borderBottom: '1px solid black'} } /> }
         </div>
       </ContentWrapper>
     );

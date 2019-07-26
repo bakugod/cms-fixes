@@ -86,51 +86,51 @@ class EditCompany extends React.Component<IProps, IState> {
 
     return (
       <Card
-        title={!isAdd ? get(entity, 'name', '') : "Добавление компании"}
-        style={!isAdd ?{ top: 40, position: 'relative' } : { top: 0, position: 'relative' }}
+        title={ !isAdd ? get(entity, 'name', '') : 'Добавление компании' }
+        style={ !isAdd ?{ top: 40, position: 'relative' } : { top: 0, position: 'relative' } }
       >
         <Form>
           <Card
-            title={'Основное'}
-            extra={(
+            title={ 'Основное' }
+            extra={ (
               <Form.Item>
-                {getFieldDecorator('visible', {
+                { getFieldDecorator('visible', {
                   initialValue: !isAdd ? Boolean(entity.visible) : true,
                 })(
-                  <CheckBox text={'Видимость'} />,
-                )}
+                  <CheckBox text={ 'Видимость' } />,
+                ) }
               </Form.Item>
-            )}
+            ) }
           >
-            <Form.Item label={'Название'}>
-              {getFieldDecorator('name', {
+            <Form.Item label={ 'Название' }>
+              { getFieldDecorator('name', {
                 rules: [{ required: isAdd, message: isAdd ? 'Введите значение' : undefined }],
                 initialValue: !isAdd ? get(entity, 'companyName', '') : '',
               })(
-                <AutoComplete placeholder={'Название'} data={companies.map(item => item.name)} />,
-              )}
+                <AutoComplete placeholder={ 'Название' } data={ companies.map(item => item.name) } />,
+              ) }
             </Form.Item>
 
-            <Form.Item label={'Группа'}>
-              {getFieldDecorator('group', {
+            <Form.Item label={ 'Группа' }>
+              { getFieldDecorator('group', {
                 rules: [{ required: isAdd, message: isAdd ? 'Введите значение' : undefined }],
                 initialValue: !isAdd ? get(entity, 'companyGroupName', '') : '',
               })(
-                <AutoComplete placeholder={'Группа'} data={companiesGroups.map(item => item.name)} />,
-              )}
+                <AutoComplete placeholder={ 'Группа' } data={ companiesGroups.map(item => item.name) } />,
+              ) }
             </Form.Item>
           </Card>
 
           <br />
 
-          <Card title={'Описание'}>
+          <Card title={ 'Описание' }>
             <Editor
-              toolbarClassName={'toolbarClassName'}
-              wrapperClassName={'wrapperClassName'}
-              editorClassName={'editorClassName'}
-              localization={{ locale: 'ru' }}
-              editorState={this.state.editorState}
-              onEditorStateChange={this.onChangeText}
+              toolbarClassName={ 'toolbarClassName' }
+              wrapperClassName={ 'wrapperClassName' }
+              editorClassName={ 'editorClassName' }
+              localization={ { locale: 'ru' } }
+              editorState={ this.state.editorState }
+              onEditorStateChange={ this.onChangeText }
             />
           </Card>
 
@@ -138,22 +138,22 @@ class EditCompany extends React.Component<IProps, IState> {
 
           {
             !isAdd && <Popconfirm
-              title={'Вы уверены?'}
-              onConfirm={this.delete()}
-              okText={'Да'}
-              cancelText={'Нет'}
-              placement={'bottom'}
+              title={ 'Вы уверены?' }
+              onConfirm={ this.delete() }
+              okText={ 'Да' }
+              cancelText={ 'Нет' }
+              placement={ 'bottom' }
             >
-              <Button type={'danger'}>Удалить</Button>
+              <Button type={ 'danger' }>Удалить</Button>
             </Popconfirm>
           }
 
           <Button
-            type={'primary'}
-            onClick={this.onSubmit}
-            style={{ position: 'relative', left: isAdd ? 630 : 542 }}
+            type={ 'primary' }
+            onClick={ this.onSubmit }
+            style={ { position: 'relative', left: isAdd ? 630 : 542 } }
           >
-            {isAdd ? 'Добавить' : 'Сохранить'}
+            { isAdd ? 'Добавить' : 'Сохранить' }
           </Button>
         </Form>
       </Card>

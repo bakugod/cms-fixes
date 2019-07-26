@@ -40,7 +40,7 @@ export class AuthApi {
           LocalStorage.setToken(token);
         }
 
-        if(user.code !== 503 && user.code !== 5071){
+        if(user.code !== 503 && user.code !== 5071) {
           dispatch(setUser({ user, token: token || lsToken }));
         }
         if (user.code !== 503 && user.code !== 5071 &&
@@ -70,26 +70,26 @@ export class AuthApi {
         const headers: Headers = new Headers({});
 
         const body: object = {
-          "login": props.login,
-          "pw": props.password
+          login: props.login,
+          pw: props.password,
         };
         const response: Response = await Transport.post(LOGIN, headers, body);
 
         const json: any = await response.json();
-        console.log(json)
+        console.log(json);
 
         dispatch(setTokenToLS());
         if (!!json.token) {
           LocalStorage.setToken(json.token);
         }
 
-        if(json.code !== 503 && json.code !== 5071){
+        if(json.code !== 503 && json.code !== 5071) {
           dispatch(setUser({ ...json, user: json, token: json.token }));
         }
         
         dispatch(login());
 
-        if(json.code !== 200){
+        if(json.code !== 200) {
           throw new Error('No valid login or password');
         }
         history.push(PATHS.SELECT_APP);
@@ -107,50 +107,48 @@ export class AuthApi {
         {
           history.push(PATHS.SIGNUP);
         }
-      }catch (e) {
+      } catch (e) {
         notification.error({ message: 'Не удалось перейти', description: 'Перезагрузите страницу и попробуйте снова' });
       }
-    }
+    };
   }
 
   public static signup = (props: any): ThunkAction<Promise<void>, IReducers, Action> => {
     return async (dispatch: Dispatch<IReducers>, getStates: () => IReducers): Promise<void> => {
       try {
 
-         console.log(props)
+         console.log(props);
 
-        const headers: Headers = new Headers({});
+         const headers: Headers = new Headers({});
 
-        const body: object = {
-          "mobile": props.login,
-          "pw": props.password,
-          "first_name": props.first_name,
-          "last_name": props.last_name,
-          "email": props.email,
-          "event_name": props.event_name,
-          "start_date": props.start_date,
-          "end_date": props.end_date,
-          "timezone": props.timezone,
-          "location": props.location,
+         const body: object = {
+          mobile: props.login,
+          pw: props.password,
+          first_name: props.first_name,
+          last_name: props.last_name,
+          email: props.email,
+          event_name: props.event_name,
+          start_date: props.start_date,
+          end_date: props.end_date,
+          timezone: props.timezone,
+          location: props.location,
         };
 
          const response: Response = await Transport.post(SIGNUP, headers, body);
 
          const json: any = await response.json();
 
-         
-         console.log(json.code)
+         console.log(json.code);
          dispatch(setStatus(json));
 
-
-        if(json.code !== 200){
+         if(json.code !== 200) {
           throw new Error('No valid data');
         }
-        {
+         {
           history.push(PATHS.MAIN);
         }
 
-        notification.success({ message: 'Отлично! Событие создано', description: 'Как только оно будет активировано, вы получите уведомление и сможете начать его редактировать', duration: 2 });
+         notification.success({ message: 'Отлично! Событие создано', description: 'Как только оно будет активировано, вы получите уведомление и сможете начать его редактировать', duration: 2 });
       } catch (e) {
         notification.error({ message: 'Не удалось зарегистрироваться', description: 'Введите данные заново и попробуйте еще раз' });
       }

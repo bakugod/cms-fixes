@@ -6,9 +6,9 @@ import { range } from 'lodash';
 import { EnumTarget, EnumType, IIcon, IContainer, IFilesList } from 'react-cms';
 
 import { IReducers } from '../../redux';
-import { FilesAPI } from './api/files'
+import { FilesAPI } from './api/files';
 
-import './FilePicker.scss'
+import './FilePicker.scss';
 
 import { getFiles } from '../../redux/common/common.selector';
 import FakeImg from '../../components/FakeImg/FakeImg';
@@ -41,57 +41,57 @@ class Icons extends React.Component<IProps, IState> {
 
     public componentDidMount() {
         const { getData } = this.props;
-        getData().then(res => console.log(res))
+        getData().then(res => console.log(res));
     }
 
     public render(): JSX.Element {
         const { files } = this.props;
-        console.log(this.props)
+        console.log(this.props);
 
         const rows: number = Math.ceil(files.length / Icons.rowsNumber);
-        let currentIndex: number = 0;
+        const currentIndex: number = 0;
 
         return (
             <Card
-                style={{ marginLeft: 185, height: '100vh' }}
+                style={ { marginLeft: 185, height: '100vh' } }
                 title={
                     <Form>
-                        <Select defaultValue="company" style={{ width: 120 }} >
-                            <Option key={'company'}>Компании</Option>
-                            <Option key={'people'}>Люди</Option>
-                            <Option key={'ico'}>Значки меню</Option>
-                            <Option key={'misc'}>Прочее</Option>
+                        <Select defaultValue='company' style={ { width: 120 } } >
+                            <Option key={ 'company' }>Компании</Option>
+                            <Option key={ 'people' }>Люди</Option>
+                            <Option key={ 'ico' }>Значки меню</Option>
+                            <Option key={ 'misc' }>Прочее</Option>
                         </Select>
                     </Form>
                 }
             >
-                <EditForm type={'POST'} />
+                <EditForm type={ 'POST' } />
                 <section className='files__wraper'>
-                    {files.map(image =>
+                    { files.map(image =>
                         <article className='files'>
                             <Popconfirm
-                                title={'Вы точно хотите удалить?'}
+                                title={ 'Вы точно хотите удалить?' }
                                 //onConfirm={ this.delete(icon.id) }
-                                okText={'Да'}
-                                cancelText={'Нет'}
-                                placement={'bottom'}
+                                okText={ 'Да' }
+                                cancelText={ 'Нет' }
+                                placement={ 'bottom' }
                             >
                                 <div className='files__img__container'>
                                     <div className='files__img-ring'></div>
                                     {
                                         image.url.includes('http')
                                             ? <img
-                                                src={image.url}
-                                                style={{ maxWidth: 100, maxHeight: 100, cursor: 'pointer' }}
+                                                src={ image.url }
+                                                style={ { maxWidth: 100, maxHeight: 100, cursor: 'pointer' } }
                                             />
                                             : <FakeImg />
                                     }
                                 </div>
                             </Popconfirm>
-                        </article>
-                    )}
+                        </article>,
+                    ) }
                 </section>
-                {/* {
+                { /* {
                     range(0, rows).map(index => (
                         <React.Fragment key={`row_${index}`}>
                             <Row gutter={16}>
@@ -130,7 +130,7 @@ class Icons extends React.Component<IProps, IState> {
                             <br />
                         </React.Fragment>
                     ))
-                } */}
+                } */ }
             </Card>
         );
     }
@@ -150,5 +150,4 @@ const mapDispatchToProps = (dispatch: Dispatch<IReducers>) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Icons);
-
-
+

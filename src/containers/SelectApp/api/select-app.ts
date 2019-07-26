@@ -48,14 +48,14 @@ export class AppsAPI {
           start_time: props.start_time,
           end_time: props.end_time,
           timezone: props.timezone,
-          location: props.location
-        }
+          location: props.location,
+        };
 
         const response: Response = await Transport.post(ADD_APP, headers, body);
         
         const json: { code: number; data: IAppsList[] } = await response.json();
-        if(json.code === 200){
-          dispatch(AppsAPI.getApps())
+        if(json.code === 200) {
+          dispatch(AppsAPI.getApps());
         }
 
       } catch (e) {
@@ -69,23 +69,23 @@ export class AppsAPI {
       try {
         const token: string = getStates().auth.token;
 
-        console.log(props)
+        console.log(props);
 
         const headers: Headers = new Headers({
           authorization: `Bearer ${token}`,
         });
 
         const body: any = {
-          id: props
-        }
+          id: props,
+        };
 
         const response: Response = await Transport.post(SELECT_APPS, headers, body);
         
         const json: { code: number; data: IAppsList[] } = await response.json();
-        console.log(json.code)
-        if(json.code === 200){
+        console.log(json.code);
+        if(json.code === 200) {
           createBrowserHistory({
-            forceRefresh: true //ls doesn't refresh page
+            forceRefresh: true, //ls doesn't refresh page
           }).push(PATHS.CONTENT);
         }
 

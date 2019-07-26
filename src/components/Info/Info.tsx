@@ -16,7 +16,7 @@ const Wrapper = styled.div`
     height: 100%;
 `;
 
-interface IProps extends RouteComponentProps<any>{
+interface IProps extends RouteComponentProps<any> {
   type: 'Forbidden' | 'Development' | 'NotFound' | 'Error' | 'SignUp';
 }
 
@@ -25,13 +25,13 @@ interface IProps extends RouteComponentProps<any>{
 class Info extends React.Component<IProps> {
   public render(): JSX.Element {
     const {type} = this.props;
-    console.log(type)
+    console.log(type);
     
     return (
       <Wrapper>
         <div>
           <div className={ b('info', 'text', {header: true, center: true}) }>{ this.getTextByType(type) }</div>
-          {/* <img className='info__img' src={ require(`./imgs/${type}.svg`) } /> */}
+          { /* <img className='info__img' src={ require(`./imgs/${type}.svg`) } /> */ }
         </div>
       </Wrapper>
     );

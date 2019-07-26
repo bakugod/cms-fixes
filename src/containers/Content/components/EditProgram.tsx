@@ -27,7 +27,6 @@ import { VisibleFormLabel } from '../../../themes/Common';
 import { setCurrentEntity } from '../../../redux/common/common.reducer';
 import { Moment } from 'moment';
 
-
 const PeopleCardWrapper = styled.div`
   .ant-form-item {
     margin: 0;
@@ -108,68 +107,68 @@ class EditProgram extends React.Component<IProps, IState> {
 
     const entityPeoples: IProgramModulePeople[] = get(entity, 'peoples', []);
     const isStart: boolean = !Boolean(get(entity, 'finish', 0));
-    console.log(entityPeoples)
-    console.log("entityPeoples")
+    console.log(entityPeoples);
+    console.log('entityPeoples');
 
     return (
       <React.Fragment>
         <WrapperCard
-          isAdd={isAdd}
-          title={isAdd ? 'Добавить программу' : get(entity, 'title', '')}
+          isAdd={ isAdd }
+          title={ isAdd ? 'Добавить программу' : get(entity, 'title', '') }
         >
           <Form>
             <FormBlockCard
-              title={'Основное'}
-              extra={(
+              title={ 'Основное' }
+              extra={ (
                 <React.Fragment>
                   <VisibleFormLabel>Видимость </VisibleFormLabel>
-                  <Form.Item style={{ zIndex: 9999 }}>
-                    {getFieldDecorator('visible', {
+                  <Form.Item style={ { zIndex: 9999 } }>
+                    { getFieldDecorator('visible', {
                       rules: [{ required: false }],
                       initialValue: Boolean(get(entity, 'visible', 1)),
                       valuePropName: 'checked',
                     })(
                       <Switch />,
-                    )}
+                    ) }
                   </Form.Item>
                 </React.Fragment>
-              )}
-              bodyStyle={{ position: 'relative', top: -22, height: 180 }}
+              ) }
+              bodyStyle={ { position: 'relative', top: -22, height: 180 } }
             >
-              <Form.Item label={'Название'}>
-                {getFieldDecorator('title', {
+              <Form.Item label={ 'Название' }>
+                { getFieldDecorator('title', {
                   rules: [{ required: true, message: 'Введите значение' }],
                   initialValue: get(entity, 'title', ''),
                 })(
-                  <Input placeholder={'Название'} />,
-                )}
+                  <Input placeholder={ 'Название' } />,
+                ) }
               </Form.Item>
 
               <Row>
-                <Col span={23}>
-                  <Form.Item label={'Адрес'}>
-                    {getFieldDecorator('location', {
+                <Col span={ 23 }>
+                  <Form.Item label={ 'Адрес' }>
+                    { getFieldDecorator('location', {
                       rules: [{ required: false }],
                       initialValue: get(entity, 'location_name', ''),
                     })(
                       <AutoComplete
-                        placeholder={'Адрес'}
+                        placeholder={ 'Адрес' }
                         data={
                           locations
                             .map(item => item.name)
-                            .filter((item: any, index: any, self: { indexOf: (arg0: any) => void; }) => self.indexOf(item) === index)} />,
-                    )}
+                            .filter((item: any, index: any, self: { indexOf: (arg0: any) => void; }) => self.indexOf(item) === index) } />,
+                    ) }
                   </Form.Item>
                 </Col>
 
-                <Col span={1}>
-                  <div style={{ position: 'relative', top: 42 }}>
-                    <Popover content={'Добавить'}>
+                <Col span={ 1 }>
+                  <div style={ { position: 'relative', top: 42 } }>
+                    <Popover content={ 'Добавить' }>
                       <Button
-                        icon={'plus'}
-                        type={'primary'}
-                        onClick={this.onToggleVisibleAddLocation}
-                        style={{ height: 30, top: 2, borderRadius: 0 }}
+                        icon={ 'plus' }
+                        type={ 'primary' }
+                        onClick={ this.onToggleVisibleAddLocation }
+                        style={ { height: 30, top: 2, borderRadius: 0 } }
                       />
                     </Popover>
                   </div>
@@ -179,86 +178,86 @@ class EditProgram extends React.Component<IProps, IState> {
 
             <br />
 
-            <FormBlockCard title={'Время'} bodyStyle={{ height: 86 }}>
+            <FormBlockCard title={ 'Время' } bodyStyle={ { height: 86 } }>
               <Row>
-                <Col span={5}>
+                <Col span={ 5 }>
                   <Form.Item>
-                    {getFieldDecorator('start', {
+                    { getFieldDecorator('start', {
                       rules: [{ required: false }],
                       initialValue: get(entity, 'start', null)
                         ? moment.unix(get(entity, 'start', 0)).add({ hour: user.appdata.eventTimeShift }).utc()
                         : null,
                     })(
                       <DatePicker
-                        format={ONLY_DATE_FORMAT}
-                        style={{ width: '100%' }}
-                        placeholder={'Дата'}
-                        onChange={this.onPickStartDate}
+                        format={ ONLY_DATE_FORMAT }
+                        style={ { width: '100%' } }
+                        placeholder={ 'Дата' }
+                        onChange={ this.onPickStartDate }
                       />,
-                    )}
+                    ) }
                   </Form.Item>
                 </Col>
 
-                <Col span={3}>
+                <Col span={ 3 }>
                   <Form.Item>
-                    {getFieldDecorator('start_time', {
+                    { getFieldDecorator('start_time', {
                       rules: [{ required: false }],
                       initialValue: get(entity, 'start', null)
                         ? moment.unix(get(entity, 'start', 0)).add({ hour: user.appdata.eventTimeShift }).utc()
                         : null,
                     })(
                       <TimePicker
-                        format={ONLY_TIME_FORMAT}
-                        style={{ width: '100%' }}
-                        placeholder={'Время'}
+                        format={ ONLY_TIME_FORMAT }
+                        style={ { width: '100%' } }
+                        placeholder={ 'Время' }
                       />,
-                    )}
+                    ) }
                   </Form.Item>
                 </Col>
 
-                <Col span={5} offset={1}>
+                <Col span={ 5 } offset={ 1 }>
                   <Form.Item>
-                    {getFieldDecorator('finish', {
+                    { getFieldDecorator('finish', {
                       rules: [{ required: false }],
                       initialValue: isStart
                         ? undefined
                         : moment.unix(get(entity, 'finish')).add({ hour: user.appdata.eventTimeShift }).utc(),
                     })(
                       <DatePicker
-                        format={ONLY_DATE_FORMAT}
-                        style={{ width: '100%' }}
-                        placeholder={'Дата'}
+                        format={ ONLY_DATE_FORMAT }
+                        style={ { width: '100%' } }
+                        placeholder={ 'Дата' }
                       />,
-                    )}
+                    ) }
                   </Form.Item>
                 </Col>
 
-                <Col span={3}>
+                <Col span={ 3 }>
                   <Form.Item>
-                    {getFieldDecorator('finish_time', {
+                    { getFieldDecorator('finish_time', {
                       rules: [{ required: false }],
                       initialValue: isStart
                         ? undefined
                         : moment.unix(get(entity, 'finish')).add({ hour: user.appdata.eventTimeShift }).utc(),
                     })(
                       <TimePicker
-                        format={ONLY_TIME_FORMAT}
-                        style={{ width: '100%' }}
-                        placeholder={'Время'}
+                        format={ ONLY_TIME_FORMAT }
+                        style={ { width: '100%' } }
+                        placeholder={ 'Время' }
                       />,
-                    )}
+                    ) }
                   </Form.Item>
                 </Col>
 
-                <Col span={6} offset={1}>
-                  <Form.Item label={'Только начало'} style={{ position: 'relative', top: -30 }}>
-                    {getFieldDecorator('isStart', {
+                <Col span={ 6 } offset={ 1 }>
+                  <Form.Item label={ 'Только начало' } style={ { position: 'relative', top: -30 } }>
+                    { getFieldDecorator('isStart', {
                       rules: [{ required: false }],
                       initialValue: isStart,
                       valuePropName: 'checked',
                     })(
                       <Switch />,
-                    )}
+                    ) }
                   </Form.Item>
                 </Col>
               </Row>
@@ -266,14 +265,14 @@ class EditProgram extends React.Component<IProps, IState> {
 
             <br />
 
-            <FormBlockCard title={'Описание'}>
+            <FormBlockCard title={ 'Описание' }>
               <Editor
-                toolbarClassName={'toolbarClassName'}
-                wrapperClassName={'wrapperClassName'}
-                editorClassName={'editorClassName'}
-                localization={{ locale: 'ru' }}
-                editorState={this.state.editorState}
-                onEditorStateChange={this.onChangeText}
+                toolbarClassName={ 'toolbarClassName' }
+                wrapperClassName={ 'wrapperClassName' }
+                editorClassName={ 'editorClassName' }
+                localization={ { locale: 'ru' } }
+                editorState={ this.state.editorState }
+                onEditorStateChange={ this.onChangeText }
               />
             </FormBlockCard>
 
@@ -281,20 +280,20 @@ class EditProgram extends React.Component<IProps, IState> {
 
             {
               !isAdd && (
-                <FormBlockCard title={'Люди'}>
+                <FormBlockCard title={ 'Люди' }>
                   <PeopleCardWrapper>
                     <Form.Item>
-                      {getFieldDecorator('newPeople', {
+                      { getFieldDecorator('newPeople', {
                         rules: [{ required: false }],
                       })(
                         <AutoComplete
-                          placeholder={'Начните вводить имя'}
-                          data={people.map(item => item.name).filter(item => !entityPeoples.find(man => man.name === item))}
-                          prefixAddon={<Icon type={'search'} />}
-                          style={{ width: '100%' }}
-                          onPick={this.peopleAdd}
+                          placeholder={ 'Начните вводить имя' }
+                          data={ people.map(item => item.name).filter(item => !entityPeoples.find(man => man.name === item)) }
+                          prefixAddon={ <Icon type={ 'search' } /> }
+                          style={ { width: '100%' } }
+                          onPick={ this.peopleAdd }
                         />,
-                      )}
+                      ) }
                     </Form.Item>
 
                     <hr />
@@ -305,13 +304,13 @@ class EditProgram extends React.Component<IProps, IState> {
                           {
                             item.img.includes('http')
                               ? <img src={ item.img } width={ 40 } style={ { position: 'relative', top: -14 } } />
-                              : <div style={{ display: "inline-block", position: "relative", top: -14 , verticalAlign: "middle" }}>
-                                  <FakeImg style={{ left: 0 }} />
+                              : <div style={ { display: 'inline-block', position: 'relative', top: -14 , verticalAlign: 'middle' } }>
+                                  <FakeImg style={ { left: 0 } } />
                                 </div>
                               
                           }
 
-                          <PeopleNameWrapper>{item.name}</PeopleNameWrapper>
+                          <PeopleNameWrapper>{ item.name }</PeopleNameWrapper>
 
                           <Popconfirm
                             title={ 'Вы уверены?' }
@@ -338,20 +337,20 @@ class EditProgram extends React.Component<IProps, IState> {
 
             {
               !isAdd && <Popconfirm
-                title={'Вы уверены?'}
-                onConfirm={this.delete(get(entity, 'id', null))}
-                okText={'Да'}
-                cancelText={'Нет'}
-                placement={'bottom'}
+                title={ 'Вы уверены?' }
+                onConfirm={ this.delete(get(entity, 'id', null)) }
+                okText={ 'Да' }
+                cancelText={ 'Нет' }
+                placement={ 'bottom' }
               >
-                <Button type={'danger'}>Удалить</Button>
+                <Button type={ 'danger' }>Удалить</Button>
               </Popconfirm>
             }
 
             <Button
-              type={'primary'}
-              onClick={this.onSubmit}
-              style={{ position: 'relative', left: isAdd ? 630 : 542 }}
+              type={ 'primary' }
+              onClick={ this.onSubmit }
+              style={ { position: 'relative', left: isAdd ? 630 : 542 } }
             >
               Сохранить
             </Button>
@@ -359,15 +358,15 @@ class EditProgram extends React.Component<IProps, IState> {
         </WrapperCard>
 
         <Modal
-          visible={isAddLocationsVisible}
-          footer={null}
-          width={782}
-          onCancel={this.onToggleVisibleAddLocation}
+          visible={ isAddLocationsVisible }
+          footer={ null }
+          width={ 782 }
+          onCancel={ this.onToggleVisibleAddLocation }
         >
           <EditForm
-            entity={null}
-            closeModal={this.onToggleVisibleAddLocation}
-            type={'POST'}
+            entity={ null }
+            closeModal={ this.onToggleVisibleAddLocation }
+            type={ 'POST' }
             isAdd
           />
         </Modal>

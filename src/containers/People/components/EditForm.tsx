@@ -84,64 +84,64 @@ class EditForm extends React.Component<IProps, IState> {
 
     return (
       <WrapperCard
-        title={!isAdd ? get(people, 'name', '') : 'Добавление спонсора'}
-        isAdd={isAdd}
+        title={ !isAdd ? get(people, 'name', '') : 'Добавление спонсора' }
+        isAdd={ isAdd }
       >
         <AntColUpperWrapper>
           <Form>
             <FormBlockCard
-              title={'Основное'}
-              extra={(
+              title={ 'Основное' }
+              extra={ (
                 <React.Fragment>
                   <VisibleFormLabel>Видимость </VisibleFormLabel>
-                  <Form.Item style={{ zIndex: 9999 }}>
-                    {getFieldDecorator('visible', {
+                  <Form.Item style={ { zIndex: 9999 } }>
+                    { getFieldDecorator('visible', {
                       rules: [{ required: false }],
                       initialValue: Boolean(get(people, 'visible', 1)),
                       valuePropName: 'checked',
                     })(
                       <Switch />,
-                    )}
+                    ) }
                   </Form.Item>
                 </React.Fragment>
-              )}
+              ) }
             >
               <Row>
-                <Col span={6}>
+                <Col span={ 6 }>
                   <Uploader
-                    files={[this.state.file].filter(item => !!item)}
-                    beforeUploadFile={this.beforeUploadFile}
-                    onRemove={this.removeFile}
-                    imageUrl={this.state.imageUrl}
+                    files={ [this.state.file].filter(item => !!item) }
+                    beforeUploadFile={ this.beforeUploadFile }
+                    onRemove={ this.removeFile }
+                    imageUrl={ this.state.imageUrl }
                   />
                 </Col>
 
-                <Col span={17} offset={1}>
-                  <Form.Item label={'Имя'}>
-                    {getFieldDecorator('name', {
+                <Col span={ 17 } offset={ 1 }>
+                  <Form.Item label={ 'Имя' }>
+                    { getFieldDecorator('name', {
                       rules: [{ required: true, message: 'Введите значение' }],
                       initialValue: !isAdd ? get(people, 'name', '') : '',
                     })(
-                      <Input placeholder={'Имя'} />,
-                    )}
+                      <Input placeholder={ 'Имя' } />,
+                    ) }
                   </Form.Item>
 
-                  <Form.Item label={'Телефон'}>
-                    {getFieldDecorator('mobile', {
+                  <Form.Item label={ 'Телефон' }>
+                    { getFieldDecorator('mobile', {
                       rules: [{ required: true, message: 'Введите значение' }],
                       initialValue: !isAdd ? get(people, 'mobile', '') : '',
                     })(
-                      <Input placeholder={'Телефон'} />,
-                    )}
+                      <Input placeholder={ 'Телефон' } />,
+                    ) }
                   </Form.Item>
 
-                  <Form.Item label={'Subtitle'}>
-                    {getFieldDecorator('subtitle', {
+                  <Form.Item label={ 'Subtitle' }>
+                    { getFieldDecorator('subtitle', {
                       rules: [{ required: false }],
                       initialValue: !isAdd ? get(people, 'subtitle', '') : '',
                     })(
-                      <Input placeholder={'Subtitle'} />,
-                    )}
+                      <Input placeholder={ 'Subtitle' } />,
+                    ) }
                   </Form.Item>
                 </Col>
               </Row>
@@ -149,14 +149,14 @@ class EditForm extends React.Component<IProps, IState> {
 
             <br />
 
-            <FormBlockCard title={'Описание'}>
+            <FormBlockCard title={ 'Описание' }>
               <Editor
-                toolbarClassName={'toolbarClassName'}
-                wrapperClassName={'wrapperClassName'}
-                editorClassName={'editorClassName'}
-                localization={{ locale: 'ru' }}
-                editorState={this.state.editorState}
-                onEditorStateChange={this.onChangeText}
+                toolbarClassName={ 'toolbarClassName' }
+                wrapperClassName={ 'wrapperClassName' }
+                editorClassName={ 'editorClassName' }
+                localization={ { locale: 'ru' } }
+                editorState={ this.state.editorState }
+                onEditorStateChange={ this.onChangeText }
               />
             </FormBlockCard>
 
@@ -164,22 +164,22 @@ class EditForm extends React.Component<IProps, IState> {
 
             {
               !isAdd && <Popconfirm
-                title={'Вы уверены?'}
-                onConfirm={this.delete(get(people, 'id', null))}
-                okText={'Да'}
-                cancelText={'Нет'}
-                placement={'bottom'}
+                title={ 'Вы уверены?' }
+                onConfirm={ this.delete(get(people, 'id', null)) }
+                okText={ 'Да' }
+                cancelText={ 'Нет' }
+                placement={ 'bottom' }
               >
-                <Button type={'danger'}>Удалить</Button>
+                <Button type={ 'danger' }>Удалить</Button>
               </Popconfirm>
             }
 
             <Button
-              type={'primary'}
-              onClick={this.onSubmit}
-              style={{ position: 'relative', left: isAdd ? 630 : 542 }}
+              type={ 'primary' }
+              onClick={ this.onSubmit }
+              style={ { position: 'relative', left: isAdd ? 630 : 542 } }
             >
-              {isAdd ? 'Добавить' : 'Сохранить'}
+              { isAdd ? 'Добавить' : 'Сохранить' }
             </Button>
           </Form>
         </AntColUpperWrapper>

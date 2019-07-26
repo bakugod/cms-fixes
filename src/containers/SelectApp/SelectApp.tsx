@@ -37,19 +37,18 @@ class SelectApp extends React.Component<IProps, IState> {
     super(props);
   }
 
-  componentWillMount() {
+  public componentWillMount() {
     this.setState({
       modalVisible: false,
-    })
+    });
   }
 
   private static rowsNumber: number = 3;
 
   private onSelectApp = (id: number) => {
     //@ts-ignore
-    return Promise.resolve(this.props.selectApps(id))
+    return Promise.resolve(this.props.selectApps(id));
   };
-
 
   public componentDidMount() {
     const { getApps } = this.props;
@@ -70,75 +69,74 @@ class SelectApp extends React.Component<IProps, IState> {
     const rows: number = Math.ceil(apps.length / SelectApp.rowsNumber);
     let currentIndex: number = 0;
 
-
     return (
       <>
-        <Card style={{ height: '100%', overflowY: 'scroll', }}>
+        <Card style={ { height: '100%', overflowY: 'scroll' } }>
           <h1>Мои приложения</h1>
           <div className='content-wraper' >
             {
               range(0, rows).map(index => (
-                <div className={b('apps', 'parent')} key={index}>
+                <div className={ b('apps', 'parent') } key={ index }>
                   {
                     range(0, SelectApp.rowsNumber).map(columnIndex => {
                       if (currentIndex === apps.length) {
-                        return <React.Fragment key={`no_${columnIndex}`} />;
+                        return <React.Fragment key={ `no_${columnIndex}` } />;
                       }
 
                       const event: any = apps[currentIndex];
                       currentIndex += 1;
                       const cardData: JSX.Element = (
                         <Card
-                          className={b('apps', 'child')}
-                          onClick={() => this.onSelectApp(event.id)}
+                          className={ b('apps', 'child') }
+                          onClick={ () => this.onSelectApp(event.id) }
                         >
                           <Card.Meta
-                            title={event.name}
+                            title={ event.name }
                           />
-                          <div className={b('apps','icon-wraper')} >
+                          <div className={ b('apps','icon-wraper') } >
                             <Icon
-                              type={'caret-right'}
-                              style={{
+                              type={ 'caret-right' }
+                              style={ {
                                 position: 'relative',
                                 transform: 'translateY(-50%) scale(3, 3)',
                                 top: 26,
                                 left: 26,
-                              }}
+                              } }
                             />
                           </div>
-                          <span style={{ position: 'relative', top: 60 }} >{event.event_name || 'Нет названия'}</span>
+                          <span style={ { position: 'relative', top: 60 } } >{ event.event_name || 'Нет названия' }</span>
                         </Card>
                       );
 
                       return (
-                        <React.Fragment key={`column_${columnIndex}`}>
+                        <React.Fragment key={ `column_${columnIndex}` }>
                           {
                             event.id !== -1
                               ? cardData
                               : (
                                 <Card
-                                  className={b('apps', 'child')}
-                                  style={{
+                                  className={ b('apps', 'child') }
+                                  style={ {
                                     textAlign: 'center',
                                     boxShadow: ' 1px 2px 3px 0px rgba(50, 50, 50, 0.69)',
                                     MozBoxShadow: '1px 2px 3px -1px rgba(50, 50, 50, 0.69)',
-                                  }}
-                                  onClick={this.onOpenModal}
+                                  } }
+                                  onClick={ this.onOpenModal }
                                 >
                                   <Card.Meta
-                                    title={"Создать приложение"}
+                                    title={ 'Создать приложение' }
                                   />
-                                  <div className={b('apps','icon-wraper')} >
+                                  <div className={ b('apps','icon-wraper') } >
                                     <Icon
-                                      type={'plus'}
-                                      style={{
+                                      type={ 'plus' }
+                                      style={ {
                                         position: 'relative',
                                         transform: 'translateY(-50%) scale(3, 3)',
                                         top: 26,
-                                      }}
+                                      } }
                                     />
                                   </div>
-                                  <span style={{ position: 'relative', top: 60, opacity: 0 }} >{event.event_name || 'Добавить'}</span>
+                                  <span style={ { position: 'relative', top: 60, opacity: 0 } } >{ event.event_name || 'Добавить' }</span>
                                 </Card>
                               )
                           }
@@ -154,69 +152,69 @@ class SelectApp extends React.Component<IProps, IState> {
         {
           !!this.state.modalVisible
             ? <Modal
-              style={{ top: 395, zIndex: 999 }}
-              title="Создать приложение"
-              visible={this.state.modalVisible}
-              onCancel={this.onCloseModal}
-              onOk={this.handleSubmit}
-              footer={[
-                <Button key="back" onClick={this.onCloseModal}>
+              style={ { top: 395, zIndex: 999 } }
+              title='Создать приложение'
+              visible={ this.state.modalVisible }
+              onCancel={ this.onCloseModal }
+              onOk={ this.handleSubmit }
+              footer={ [
+                <Button key='back' onClick={ this.onCloseModal }>
                   Вернуться
                 </Button>,
-                <Button key="submit" type="primary" onClick={this.handleSubmit}>
+                <Button key='submit' type='primary' onClick={ this.handleSubmit }>
                   Создать приложение
-                </Button>
-              ]}
+                </Button>,
+              ] }
             >
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Form onSubmit={this.handleSubmit} className="login-form" style={{ minWidth: 300 }}>
+              <div style={ { display: 'flex', justifyContent: 'center' } }>
+                <Form onSubmit={ this.handleSubmit } className='login-form' style={ { minWidth: 300 } }>
                   <Form.Item>
-                    {getFieldDecorator('event_name', {
+                    { getFieldDecorator('event_name', {
                       rules: [{ required: true, message: 'Пожалуйста, введите номер телефона!' }],
                     })(
                       <Input
-                        style={{ marginTop: 20 }}
-                        prefix={<Icon type="file-done" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                        placeholder="Название" size="large"
+                        style={ { marginTop: 20 } }
+                        prefix={ <Icon type='file-done' style={ { color: 'rgba(0,0,0,.25)' } } /> }
+                        placeholder='Название' size='large'
                       />,
-                    )}
+                    ) }
                   </Form.Item>
-                  <Form.Item label="Дата проведения события">
-                    {getFieldDecorator('date', {
+                  <Form.Item label='Дата проведения события'>
+                    { getFieldDecorator('date', {
                       rules: [{ required: true, message: 'Пожалуйста, введите время события!' }],
                     })(
                       <RangePicker
                         showTime
-                        style={{ width: 300 }}
-                        format={DATE_FORMAT}
+                        style={ { width: 300 } }
+                        format={ DATE_FORMAT }
                       />,
-                    )}
+                    ) }
                   </Form.Item>
-                  <Form.Item label="Временная зона">
-                    {getFieldDecorator('timezone', {
+                  <Form.Item label='Временная зона'>
+                    { getFieldDecorator('timezone', {
                       initialValue: 0,
-                      rules: [{ required: true, message: 'Пожалуйста, введите временную зону!', }],
+                      rules: [{ required: true, message: 'Пожалуйста, введите временную зону!' }],
                     })(
-                      <Select placeholder="Временная зона" style={{ width: 300 }}>
+                      <Select placeholder='Временная зона' style={ { width: 300 } }>
                         {
                           times.map(item => {
-                            return (<Option key={item}>{item}</Option>)
+                            return (<Option key={ item }>{ item }</Option>);
                           })
                         }
                       </Select>,
-                    )}
+                    ) }
                   </Form.Item>
-                  <Form.Item label="Локация">
-                    {getFieldDecorator('location', {
+                  <Form.Item label='Локация'>
+                    { getFieldDecorator('location', {
                       initialValue: 0,
-                      rules: [{ required: true, message: 'Пожалуйста, введите локацию!', }],
+                      rules: [{ required: true, message: 'Пожалуйста, введите локацию!' }],
                     })(
                       <Input
-                        style={{ width: 300 }}
-                        prefix={<Icon type="picture" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                        placeholder="Локация" size="large"
+                        style={ { width: 300 } }
+                        prefix={ <Icon type='picture' style={ { color: 'rgba(0,0,0,.25)' } } /> }
+                        placeholder='Локация' size='large'
                       />,
-                    )}
+                    ) }
                   </Form.Item>
                 </Form>
               </div>
@@ -241,11 +239,11 @@ class SelectApp extends React.Component<IProps, IState> {
           end_time: values.date[1].unix(),
           timezone: values.timezone,
           location: values.location,
-        }
-        this.setState({ modalVisible: false })
+        };
+        this.setState({ modalVisible: false });
         console.log('Received values of form: ', obj);
         //@ts-ignore 
-        return this.props.newApp(obj)
+        return this.props.newApp(obj);
       }
     });
   };
@@ -270,4 +268,4 @@ export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(Form.create()(SelectApp));
-
+

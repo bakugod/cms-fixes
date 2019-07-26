@@ -37,7 +37,7 @@ class Company extends React.Component<IProps, IState> {
       Cell: (cellInfo: RowInfo) => (
         <div style={ {height: 80} }>
           <Row gutter={ 24 }>
-            <Col span={ 8 } className="image-placeholder" style={{ paddingLeft: 0, paddingRight: 0 }}>
+            <Col span={ 8 } className='image-placeholder' style={ { paddingLeft: 0, paddingRight: 0 } }>
               <React.Fragment>
                 {
                   get(cellInfo, 'original.img').includes('http')
@@ -49,15 +49,15 @@ class Company extends React.Component<IProps, IState> {
                 }
               </React.Fragment>
             </Col>
-            <Col span={ 12 } style={{ margin: '0 0 0 -8px', padding: 0 }}>
-              <p style={{ margin: 0, fontWeight: "bold" }}>{ cellInfo.original.name }</p>
-              <p style={{ margin: 0 }}>{ cellInfo.original.announce }</p>
+            <Col span={ 12 } style={ { margin: '0 0 0 -8px', padding: 0 } }>
+              <p style={ { margin: 0, fontWeight: 'bold' } }>{ cellInfo.original.name }</p>
+              <p style={ { margin: 0 } }>{ cellInfo.original.announce }</p>
             </Col>
           </Row>
         </div>
       ),
       style: {
-        width: "fit-content",
+        width: 'fit-content',
       },
     },
     {
@@ -70,7 +70,7 @@ class Company extends React.Component<IProps, IState> {
       accessor: 'visible',
       Cell: (cellInfo: RowInfo) => (
         <Switch
-          checked={Boolean(get(cellInfo, 'original.visible'))}
+          checked={ Boolean(get(cellInfo, 'original.visible')) }
           className='content__module-table-switch-position'
         />
       ),

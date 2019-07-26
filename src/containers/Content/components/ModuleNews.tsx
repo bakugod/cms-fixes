@@ -38,29 +38,29 @@ class ModuleNews extends React.Component<IProps, IState> {
 
         return (
           <div>
-            <Row gutter={24}>
-              <Col span={8} className="image-placeholder" style={{ paddingLeft: 0, paddingRight: 0 }}>
+            <Row gutter={ 24 }>
+              <Col span={ 8 } className='image-placeholder' style={ { paddingLeft: 0, paddingRight: 0 } }>
                 <React.Fragment>
                   {
                     image.includes('http')
                       ? <img
-                        src={image}
-                        style={{ maxWidth: 70, maxHeight: 70 }}
+                        src={ image }
+                        style={ { maxWidth: 70, maxHeight: 70 } }
                       />
-                      : <FakeImg style={{ left: 0 }} />
+                      : <FakeImg style={ { left: 0 } } />
                   }
                 </React.Fragment>
               </Col>
-              <Col span={12} style={{ margin: '0 0 0 -8px', padding: 0 }}>
-                <p style={{ fontWeight: "bold" }}>{cellInfo.original.title}</p>
-                <p style={{ margin: 0 }}>{cellInfo.original.announceShort}</p>
+              <Col span={ 12 } style={ { margin: '0 0 0 -8px', padding: 0 } }>
+                <p style={ { fontWeight: 'bold' } }>{ cellInfo.original.title }</p>
+                <p style={ { margin: 0 } }>{ cellInfo.original.announceShort }</p>
               </Col>
             </Row >
           </div >
         );
       },
       style: {
-        width: "fit-content",
+        width: 'fit-content',
       },
     },
     {
@@ -72,8 +72,8 @@ class ModuleNews extends React.Component<IProps, IState> {
       accessor: 'visible',
       Cell: (cellInfo: RowInfo) => (
         <Switch
-          checked={Boolean(get(cellInfo, 'original.visible', 1))}
-          className={b('content', 'program-table-switch-position')}
+          checked={ Boolean(get(cellInfo, 'original.visible', 1)) }
+          className={ b('content', 'program-table-switch-position') }
         />
       ),
       width: 100,
@@ -82,9 +82,9 @@ class ModuleNews extends React.Component<IProps, IState> {
       Header: 'Обновлено',
       accessor: 'time',
       Cell: (cellInfo: RowInfo) => (
-        <div style={{ display: "flex", flexDirection: "column", textAlign: "right" }}>
-          <span>{cellInfo.original.time.slice(0, 10)}</span>
-          <span>{cellInfo.original.time.slice(10, 16)}</span>
+        <div style={ { display: 'flex', flexDirection: 'column', textAlign: 'right' } }>
+          <span>{ cellInfo.original.time.slice(0, 10) }</span>
+          <span>{ cellInfo.original.time.slice(10, 16) }</span>
         </div>
       ),
       width: 100,
@@ -108,34 +108,34 @@ class ModuleNews extends React.Component<IProps, IState> {
 
     return (
       <Card
-        title={<Button icon={'plus'} onClick={this.onOpenAddModal} type={'primary'} >Добавить новость</Button>}
+        title={ <Button icon={ 'plus' } onClick={ this.onOpenAddModal } type={ 'primary' } >Добавить новость</Button> }
       >
         <ReactTable
-          data={data.map((item: INews) => ({
+          data={ data.map((item: INews) => ({
             ...item,
             time: moment.unix(item.time).format(DATE_FORMAT),
             announceShort: item.announce.slice(0, 200),
             bodyShort: item.body.slice(0, 200),
             visible: Boolean(item.visible) ? 'Да' : 'Нет',
-          }))}
-          columns={ModuleNews.columns}
-          pageSize={data.length}
-          noDataText={'Нет информации'}
-          loadingText={'Загрузка...'}
-          loading={isLoading}
-          className={'-striped -highlight'}
-          getTrProps={this.onRowClick}
-          showPagination={false}
-          resizable={false}
-          style={{ color: "#000000", maxHeight: "85vh" }}
+          })) }
+          columns={ ModuleNews.columns }
+          pageSize={ data.length }
+          noDataText={ 'Нет информации' }
+          loadingText={ 'Загрузка...' }
+          loading={ isLoading }
+          className={ '-striped -highlight' }
+          getTrProps={ this.onRowClick }
+          showPagination={ false }
+          resizable={ false }
+          style={ { color: '#000000', maxHeight: '85vh' } }
         />
 
-        <Modal visible={modalVisible} footer={null} onCancel={this.onCloseModal} width={782}>
+        <Modal visible={ modalVisible } footer={ null } onCancel={ this.onCloseModal } width={ 782 }>
           <EditNews
-            index={0}
-            data={currentEntity}
-            closeModal={this.onCloseModal}
-            isAdd={isAdd}
+            index={ 0 }
+            data={ currentEntity }
+            closeModal={ this.onCloseModal }
+            isAdd={ isAdd }
           />
         </Modal>
       </Card>

@@ -32,34 +32,34 @@ class People extends React.Component<IProps, IState> {
       Header: 'Название',
       accessor: 'name',
       Cell: (cellInfo: RowInfo) => {
-        const image: string = get(cellInfo, 'original.img') || "fake";
+        const image: string = get(cellInfo, 'original.img') || 'fake';
         const subtitle: string = get(cellInfo, 'original.data.subtitle');
 
         return (
           <div>
-            <Row gutter={24}>
-              <Col span={8} className="image-placeholder" style={{ paddingLeft: 0, paddingRight: 0 }}>
+            <Row gutter={ 24 }>
+              <Col span={ 8 } className='image-placeholder' style={ { paddingLeft: 0, paddingRight: 0 } }>
                 <React.Fragment>
                   {
                     image.includes('http')
                       ? <img
-                        src={image}
-                        style={{ maxWidth: 70, maxHeight: 70 }}
+                        src={ image }
+                        style={ { maxWidth: 70, maxHeight: 70 } }
                       />
                       : <FakeImg />
                   }
                 </React.Fragment>
               </Col>
-              <Col span={12} style={{ margin: '0 0 0 -8px', padding: 0 }}>
-                <p style={{ margin: 0, fontWeight: "bold" }}>{cellInfo.original.name}</p>
-                <p>{cellInfo.original.mobile}</p>
+              <Col span={ 12 } style={ { margin: '0 0 0 -8px', padding: 0 } }>
+                <p style={ { margin: 0, fontWeight: 'bold' } }>{ cellInfo.original.name }</p>
+                <p>{ cellInfo.original.mobile }</p>
               </Col>
             </Row>
           </div>
         );
       },
       style: {
-        width: "fit-content",
+        width: 'fit-content',
       },
     },
     {
@@ -72,7 +72,7 @@ class People extends React.Component<IProps, IState> {
       accessor: 'visible',
       Cell: (cellInfo: RowInfo) => (
         <Switch
-          checked={Boolean(get(cellInfo, 'original.visible'))}
+          checked={ Boolean(get(cellInfo, 'original.visible')) }
           className='content__module-table-switch-position'
         />
       ),
@@ -106,43 +106,43 @@ class People extends React.Component<IProps, IState> {
 
     return (
       <Card
-        style={{ marginLeft: 185, height: '100vh' }}
-        title={(
+        style={ { marginLeft: 185, height: '100vh' } }
+        title={ (
           <Row>
-            <Col span={6}>
-              <Button icon={'plus'} onClick={this.onOpenAddModal} type={'primary'}>Добавить спонсора</Button>
-              <Button icon={'setting'} style={{ left: 10 }} disabled />
+            <Col span={ 6 }>
+              <Button icon={ 'plus' } onClick={ this.onOpenAddModal } type={ 'primary' }>Добавить спонсора</Button>
+              <Button icon={ 'setting' } style={ { left: 10 } } disabled />
             </Col>
 
-            <Col span={5} offset={13}>
-              <Input addonBefore={<Icon type={'search'} />} placeholder={'Поиск'} disabled />
+            <Col span={ 5 } offset={ 13 }>
+              <Input addonBefore={ <Icon type={ 'search' } /> } placeholder={ 'Поиск' } disabled />
             </Col>
           </Row>
-        )}
+        ) }
       >
         <ReactTable
-          data={people.map(item => ({
+          data={ people.map(item => ({
             ...item,
             category: 'Нет категории',
             updated: moment.unix(item.updated_at).format(DATE_FORMAT),
-          }))}
-          columns={People.columns}
-          pageSize={people.length}
-          noDataText={'Нет информации'}
-          loadingText={'Загрузка...'}
-          className={'-striped -highlight'}
-          getTrProps={this.onRowClick}
-          showPagination={false}
-          resizable={false}
-          style={{ color: "#000000", maxHeight: "85vh" }}
+          })) }
+          columns={ People.columns }
+          pageSize={ people.length }
+          noDataText={ 'Нет информации' }
+          loadingText={ 'Загрузка...' }
+          className={ '-striped -highlight' }
+          getTrProps={ this.onRowClick }
+          showPagination={ false }
+          resizable={ false }
+          style={ { color: '#000000', maxHeight: '85vh' } }
         />
 
-        <Modal visible={modalVisible} footer={null} onCancel={this.onCloseModal} width={782}>
+        <Modal visible={ modalVisible } footer={ null } onCancel={ this.onCloseModal } width={ 782 }>
           <EditForm
-            people={currentPeople}
-            closeModal={this.onCloseModal}
-            isAdd={isAdd}
-            type={isAdd ? 'POST' : 'PUT'}
+            people={ currentPeople }
+            closeModal={ this.onCloseModal }
+            isAdd={ isAdd }
+            type={ isAdd ? 'POST' : 'PUT' }
           />
         </Modal>
       </Card>

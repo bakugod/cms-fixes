@@ -12,7 +12,7 @@ import FilePicker from './containers/FilePicker/FilePicker';
 import Locations from './containers/Locations/Locations';
 import Company from './containers/Company/Company';
 import Login from './containers/Login/Login';
-import Registration from './containers/Registration/Registration'
+import Registration from './containers/Registration/Registration';
 
 import SelectApp from './containers/SelectApp/SelectApp';
 
@@ -42,26 +42,26 @@ const DevelopmentRender = () => <Info type='Development' />;
 
 export const publicRoutes: JSX.Element = (
 	<Switch>
-		<Route exact path={PATHS.SIGNUP} component={Registration} />
-		<Route render={login} />
+		<Route exact path={ PATHS.SIGNUP } component={ Registration } />
+		<Route render={ login } />
 	</Switch>
 );
 
 export const privateRoutes: JSX.Element = (
 	<Switch>
-		<Route exact path={PATHS.SELECT_APP} component={SelectApp} />
-		<Route exact path={PATHS.MAIN} component={Main} />
-		<Route path={PATHS.SIGNUP} render={signUp} />
-		<Route exact path={PATHS.MENU_EDIT} component={Menu} />
-		<Route exact path={PATHS.CONTENT} component={Content} />
-		<Route exact path={PATHS.PEOPLE} component={People} />
-		<Route exact path={PATHS.COMPANY} component={Company} />
-		<Route exact path={PATHS.EVENTS} component={Events} />
-		{/* <Route exact path={PATHS.ICONS} component={Icons} /> */}
-		<Route exact path={PATHS.FILEPICKER} component={FilePicker} />
-		<Route exact path={PATHS.LOCATIONS} component={Locations} />
-		<Route exact path={PATHS.PEOPLE_SECTION} render={DevelopmentRender} />
-		<Route exact path={PATHS.COMPANY_SECTION} render={DevelopmentRender} />
-		<Route render={NotFoundRender} />
+		<Route exact path={ PATHS.SELECT_APP } component={ SelectApp } />
+		<Route exact path={ PATHS.MAIN } component={ Main } />
+		<Route path={ PATHS.SIGNUP } render={ signUp } />
+		<Route exact path={ PATHS.MENU_EDIT } component={ Menu } />
+		<Route exact path={ PATHS.CONTENT } component={ Content } />
+		<Route exact path={ PATHS.PEOPLE } component={ People } />
+		<Route exact path={ PATHS.COMPANY } component={ Company } />
+		<Route exact path={ PATHS.EVENTS } component={ Events } />
+		{ /* <Route exact path={PATHS.ICONS} component={Icons} /> */ }
+		<Route exact path={ PATHS.FILEPICKER } component={ FilePicker } />
+		<Route exact path={ PATHS.LOCATIONS } component={ Locations } />
+		<Route exact path={ PATHS.PEOPLE_SECTION } render={ DevelopmentRender } />
+		<Route exact path={ PATHS.COMPANY_SECTION } render={ DevelopmentRender } />
+		<Route render={ NotFoundRender } />
 	</Switch>
-)
+);

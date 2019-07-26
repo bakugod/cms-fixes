@@ -27,7 +27,6 @@ class AddMenuForm extends React.Component<IProps> {
     const {form, modules, icons} = this.props;
     const { getFieldDecorator } = form;
 
-    
     return (
       <Form onSubmit={ this.onHandleSubmit }>
         <Form.Item>
@@ -42,7 +41,7 @@ class AddMenuForm extends React.Component<IProps> {
           { getFieldDecorator('pic', {
             rules: [{ required: true, message: 'Введите значение' }],
           })(
-            <AutoComplete placeholder={ 'URL картинки' }  data={ icons.map(icon => icon.url) }/>
+            <AutoComplete placeholder={ 'URL картинки' }  data={ icons.map(icon => icon.url) }/>,
           ) }
         </Form.Item>
         
@@ -53,7 +52,7 @@ class AddMenuForm extends React.Component<IProps> {
             <AutoComplete placeholder={ 'Модуль' } data={ modules.map(item => item.name) } />,
           ) }
         </Form.Item>
-        <div style={{ display: "flex" }}>
+        <div style={ { display: 'flex' } }>
           <Form.Item>
             { getFieldDecorator('customColor', {
               rules: [{ required: false, message: 'Введите значение' }],
@@ -68,12 +67,11 @@ class AddMenuForm extends React.Component<IProps> {
               initialValue: 'ffffff',
             })(
               <Input 
-                style = {{ width: "auto" }}
-                placeholder={ 'Цвет' } />
+                style={ { width: 'auto' } }
+                placeholder={ 'Цвет' } />,
             ) }
           </Form.Item>
         </div>
-        
         
         <Button htmlType={ 'submit' } type={ 'primary' } style={ {position: 'relative', left: '87%', top: 10} }>
           Добавить

@@ -25,7 +25,7 @@ class ContentList extends React.Component<IProps> {
 
   private getContent = (): JSX.Element => {
     const { container } = this.props;
-    console.log(this.props)
+    console.log(this.props);
 
     switch (container.module) {
       case 5:
@@ -45,8 +45,8 @@ class ContentList extends React.Component<IProps> {
       case null:
       default:
         return (
-          <div style={{ width: '100%', height: '100%', textAlign: 'center' }}>
-            <span style={{ fontSize: '14pt', fontWeight: 'bold' }}>Данный модуль не требует редактирования</span>
+          <div style={ { width: '100%', height: '100%', textAlign: 'center' } }>
+            <span style={ { fontSize: '14pt', fontWeight: 'bold' } }>Данный модуль не требует редактирования</span>
           </div>
         );
     }

@@ -52,7 +52,7 @@ export default class Input extends React.Component<IProps, IState> {
       !textArea
         ? (
           <AntdInput
-            type={type}
+            type={ type }
             value={ value }
             onPressEnter={ onKeyPress }
             placeholder={ placeholder }

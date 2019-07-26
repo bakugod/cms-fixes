@@ -39,14 +39,14 @@ class Locations extends React.Component<IProps, IState> {
               <Icon type={ 'environment' } />
             </Col>
             <Col span={ 19 } offset={ 1 }>
-              <p style={{ margin: 0, fontWeight: "bold" }}>{ cellInfo.original.name }</p>
-              <p style={{ margin: 0 }}>{ cellInfo.original.address }</p>
+              <p style={ { margin: 0, fontWeight: 'bold' } }>{ cellInfo.original.name }</p>
+              <p style={ { margin: 0 } }>{ cellInfo.original.address }</p>
             </Col>
           </Row>
         </div>
       ),
       style: {
-        width: "fit-content",
+        width: 'fit-content',
       },
     },
     {
@@ -59,7 +59,7 @@ class Locations extends React.Component<IProps, IState> {
       accessor: 'visible',
       Cell: (cellInfo: RowInfo) => (
         <Switch
-          checked={Boolean(cellInfo.original.visible)}
+          checked={ Boolean(cellInfo.original.visible) }
           className='content__module-table-switch-position'
         />
       ),
@@ -72,9 +72,9 @@ class Locations extends React.Component<IProps, IState> {
         const updated = moment.unix(cellInfo.original.updated_at).format(DATE_FORMAT);
 
         return (
-          <Col style={{ textAlign: "right", }}>
-            <p style={{ margin: 0 }}>{updated.slice(0, 10)}</p>
-            <p>{updated.slice(10, 16)}</p>
+          <Col style={ { textAlign: 'right' } }>
+            <p style={ { margin: 0 } }>{ updated.slice(0, 10) }</p>
+            <p>{ updated.slice(10, 16) }</p>
           </Col>
         );
       },
@@ -133,7 +133,7 @@ class Locations extends React.Component<IProps, IState> {
           getTrProps={ this.onRowClick }
           showPagination={ false }
           resizable={ false }
-          style={ {color: "#000000", maxHeight: "85vh"} }
+          style={ {color: '#000000', maxHeight: '85vh'} }
         />
 
         <Modal visible={ modalVisible } footer={ null } onCancel={ this.onCloseModal } width={ 782 }>

@@ -39,7 +39,7 @@ export interface ILogin {
 }
 
 export interface IStatus {
-  code: number
+  code: number;
 }
 
 const PREFIX: string = 'auth';
@@ -51,7 +51,7 @@ const defaultState: IAuth = {
   login: '',
   pw: '',
   code: 0,
-  client: 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36'
+  client: 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36',
 };
 
 export const setUser = createAction<ISetUserAction>(`@@${PREFIX}/SET_USER`);
@@ -77,7 +77,7 @@ export default handleActions<IAuth, ActionTypes>({
   [login.toString()]: (state: IAuth, action: Action<any>): IAuth => ({
     ...state,
     login: '',
-    pw: ''
+    pw: '',
   }),
   [logout.toString()]: (state: IAuth): IAuth => ({
     ...state,

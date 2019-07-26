@@ -40,17 +40,15 @@ class App extends React.Component<IProps> {
     checkAuth(get(params, 'token', null));
   }
 
-  componentDidUpdate(prevProps) {
+  public componentDidUpdate(prevProps) {
     return this.props.user !== prevProps.user;
   }
-  
   
   public render(): JSX.Element {
     const {isAuthLoading, user} = this.props;
     const isShowMenus: boolean = !isAuthLoading && !!user;
-    const isShowSider: boolean = this.props.location.pathname !== "/select"
+    const isShowSider: boolean = this.props.location.pathname !== '/select';
 
-    
     return (
       <Layout style={ {minHeight: '100vh'} }>
         { isShowMenus && <Header /> }
@@ -68,7 +66,6 @@ class App extends React.Component<IProps> {
 
   private getContent = (): JSX.Element => {
     const { isAuthLoading, user, location } = this.props;
-
 
     // if (!isAuthLoading && !get(user, 'user_id', null)) {
     //   return location.pathname !== '/signup' ? <Info type={ 'Forbidden' } /> : <Info type={ 'SignUp' } /> ;

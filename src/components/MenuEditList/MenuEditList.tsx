@@ -32,7 +32,7 @@ const MenuWraper = styled.div`
   .ant-layout-sider-children{
 
   }
-`
+`;
 
 const ItemWrapper = styled.div`
   width: 100%;
@@ -112,7 +112,7 @@ class MenuEditList extends React.Component<IProps, IState> {
       <React.Fragment>
         <Card title={ 'Меню' } extra={ <Button icon={ 'plus' } onClick={ this.toggleAddMenu }>Добавить меню</Button> } bodyStyle={ {display: 'none'} } />
         
-        <div style={{ height: 1000, overflowY: 'scroll'}}>
+        <div style={ { height: 1000, overflowY: 'scroll'} }>
           <List
             
             dataSource={ menu.data }

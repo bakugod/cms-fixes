@@ -24,14 +24,13 @@ export class FilesAPI {
 				});
 
 				const body: object = {
-					"action": "list",
-					"target": "company"
-				}
-
+					action: 'list',
+					target: 'company',
+				};
 
 				const response: Response = await Transport.post(GET_FILES, headers, body);
 				const json: { code: number; data: IFilesList[] } = await response.json();
-				console.log(json)
+				console.log(json);
 
 				dispatch(setFiles({ data: json.data }));
 				return json;
@@ -43,7 +42,7 @@ export class FilesAPI {
 
 	public static updateFile = (event: IFilesList): ThunkAction<void, IReducers, Action> => {
 		return async (dispatch: Dispatch<IReducers>) => {
-			console.log(event)
+			console.log(event);
 			dispatch(FilesAPI.getData());
 			notification.success({ message: 'Событие успешно изменено', description: '' });
 		};
@@ -66,7 +65,7 @@ export class FilesAPI {
 					const json: { code: number; url: string; } = await responseSession.json();
 					const url: string = json.url;
 
-					console.log(data)
+					console.log(data);
 					
 					const formData: FormData = new FormData();
 					
@@ -84,29 +83,26 @@ export class FilesAPI {
 					);
 					const uploadData: { code: number; data: { url: string; }[] } = await responseUpload.json();
 
-					console.log(uploadData.data[0].url)
+					console.log(uploadData.data[0].url);
 
 					const headers2: Headers = new Headers({
 						authorization: `Bearer ${token}`,
-						event: user.appdata.eventID.toString()
+						event: user.appdata.eventID.toString(),
 					});
 
-					for(let i = 0; i < uploadData.data.length;i++){
+					for(let i = 0; i < uploadData.data.length;i++) {
 						const body: object = {
-							"action": "add",
-							"target": "company",
-							"event_id" : 134,
-							"url" : uploadData.data[i].url
-						}
-		
+							action: 'add',
+							target: 'company',
+							event_id : 134,
+							url : uploadData.data[i].url,
+						};
 		
 						const response: Response = await Transport.post(GET_FILES, headers2, body);
 	
 						const json2: any = await response.json();
-						console.log(json2)
+						console.log(json2);
 					}
-
-
 
 					if (+uploadData.code === 200) {
 						if (cb) {

@@ -34,41 +34,41 @@ class ModulePeopleList extends React.Component<IProps, IState> {
       Header: 'Имя',
       accessor: 'img',
       Cell: (cellInfo: RowInfo) => {
-        const image: string = get(cellInfo, 'original.img') || "fake";
+        const image: string = get(cellInfo, 'original.img') || 'fake';
         const subtitle: string = get(cellInfo, 'original.data.subtitle');
 
         return (
           <div>
-            <Row gutter={24}>
-              <Col span={8} className="image-placeholder" style={{ paddingLeft: 0, paddingRight: 0 }}>
+            <Row gutter={ 24 }>
+              <Col span={ 8 } className='image-placeholder' style={ { paddingLeft: 0, paddingRight: 0 } }>
                 <React.Fragment>
                   {
                     image.includes('http')
                       ? <img
-                        src={image}
-                        style={{ maxWidth: 70, maxHeight: 70 }}
+                        src={ image }
+                        style={ { maxWidth: 70, maxHeight: 70 } }
                       />
-                      : <FakeImg style={{ left: 0 }} />
+                      : <FakeImg style={ { left: 0 } } />
                   }
                 </React.Fragment>
               </Col>
-              <Col span={12} style={{ margin: '0 0 0 -8px', padding: 0 }}>
-                <p style={{ margin: 0, fontWeight: "bold" }}>{cellInfo.original.peopleName}</p>
-                <p style={{ margin: 0 }}>{subtitle}</p>
+              <Col span={ 12 } style={ { margin: '0 0 0 -8px', padding: 0 } }>
+                <p style={ { margin: 0, fontWeight: 'bold' } }>{ cellInfo.original.peopleName }</p>
+                <p style={ { margin: 0 } }>{ subtitle }</p>
               </Col>
             </Row>
           </div>
         );
       },
       style: {
-        width: "fit-content",
+        width: 'fit-content',
       },
     },
     {
       Header: 'Группа',
       accessor: 'people_group_name',
       style: {
-        textAlign: "center",
+        textAlign: 'center',
       },
       width: 150,
     },
@@ -77,8 +77,8 @@ class ModulePeopleList extends React.Component<IProps, IState> {
       accessor: 'visible',
       Cell: (cellInfo: RowInfo) => (
         <Switch
-          checked={Boolean(get(cellInfo, 'original.visible', 1))}
-          className={b('content', 'module-table-switch-position', { 'without-location': !cellInfo.original.location_name })}
+          checked={ Boolean(get(cellInfo, 'original.visible', 1)) }
+          className={ b('content', 'module-table-switch-position', { 'without-location': !cellInfo.original.location_name }) }
         />
       ),
       width: 100,
@@ -91,9 +91,9 @@ class ModulePeopleList extends React.Component<IProps, IState> {
         const updated = moment.unix(data).format(DATE_FORMAT);
 
         return (
-          <Col style={{ textAlign: "right", }}>
-            <p style={{ margin: 0 }}>{updated.slice(0, 10)}</p>
-            <p>{updated.slice(10, 16)}</p>
+          <Col style={ { textAlign: 'right' } }>
+            <p style={ { margin: 0 } }>{ updated.slice(0, 10) }</p>
+            <p>{ updated.slice(10, 16) }</p>
           </Col>
         );
       },
@@ -114,46 +114,46 @@ class ModulePeopleList extends React.Component<IProps, IState> {
 
   public render(): JSX.Element {
     const { container: { data, isLoading } } = this.props;
-    console.log(this.props)
+    console.log(this.props);
     const { modalVisible, isAdd, currentEntity } = this.state;
 
     //shitcoding mode ON
-    for (let i in data){
+    for (const i in data) {
       if( data[i].people_id === 99) {
-        Reflect.deleteProperty(data, i)
+        Reflect.deleteProperty(data, i);
       }
     }
 
     return (
       <Card
-        title={<Button icon={'plus'} onClick={this.onOpenAddModal} type={'primary'} >Добавить</Button>}
+        title={ <Button icon={ 'plus' } onClick={ this.onOpenAddModal } type={ 'primary' } >Добавить</Button> }
       >
         <ReactTable
-          data={data.map((item: IPeopleList) => ({
+          data={ data.map((item: IPeopleList) => ({
             ...item,
             visible: Boolean(item.visible) ? 1 : 0,
             img: item.data.img,
             peopleName: item.data.name,
             updated: item.data.updated_at,
-          }))}
-          columns={ModulePeopleList.columns}
-          pageSize={data.length}
-          noDataText={'Нет информации'}
-          loadingText={'Загрузка...'}
-          loading={isLoading}
-          className={'-striped -highlight'}
-          getTrProps={this.onRowClick}
-          showPagination={false}
-          resizable={false}
-          style={{ color: "#000000", maxHeight: "85vh" }}
+          })) }
+          columns={ ModulePeopleList.columns }
+          pageSize={ data.length }
+          noDataText={ 'Нет информации' }
+          loadingText={ 'Загрузка...' }
+          loading={ isLoading }
+          className={ '-striped -highlight' }
+          getTrProps={ this.onRowClick }
+          showPagination={ false }
+          resizable={ false }
+          style={ { color: '#000000', maxHeight: '85vh' } }
         />
 
-        <Modal visible={modalVisible} footer={null} onCancel={this.onCloseModal} width={782}>
+        <Modal visible={ modalVisible } footer={ null } onCancel={ this.onCloseModal } width={ 782 }>
           <EditPeople
-            people={currentEntity}
-            closeModal={this.onCloseModal}
-            isAdd={isAdd}
-            type={isAdd ? 'POST' : 'PUT'}
+            people={ currentEntity }
+            closeModal={ this.onCloseModal }
+            isAdd={ isAdd }
+            type={ isAdd ? 'POST' : 'PUT' }
           />
         </Modal>
       </Card>

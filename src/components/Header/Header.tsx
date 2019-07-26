@@ -51,14 +51,14 @@ interface IProps {
 class Header extends React.Component<IProps> {
   public render(): JSX.Element {
     const {user, logout} = this.props;
-    console.log(user)
+    console.log(user);
 
     return (
       <HeaderWrapper>
         <Layout.Header>
             <Row>
-              <Col style={{ width:'fit-content' }} span={ 6 }>
-              {!user.appdata
+              <Col style={ { width:'fit-content' } } span={ 6 }>
+              { !user.appdata
                 ?<p>
                   <span style={ {fontSize: '16pt', fontWeight: 'bold'} }>Выбор приложения</span>
                   <br />
