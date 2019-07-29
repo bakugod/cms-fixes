@@ -25,6 +25,7 @@ interface IProps extends FormComponentProps {
 	isAdd?: boolean;
 	updateContainer?: (id: number, action: string, data: object, cb?: () => void) => void;
 	updatePoll?: any;
+	result?: any;
 }
 
 interface IState {
@@ -63,8 +64,9 @@ class EditNews extends React.Component<IProps, IState> {
 	}
 
 	public render(): JSX.Element {
-		const { data, form, isAdd } = this.props;
+		const { data, form, isAdd, result } = this.props;
 		const { getFieldDecorator } = form;
+		console.log(result);
 
 		return (
 			<WrapperCard
@@ -107,7 +109,93 @@ class EditNews extends React.Component<IProps, IState> {
 									) }
 								</Form.Item>
 							</Card>
-							: null
+							// {
+							// 	"action": "new_question",
+							// 	"name": "Как дела?",
+							// 	"multi_select": 1,
+							// 	"max_select": 1,
+							// 	"min_select": 1,
+							// 	"sid": 1
+							// }
+							
+							: result
+								? <Card title={ 'Основное' }>
+									<Form.Item label={ 'Мульти селект' }>
+										{ getFieldDecorator('multi_select', {
+											rules: [{ required: true, message: 'Введите значение' }],
+											initialValue: !isAdd ? get(data, 'title', '') : '',
+										})(
+											<Input placeholder={ '1' } />,
+										) }
+									</Form.Item>
+
+									<Form.Item label={ 'Макс селект' }>
+										{ getFieldDecorator('max_select', {
+											rules: [{ required: true, message: 'Введите значение' }],
+											initialValue: !isAdd ? get(data, 'title', '') : '',
+										})(
+											<Input placeholder={ '1' } />,
+										) }
+									</Form.Item>
+
+									<Form.Item label={ 'Мин селект' }>
+										{ getFieldDecorator('min_select', {
+											rules: [{ required: true, message: 'Введите значение' }],
+											initialValue: !isAdd ? get(data, 'title', '') : '',
+										})(
+											<Input placeholder={ '1' } />,
+										) }
+									</Form.Item>
+
+									<Form.Item label={ 'Название' }>
+										{ getFieldDecorator('name', {
+											rules: [{ required: false, message: 'Введите значение' }],
+											initialValue: '',
+										})(
+											<Input placeholder={ 'Название вопроса' } />,
+										) }
+									</Form.Item>
+								</Card>
+								: <Card title={ 'Основное' }>
+									<Form.Item label={ 'Видимость' }>
+										{ getFieldDecorator('enabled', {
+											rules: [{ required: true, message: 'Введите значение' }],
+											initialValue: !isAdd ? get(data, 'title', '') : '',
+										})(
+											<Switch></Switch>,
+										) }
+									</Form.Item>
+
+									<Form.Item label={ 'Стиль' }>
+										{ getFieldDecorator('style', {
+											rules: [{ required: true, message: 'Введите значение' }],
+											initialValue: !isAdd ? get(data, 'title', '') : '',
+										})(
+											<Select>
+												<Option key={ '1' }>Вопросы на странице</Option>
+												<Option key={ '2' }>Вопросы лентой</Option>
+											</Select>,
+										) }
+									</Form.Item>
+
+									<Form.Item label={ 'Требуется ли авторизации' }>
+										{ getFieldDecorator('needAuth', {
+											rules: [{ required: true, message: 'Введите значение' }],
+											initialValue: !isAdd ? get(data, 'title', '') : '',
+										})(
+											<Switch></Switch>,
+										) }
+									</Form.Item>
+
+									<Form.Item label={ 'Название' }>
+										{ getFieldDecorator('name', {
+											rules: [{ required: false, message: 'Введите значение' }],
+											initialValue: !isAdd ? get(data, 'name', '') : '',
+										})(
+											<Input placeholder={ 'Название' } />,
+										) }
+									</Form.Item>
+								</Card>
 					}
 
 					<br />
@@ -137,7 +225,7 @@ class EditNews extends React.Component<IProps, IState> {
 	}
 
 	private onSubmit = () => {
-		const { container, updateContainer, updatePoll, closeModal, form, isAdd } = this.props;
+		const { container, updateContainer, updatePoll, closeModal, form, isAdd, result } = this.props;
 		console.log(this.props);
 
 		form.validateFields((errors, values) => {
@@ -147,12 +235,19 @@ class EditNews extends React.Component<IProps, IState> {
 				};
 				console.log(values);
 
-				updateContainer(
-					container.id,
-					isAdd ? 'new' : 'edit',
-					isAdd ? { ...values, visible: 1 } : values,
-					closeModal,
-				);
+				result
+					? updateContainer(
+						container.id,
+						isAdd ? 'new_question' : 'edit_question',
+						isAdd ? { ...values, visible: 1 } : values,
+						closeModal,
+					)
+					: updateContainer(
+						container.id,
+						isAdd ? 'new' : 'edit',
+						isAdd ? { ...values, visible: 1 } : values,
+						closeModal,
+					);
 				form.resetFields();
 			}
 		});
