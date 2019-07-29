@@ -150,4 +150,3 @@ const mapDispatchToProps = (dispatch: Dispatch<IReducers>) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Icons);
-

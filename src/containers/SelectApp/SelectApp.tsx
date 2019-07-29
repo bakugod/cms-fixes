@@ -268,4 +268,3 @@ export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(Form.create()(SelectApp));
-
